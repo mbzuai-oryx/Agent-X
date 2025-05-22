@@ -8,7 +8,7 @@ https://huggingface.co/datasets/AgentX-Benchmark/AgentX/tree/main
 
 
 ### Sample example
-To run the inference on any of the open-source models such as Kimi-VL, go to scripts/open_source_models/kimi_vl and run with appropriate paths to sample data (files), Ground truth annotation (data.json) and tool meta-data (tool_metadata.json). :
+To run the inference on any of the open-source models such as Kimi-VL, go to scripts/open_source_models/kimi_vl and run with appropriate paths to sample data folder (files), Ground truth annotation (data.json) and tool meta-data (tool_metadata.json). :
 ```
 python run_inference.py
 ```
