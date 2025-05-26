@@ -18,7 +18,7 @@ Agent-X is a benchmark for assessing deep-reasoning and tool-use skills of visio
 - **Real deployed tools.** Agent-X supplies an evaluation platform stocked with perception, web, manipulation, math, and data-processing tools, compelling agents to choose and apply the right tool at each reasoning step.
 - **Diverse multimodal contexts.**  Every task is paired with real images, multi-image comparisons, or video clips—plus textual instructions, closely mirroring the visual complexity of real-world scenarios.
 <div align="center">
- <img src="data_teasor.pdf" width="800"/>
+ <img src="data_teaser.pdf" width="800"/>
 </div>
 
 The comparison of GTA queries with AI-generated queries is shown in the table below. The steps and tool types for queries in ToolBench and m\&m's are explicitly stated, as marked in red and blue. The queries in APIBench are simple, only containing one step. Our GTA's queries are both step-implicit and tool-implicit.
