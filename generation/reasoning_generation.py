@@ -105,10 +105,10 @@ if TEST_FILTER:
     samples = [s for s in samples if s['File path'].endswith(TEST_FILTER)]
 
     after_count = len(samples)
-    print(f"⚙️ Test filter active: only processing rows containing '{TEST_FILTER}'")
-    print(f"📊 Matched {after_count} out of {before_count} rows.")
+    print(f"Test filter active: only processing rows containing '{TEST_FILTER}'")
+    print(f"Matched {after_count} out of {before_count} rows.")
 else:
-    print(f"🔁 No test filter set. Processing all {len(samples)} rows.")
+    print(f"No test filter set. Processing all {len(samples)} rows.")
 
 rows = []
 toolmeta_section = build_tool_usage_section(toolmeta)
@@ -129,7 +129,7 @@ for sample in samples:
         if os.path.exists(full_path):
             image_blobs = [(relative_path, encode_image(full_path))]
         else:
-            print(f"❌ File not found: {relative_path}")
+            print(f"File not found: {relative_path}")
             continue
 
     # Case 2: Folder of images
@@ -141,7 +141,7 @@ for sample in samples:
                 rel = os.path.join(relative_path, fname)
                 image_blobs.append((rel, encode_image(full_img_path)))
         if not image_blobs:
-            print(f"⚠️ Folder found but no images inside: {relative_path}")
+            print(f"Folder found but no images inside: {relative_path}")
             continue
 
     # Case 3: Video
@@ -156,7 +156,7 @@ for sample in samples:
             rel = os.path.join(f"{BATCH}/video_frames", f)
             image_blobs.append((rel, encode_image(frame_path)))
         if not image_blobs:
-            print(f"⚠️ No matching video frames found for: {relative_path}")
+            print(f"No matching video frames found for: {relative_path}")
             continue
 
     
@@ -170,14 +170,14 @@ for sample in samples:
                 "image_url": {"url": f"data:image/jpeg;base64,{img_b64}"}
             })
 
-        print("🚀 Sending to OpenAI...")
+        print("Sending to OpenAI...")
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages
         )
 
         content = response.choices[0].message.content.strip()
-        #print("\n🧠 GPT-4o Response:\n", content)
+        #print("\nGPT-4o Response:\n", content)
 
         if content.startswith("```json"):
             content = content.replace("```json", "").replace("```", "").strip()
@@ -219,10 +219,10 @@ for sample in samples:
             justification
         ])
 
-        print(f"\n✅ Reasoning completed for {relative_path}")
+        print(f"\nReasoning completed for {relative_path}")
 
     except Exception as e:
-        print(f"❌ Failed for {relative_path}: {e}")
+        print(f"Failed for {relative_path}: {e}")
 
 if rows:
     df_out = pd.DataFrame(rows, columns=[
@@ -230,6 +230,6 @@ if rows:
         "Total Steps", "Tools Used (input/output)", "Final Answer", "Justification"
     ])
     df_out.to_excel(output_xlsx, index=False)
-    print(f"\n✅ Saved reasoning to {output_xlsx}")
+    print(f"\nSaved reasoning to {output_xlsx}")
 else:
-    print("⚠️ No samples successfully processed.")
+    print("No samples successfully processed.")
