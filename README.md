@@ -1,4 +1,4 @@
-# GTA: A Benchmark for General Tool Agents
+# Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks
 
 <div align="center">
 
