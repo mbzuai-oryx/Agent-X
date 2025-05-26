@@ -5,7 +5,6 @@ import json
 import os
 import pandas as pd
 
-# === CONFIG ===
 with open("openai_key.txt", "r") as keyfile:
     api_key = keyfile.read().strip()
 
@@ -17,7 +16,6 @@ failed_images_file = "generative/failed_images_b5.txt"
 rows = []
 failed_images = []
 
-# Define available tools
 tools = [
     "ImageDescription", "CountGivenObject", "OCR", "DrawBox", "Calculator",
     "DetectGivenObject", "RegionAttributeDescription", "MathOCR", "Solver",
@@ -54,7 +52,6 @@ Return your result as a single JSON object on one line.
 {{ "input": {file_repr}, "query": "<natural language query>" }}"
 """
 
-# Get all image files
 image_files = [
     os.path.join(folder_path, f)
     for f in os.listdir(folder_path)
@@ -120,14 +117,12 @@ for image_path in sorted(image_files):
         failed_images.append(image_path)
         continue
 
-# Save everything to Excel
 df = pd.DataFrame(rows, columns=[
     "File path", "Generated Query", "Final Query", "Final Query Type"
 ])
 df.to_excel(output_xlsx, index=False)
 print(f"\n✅ XLSX export completed: {output_xlsx}")
 
-# Save failed images to a text file
 if failed_images:
     with open(failed_images_file, "w") as f:
         for path in failed_images:
