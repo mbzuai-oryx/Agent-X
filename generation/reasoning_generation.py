@@ -5,7 +5,6 @@ import pandas as pd
 from openai import OpenAI
 from openai._exceptions import OpenAIError, APIError
 
-# === CONFIG ===
 BATCH = "B1"
 input_xlsx = f"{BATCH}/refined_queries_{BATCH}.xlsx"
 toolmeta_file = "toolmeta.json"
@@ -18,7 +17,6 @@ with open("openai_key.txt") as f:
 
 client = OpenAI(api_key=api_key)
 
-# === Load tool metadata ===
 with open(toolmeta_file) as f:
     toolmeta = json.load(f)
 
@@ -93,13 +91,13 @@ def encode_image(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
 
-# === Load input Excel ===
+
 df = pd.read_excel(input_xlsx)
 df.columns = df.columns.str.strip()
 samples = df[df['Final Query'].notna()].to_dict(orient="records")
 
-# === 🧪 OPTIONAL FILTER FOR TESTING SPECIFIC ROWS ===
-# Set a string to match inside the "File path" field. Leave empty ("") to disable filter.
+
+
 TEST_FILTER = ""  
 
 if TEST_FILTER:
@@ -124,7 +122,6 @@ for sample in samples:
 
     image_blobs = []
 
-    # === Handle 3 Cases ===
 
     # Case 1: Single image
     if relative_path.lower().endswith((".jpg", ".jpeg", ".png")):
@@ -147,7 +144,7 @@ for sample in samples:
             print(f"⚠️ Folder found but no images inside: {relative_path}")
             continue
 
-    # Case 3: Video — look up frames
+    # Case 3: Video
     else:
         frame_prefix = os.path.splitext(os.path.basename(relative_path))[0]
         frame_matches = sorted([
@@ -162,7 +159,7 @@ for sample in samples:
             print(f"⚠️ No matching video frames found for: {relative_path}")
             continue
 
-    # === Build Prompt and Send ===
+    
     prompt = build_reasoning_prompt(query, relative_path, toolmeta_section)
 
     try:
@@ -227,7 +224,6 @@ for sample in samples:
     except Exception as e:
         print(f"❌ Failed for {relative_path}: {e}")
 
-# === Save results ===
 if rows:
     df_out = pd.DataFrame(rows, columns=[
         "Image path", "Query", "Query Type", "Reasoning Steps (thoughts only)",
