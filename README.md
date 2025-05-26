@@ -23,7 +23,7 @@ Agent-X is a benchmark for assessing deep-reasoning and tool-use skills of visio
 
 The comparison of GTA queries with AI-generated queries is shown in the table below. The steps and tool types for queries in ToolBench and m\&m's are explicitly stated, as marked in red and blue. The queries in APIBench are simple, only containing one step. Our GTA's queries are both step-implicit and tool-implicit.
 <div align="center">
- <img src="figs/implicit.jpg" width="800"/>
+ <img src="table_comparison.png" width="800"/>
 </div>
 
 ## 📣 What's New
