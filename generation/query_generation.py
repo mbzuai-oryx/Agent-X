@@ -66,7 +66,7 @@ for image_path in sorted(image_files):
         with open(image_path, "rb") as f:
             base64_image = base64.b64encode(f.read()).decode("utf-8")
     except Exception as e:
-        print(f"⚠️ Could not read image {image_path}: {e}")
+        print(f"Could not read image {image_path}: {e}")
         failed_images.append(image_path)
         continue
 
@@ -94,7 +94,7 @@ for image_path in sorted(image_files):
         result_line = response.choices[0].message.content.strip()
 
         if not result_line:
-            print(f"⚠️ Empty response for {image_path}")
+            print(f"Empty response for {image_path}")
             failed_images.append(image_path)
             continue
 
@@ -110,10 +110,10 @@ for image_path in sorted(image_files):
             ""   # Final query type
         ])
 
-        print("✅ Success")
+        print("Success")
 
     except Exception as e:
-        print(f"❌ Failed on {image_path}: {e}")
+        print(f"Failed on {image_path}: {e}")
         failed_images.append(image_path)
         continue
 
@@ -127,7 +127,7 @@ if failed_images:
     with open(failed_images_file, "w") as f:
         for path in failed_images:
             f.write(path + "\n")
-    print(f"⚠️ Saved {len(failed_images)} failed images to {failed_images_file}")
+    print(f"Saved {len(failed_images)} failed images to {failed_images_file}")
 else:
     print("🎯 No failed images. Everything succeeded.")
 
@@ -136,7 +136,7 @@ def clean_image_paths_inplace(xlsx_path):
     df = pd.read_excel(xlsx_path)
     df['File path'] = df['File path'].apply(lambda x: os.path.join(*x.split("/")[-2:]) if isinstance(x, str) else x)
     df.to_excel(xlsx_path, index=False)
-    print(f"✅ Overwritten {xlsx_path} with cleaned paths.")
+    print(f"Overwritten {xlsx_path} with cleaned paths.")
 
 clean_image_paths_inplace(output_xlsx)
 
