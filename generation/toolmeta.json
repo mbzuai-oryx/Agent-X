@@ -1,0 +1,358 @@
+{
+    "Calculator": {
+      "name": "Calculator",
+      "description": "A calculator tool. The input must be a single Python expression and you cannot import packages. You can use functions in the `math` package without import.",
+      "inputs": [
+        {
+          "type": "text",
+          "name": "expression",
+          "description": "A Python math expression using built-in math functions.",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "text",
+          "name": "result",
+          "description": "Evaluated result of the math expression.",
+          "optional": false
+        }
+      ]
+    },
+    "OCR": {
+      "name": "OCR", 
+      "description": "This tool can recognize all text on the input image.",
+      "inputs": [
+        {
+          "type": "image",
+          "name": "image",
+          "description": "Input image containing text.",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "text",
+          "name": "ocr_result",
+          "description": "OCR results, including bounding boxes and recognized text.",
+          "optional": false
+        }
+      ]
+    },
+    "ObjectCounter": {
+      "name": "ObjectCounter",
+      "description": "The tool can count the number of a certain object in the image.",
+      "inputs": [
+        {
+          "type": "image",
+          "name": "image",
+          "description": "Input image to analyze.",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "text",
+          "description": "The object description in English.",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "int",
+          "name": "count",
+          "description": "Number of matching objects detected in the image.",
+          "optional": false
+        }
+      ]
+    },
+    "SceneDescriber": {
+      "name": "SceneDescriber",
+      "description": "A useful tool that returns a brief description of the input image.",
+      "inputs": [
+        {
+          "type": "image",
+          "name": "image",
+          "description": "Input image for scene description.",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "text",
+          "name": "description",
+          "description": "Brief textual description of the scene in the image.",
+          "optional": false
+        }
+      ]
+    },
+    "WebSearch": {
+      "name": "WebSearch",
+      "description": "The tool can search the input query text from Google and return the related results.",
+      "inputs": [
+        {
+          "type": "text",
+          "name": "query",
+          "description": "Search query text.",
+          "optional": false
+        },
+        {
+          "type": "int",
+          "name": "k",
+          "description": "Number of results to return.",
+          "optional": true,
+          "default": 10
+        }
+      ],
+      "outputs": [
+        {
+          "type": "text",
+          "name": "results",
+          "description": "Search results returned from Google.",
+          "optional": false
+        }
+      ]
+    },
+    "RegionDescriber": {
+      "name": "RegionDescriber",
+      "description": "Describe the attribute of a region of the input image.",
+      "inputs": [
+        {
+          "type": "image",
+          "name": "image",
+          "description": "Image containing the region of interest.",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "bbox",
+          "description": "The bbox coordinate in the format of (x1, y1, x2, y2).",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "attribute",
+          "description": "The attribute to describe (e.g., color, texture).",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "text",
+          "name": "attribute_description",
+          "description": "Described attribute of the specified region.",
+          "optional": false
+        }
+      ]
+    },
+    "LocateObjectByText": {
+      "name": "LocateObjectByText",
+      "description": "The tool can detect the object location according to description.",
+      "inputs": [
+        {
+          "type": "image",
+          "name": "image",
+          "description": "Image to analyze.",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "text",
+          "description": "The object description in English.",
+          "optional": false
+        },
+        {
+          "type": "bool",
+          "name": "top1",
+          "description": "If true, return the object with highest score. If false, return all detected objects.",
+          "optional": true,
+          "default": true
+        }
+      ],
+      "outputs": [
+        {
+          "type": "text",
+          "name": "detection",
+          "description": "Detected objects with bbox coordinates and detection score.",
+          "optional": false
+        }
+      ]
+    },
+    "CodePlotter": {
+      "name": "CodePlotter",
+      "description": "This tool can execute Python code to plot diagrams.",
+      "inputs": [
+        {
+          "type": "text",
+          "name": "command",
+          "description": "Python code in markdown format.",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "image",
+          "name": "plot",
+          "description": "Generated plot image.",
+          "optional": false
+        }
+      ]
+    },
+    "MathOCR": {
+      "name": "MathOCR",
+      "description": "This tool can recognize math expressions from an image and return the LaTeX style expression.",
+      "inputs": [
+        {
+          "type": "image",
+          "name": "image",
+          "description": "Image containing mathematical expressions.",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "text",
+          "name": "latex",
+          "description": "Recognized math expression in LaTeX format.",
+          "optional": false
+        }
+      ]
+    },
+    "Solver": {
+      "name": "Solver",
+      "description": "This tool can execute Python code to solve math equations using `sympy`.",
+      "inputs": [
+        {
+          "type": "text",
+          "name": "command",
+          "description": "Python code in markdown format.",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "text",
+          "name": "solution",
+          "description": "Solution returned from the executed code.",
+          "optional": false
+        }
+      ]
+    },
+    "DrawBoundingBox": {
+      "name": "DrawBoundingBox",
+      "description": "A tool to draw a box on a certain region of the input image.",
+      "inputs": [
+        {
+          "type": "image",
+          "name": "image",
+          "description": "Image to annotate.",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "bbox",
+          "description": "Bounding box coordinates (x1, y1, x2, y2).",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "annotation",
+          "description": "Optional annotation text for the box.",
+          "optional": true
+        }
+      ],
+      "outputs": [
+        {
+          "type": "image",
+          "name": "output_image",
+          "description": "Image with bounding box drawn.",
+          "optional": false
+        }
+      ]
+    },
+    "OverlayText": {
+      "name": "OverlayText",
+      "description": "A tool to overlay text at a specified position on the input image.",
+      "inputs": [
+        {
+          "type": "image",
+          "name": "image",
+          "description": "Image to modify.",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "text",
+          "description": "Text to overlay.",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "position",
+          "description": "Position to overlay text, format: coordinates (x, y) or label like 'mt' for middle-top.",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "color",
+          "description": "Text color (default is red).",
+          "optional": true,
+          "default": "red"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "image",
+          "name": "output_image",
+          "description": "Image with text overlay.",
+          "optional": false
+        }
+      ]
+    },
+    "ImageGenerator": {
+      "name": "ImageGenerator",
+      "description": "This tool can generate an image according to the input text.",
+      "inputs": [
+        {
+          "type": "text",
+          "name": "keywords",
+          "description": "A series of keywords separated by commas.",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "image",
+          "name": "generated_image",
+          "description": "Generated image based on the keywords.",
+          "optional": false
+        }
+      ]
+    },
+    "ImageStylization": {
+      "name": "ImageStylization",
+      "description": "This tool can modify the input image according to the input instruction (e.g., 'turn him into cyborg').",
+      "inputs": [
+        {
+          "type": "image",
+          "name": "image",
+          "description": "Image to stylize.",
+          "optional": false
+        },
+        {
+          "type": "text",
+          "name": "instruction",
+          "description": "Styling instruction in plain English.",
+          "optional": false
+        }
+      ],
+      "outputs": [
+        {
+          "type": "image",
+          "name": "styled_image",
+          "description": "Modified image based on the instruction.",
+          "optional": false
+        }
+      ]
+    }
+  }
+  
