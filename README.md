@@ -2,11 +2,11 @@
 
 <div align="center">
 
-[⬇️ [Dataset](https://github.com/open-compass/GTA/releases/download/v0.1.0/gta_dataset.zip)]
-[📃 [Paper](https://arxiv.org/abs/2407.08713)]
-[🌐 [Project Page](https://open-compass.github.io/GTA/)]
-[🤗 [Hugging Face](https://huggingface.co/datasets/Jize1/GTA)]
-[🏆 [Newest Leaderboard](#-leaderboard-mar-2025)]
+[⬇️ [Dataset]()]
+[📃 [Paper]()]
+[🌐 [Project Page]()]
+[🤗 [Hugging Face]()]
+
 </div>
 
 ## 🌟 Introduction
