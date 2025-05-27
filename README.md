@@ -98,19 +98,19 @@ Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans d
 | *Open-source* |||||||||||
 | Phi-4-VL-Instruct|0.13|0.21|0.24|0.61|0.19|0.47|0.40|0.11|0.26|0.42|
 | InternVL-2.5-8B|0.45|0.31|0.47|0.68|0.47|0.52|0.60|0.28|0.55|0.58|
-| Gemma-3-4B|0.26|0.30|0.78|0.61|*0.54*|0.38|0.54|0.27|<ins><strong>0.67</strong></ins>|0.60|
-| InternVL-3-8B|0.46|0.34|0.54|0.68|0.45|<ins><strong>0.70</strong></ins>|0.40|0.20|0.59|*0.62*|
-| VideoLLaMA-3-7B|0.45|0.28|0.46|0.65|0.46|*0.62*|0.54|0.28|0.54|0.54|
-| Qwen-2.5-VL-7B|*0.54*|*0.43*|0.63|*0.75*|<ins><strong>0.57</strong></ins>|0.56|<ins><strong>0.67</strong></ins>|<ins><strong>0.36</ins></strong>|*0.65*|<ins><strong>0.67</strong></ins>|
+| Gemma-3-4B|0.26|0.30|0.78|0.61|*0.54*|0.38|0.54|0.27|*0.67*|0.60|
+| InternVL-3-8B|0.46|0.34|0.54|0.68|0.45|*0.70*|0.40|0.20|0.59|0.62|
+| VideoLLaMA-3-7B|0.45|0.28|0.46|0.65|0.46|0.62|0.54|0.28|0.54|0.54|
+| Qwen-2.5-VL-7B|*0.54*|*0.43*|0.63|*0.75*|<ins><strong>0.57</strong></ins>|0.56|0.67|0.36|0.65|*0.67*|
 | Pixtral-12B|0.12|0.20|0.63|0.45|0.19|0.26|0.34|0.07|0.55|0.54|
-| LLaMA-3.2-11B-Vision|0.03|0.15|0.14|0.70|0.08|<ins><strong>0.70</strong></ins>|0.24|0.07|0.26|0.42|
-| Kimi-VL-A3B-Thinking|0.26|0.19|0.5|0.62|0.42|0.52|*0.65*|*0.29*|0.29|0.48|
-| mPLUG-Owl3-7B-240728|0.10|0.14|0.30|0.49|0.25|0.32|0.37|*0.11*|0.26|0.50|
+| LLaMA-3.2-11B-Vision|0.03|0.15|0.14|0.70|0.08|*0.70*|0.24|0.07|0.26|0.42|
+| Kimi-VL-A3B-Thinking|0.26|0.19|0.5|0.62|0.42|0.52|0.65|0.29|0.29|0.48|
+| mPLUG-Owl3-7B-240728|0.10|0.14|0.30|0.49|0.25|0.32|0.37|0.11|0.26|0.50|
 | *Closed-source* |  |  |  |  |  |  |  |  |  |  |
 | Gemini-1.5-Pro  | 0.43 | 0.23 | *0.84* | 0.62 | 0.45 | 0.53 | 0.62 | 0.04 | 0.56 | 0.48 |
 | Gemini-2.5-Pro  | 0.40 | 0.36 | 0.81 | 0.72 | 0.48 | 0.64 | *0.73* | *0.40* | 0.56 | 0.62 |
 | GPT-4o          | <ins><strong>0.60</strong></ins> | <ins><strong>0.47</strong></ins> | 0.72 | <ins><strong>0.81</strong></ins> | <ins><strong>0.57</strong></ins> | <ins><strong>0.79</strong></ins> | 0.59 | 0.37 | <ins><strong>0.70</strong></ins> | <ins><strong>0.68</strong></ins> |
-| OpenAI o4-mini  | 0.42 | 0.32 | <ins><strong>0.89</strong></ins> | 0.71 | 0.51 | 0.60 | <ins><strong>0.80</strong></ins> | <ins><strong>0.45</strong></ins> | *0.67* | *0.63* |
+| OpenAI o4-mini  | 0.42 | 0.32 | <ins><strong>0.89</strong></ins> | 0.71 | 0.51 | 0.60 | <ins><strong>0.80</strong></ins> | <ins><strong>0.45</strong></ins> | *0.67* | 0.63 |
 
 _Best values are **bold + underlined**; second-best values are *italic*._
 
@@ -118,21 +118,21 @@ _Best values are **bold + underlined**; second-best values are *italic*._
 | **Model** | Ground<sub>s</sub> | Tool<sub>p</sub> | Tool<sub>acc</sub> | Fact<sub>acc</sub> | Context<sub>s</sub> | Fact<sub>p</sub> | Sem<sub>acc</sub> | Ground<sub>acc</sub> | Ground<sub>acc</sub><sup>*</sup> | Tool<sub>acc</sub><sup>s</sup> |
 |----------|--------------------|------------------|--------------------|--------------------|---------------------|------------------|-------------------|-----------------------|------------------------------|---------------------------|
 | *Open-source* |||||||||||
-| Phi-4-VL-Instruct [1]        | 0.27 | 0.11 | 0.32 | 0.54 | 0.39 | 0.59 | 0.46 | 0.16 | 0.35 | 0.39 |
-| InternVL2.5-8B [12]          | 0.38 | 0.16 | 0.49 | 0.63 | 0.51 | 0.61 | 0.55 | 0.29 | 0.53 | 0.53 |
-| Gemma-3-4B [57]              | *0.50* | *0.24* | *0.67* | 0.74 | <ins><strong>0.66</ins></strong> | 0.59 | *0.74* | 0.30 | <ins><strong>0.68</strong></ins> | <ins><strong>0.68</ins></strong> |
-| InternVL3-8B [81]            | 0.41 | 0.16 | 0.51 | 0.71 | 0.61 | 0.60 | 0.69 | 0.23 | 0.51 | 0.62 |
-| VideoLLaMA3-7B [75]          | 0.39 | 0.15 | 0.40 | 0.68 | 0.56 | 0.60 | 0.68 | 0.27 | 0.53 | 0.56 |
-| Qwen2.5-VL-7B [8]            | <ins><strong>0.51</strong></ins> | <ins><strong>0.27</strong></ins> | 0.63 | *0.77* | <ins><strong>0.66</ins></strong> | 0.64 | <ins><strong>0.77</strong></ins> | <ins><strong>0.37</ins></strong> | *0.62* | *0.67* |
-| Pixtral-12B [3]              | 0.30 | 0.17 | <ins><strong>0.68</strong></ins> | 0.59 | 0.50 | 0.42 | 0.58 | 0.10 | <ins><strong>0.68</ins></strong> | 0.58 |
-| LLaMA-3.2-11B-Vision [17]    | 0.16 | 0.06 | 0.12 | 0.49 | 0.17 | <ins><strong>0.74</strong></ins> | 0.20 | 0.10 | 0.11 | 0.15 |
-| Kimi-VL-A3B-Thinking [58]    | 0.47 | 0.20 | 0.59 | <ins><strong>0.79</strong></ins> | *0.64* | *0.68* | *0.74* | *0.35* | 0.60 | 0.62 |
-| mPLUG-Owl3-7B-240728 [73]    | 0.30 | 0.11 | 0.31 | 0.59 | 0.48 | 0.48 | 0.56 | 0.16 | 0.45 | 0.48 |
+| Phi-4-VL-Instruct        | 0.27 | 0.11 | 0.32 | 0.54 | 0.39 | 0.59 | 0.46 | 0.16 | 0.35 | 0.39 |
+| InternVL2.5-8B          | 0.38 | 0.16 | 0.49 | 0.63 | 0.51 | 0.61 | 0.55 | 0.29 | 0.53 | 0.53 |
+| Gemma-3-4B              | 0.50 | 0.24 | 0.67 | 0.74 | 0.66 | 0.59 | 0.74 | 0.30 | 0.68 | 0.68 |
+| InternVL3-8B            | 0.41 | 0.16 | 0.51 | 0.71 | 0.61 | 0.60 | 0.69 | 0.23 | 0.51 | 0.62 |
+| VideoLLaMA3-7B          | 0.39 | 0.15 | 0.40 | 0.68 | 0.56 | 0.60 | 0.68 | 0.27 | 0.53 | 0.56 |
+| Qwen2.5-VL-7B            | 0.51 | 0.27 | 0.63 | 0.77 | 0.66 | 0.64 | 0.77 | 0.37 | 0.62 | 0.67 |
+| Pixtral-12B              | 0.30 | 0.17 | 0.68 | 0.59 | 0.50 | 0.42 | 0.58 | 0.10 | 0.68 | 0.58 |
+| LLaMA-3.2-11B-Vision    | 0.16 | 0.06 | 0.12 | 0.49 | 0.17 | 0.74 | 0.20 | 0.10 | 0.11 | 0.15 |
+| Kimi-VL-A3B-Thinking    | 0.47 | 0.20 | 0.59 | 0.79 | *0.64* | 0.68 | *0.74* | 0.35 | 0.60 | 0.62 |
+| mPLUG-Owl3-7B-240728    | 0.30 | 0.11 | 0.31 | 0.59 | 0.48 | 0.48 | 0.56 | 0.16 | 0.45 | 0.48 |
 | *Closed-source* |||||||||||
-| Gemini-1.5-Pro [56]       | *0.57* | *0.36* | 0.80 | 0.82 | 0.73 | 0.76 | 0.63 | 0.05 | <ins><strong>0.77</strong></ins> | *0.71* |
-| Gemini-2.5-Pro [55]       | <ins><strong>0.63</ins></strong> | <ins><strong>0.40</ins></strong> | *0.84* | *0.86* | *0.76* | <ins><strong>0.80</strong></ins> | *0.83* | *0.50* | *0.74* | <ins><strong>0.72</ins></strong> |
-| GPT-4o [21]               | 0.46 | 0.27 | 0.63 | 0.72 | 0.59 | 0.75 | 0.69 | 0.44 | 0.48 | 0.56 |
-| OpenAI-o4-mini [45]       | <ins><strong>0.63</strong></ins> | 0.35 | <ins><strong>0.86</ins></strong> | <ins><strong>0.89</ins></strong> | <ins><strong>0.78</strong></ins> | *0.79* | <ins><strong>0.88</strong></ins> | <ins><strong>0.53</strong></ins> | 0.64 | 0.69 |
+| Gemini-1.5-Pro       | *0.57* | *0.36* | 0.80 | 0.82 | 0.73 | 0.76 | 0.63 | 0.05 | <ins><strong>0.77</strong></ins> | *0.71* |
+| Gemini-2.5-Pro       | <ins><strong>0.63</ins></strong> | <ins><strong>0.40</ins></strong> | *0.84* | *0.86* | *0.76* | <ins><strong>0.80</strong></ins> | *0.83* | *0.50* | *0.74* | <ins><strong>0.72</ins></strong> |
+| GPT-4o              | 0.46 | 0.27 | 0.63 | 0.72 | 0.59 | 0.75 | 0.69 | 0.44 | 0.48 | 0.56 |
+| OpenAI-o4-mini       | <ins><strong>0.63</strong></ins> | 0.35 | <ins><strong>0.86</ins></strong> | <ins><strong>0.89</ins></strong> | <ins><strong>0.78</strong></ins> | *0.79* | <ins><strong>0.88</strong></ins> | <ins><strong>0.53</strong></ins> | 0.64 | 0.69 |
 
 
 
