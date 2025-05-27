@@ -96,14 +96,14 @@ Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans d
 
 | **Model** | **G<sub>s</sub>** | **T<sub>p</sub>** | **T<sub>acc</sub>** | **F<sub>acc</sub>** | **C<sub>s</sub>** | **F<sub>p</sub>** | **S<sub>acc</sub>** | **G<sub>acc</sub>** | **G<sub>a</sub><sup>*</sup>** | **T<sub>acc</sub><sup>s</sup>** |
 |-----------|-------|-------|--------|--------|-------|-------|--------|--------|--------|---------|
-| *Open-source* |  |  |  |  |  |  |  |  |  |  |
+| *Open-source Models* |  |  |  |  |  |  |  |  |  |  |
 | Phi-4-VL-Instruct | 0.13 | 0.21 | 0.24 | 0.61 | 0.19 | 0.47 | 0.40 | 0.11 | 0.26 | 0.42 |
 | InternVL-2.5-8B  | 0.45 | 0.31 | 0.47 | 0.68 | 0.47 | 0.52 | 0.60 | 0.28 | 0.55 | 0.58 |
 | Gemma-3-4B       | 0.26 | 0.30 | 0.78 | 0.61 | *0.54* | 0.38 | 0.54 | 0.27 | *0.67* | 0.60 |
 | InternVL-3-8B    | 0.46 | 0.34 | 0.54 | 0.68 | 0.45 | *0.70* | 0.40 | 0.20 | 0.59 | 0.62 |
 | VideoLLaMA-3-7B  | 0.45 | 0.28 | 0.46 | 0.65 | 0.46 | 0.62 | 0.54 | 0.28 | 0.54 | 0.54 |
 | Qwen-2.5-VL-7B   | *0.54* | *0.43* | 0.63 | *0.75* | <ins><strong>0.57</strong></ins> | 0.56 | <ins><strong>0.67</strong></ins> | 0.36 | *0.65* | *0.67* |
-| *Closed-source* |  |  |  |  |  |  |  |  |  |  |
+| *Closed-source Models* |  |  |  |  |  |  |  |  |  |  |
 | Gemini-1.5-Pro   | 0.43 | 0.23 | *0.84* | 0.62 | 0.45 | 0.53 | 0.62 | 0.04 | 0.56 | 0.48 |
 | Gemini-2.5-Pro   | 0.40 | 0.36 | 0.81 | 0.72 | 0.48 | 0.64 | *0.73* | *0.40* | 0.56 | 0.62 |
 | GPT-4o           | <ins><strong>0.60</strong></ins> | <ins><strong>0.47</strong></ins> | 0.72 | <ins><strong>0.81</strong></ins> | <ins><strong>0.57</strong></ins> | <ins><strong>0.79</strong></ins> | 0.59 | 0.37 | <ins><strong>0.70</strong></ins> | <ins><strong>0.68</strong></ins> |
