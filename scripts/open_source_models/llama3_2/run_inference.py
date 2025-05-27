@@ -11,14 +11,10 @@ import cv2
 import json
 import shutil
 from tempfile import TemporaryDirectory
-import cv2
 import random
-import requests
 import torch
 from transformers import MllamaForConditionalGeneration, AutoProcessor
-
 from typing import Union
-
 import re
 import json
 from typing import Union,Optional
@@ -51,9 +47,6 @@ def extract_last_json_block(text: str) -> Optional[Dict[str, Any]]:
 
 
 
-
-
-
 def extract_sampled_frames(video_path, num_samples=4):
     # Create a temporary directory to store extracted frames
     temp_dir = TemporaryDirectory()
@@ -79,62 +72,6 @@ def extract_sampled_frames(video_path, num_samples=4):
     
     # Return the list of frame file paths
     return frame_paths, temp_dir
-
-tool_metadata_path = "/share/data/drive_1/hanan/multiagent_eval_data/toolmeta.json"
-with open(tool_metadata_path, "r") as f:
-    meta_data = json.load(f)
-f.close()
-meta_data = json.dumps(meta_data)
-
-p = """
-    - "reasoning_step_format": [
-        {"task": "Describe the sub-task being performed."},
-        {"tool_used": "Specify the tool selected and justify its choice."},
-        {"tool_output": "Provide the tool's output."},
-        {"thought": "Explain the significance of the output and how it contributes to answering the query."}
-    ]
-
-    - "constraints": [
-        "Use tools only when necessary and justify their usage.",
-        "Ensure each step is self-contained and clearly explained.",
-        "Maintain transparency in decision-making and reasoning."
-    ]
-
-    - "final_answer": "Provide a clear and concise answer based on all previous steps", "justification": "Provide a justification for the final answer."    
-    }
-
-    "The output must be a single dictionary containing query, reasoning steps and final answer as shown in the following example":\n
-
-        { "query": "What is the man doing in the video?",
-        "reasoning_steps": [
-            {
-                "step": 1,
-                "task": "Identify key frames containing activity.",
-                "tool": "Scene Segmentation Tool",
-                "tool_output": "Frames 40-80 show continuous motion.",
-                "thought": "These frames likely contain the main action."
-            },
-            {
-                "step": 2,
-                "task": "Recognize the action happening in the selected frames.",
-                "tool_used": "Action Recognition Model",
-                "tool_output": "Man is playing guitar",
-                "thought": "The model confirms that the man is engaged in a musical activity."
-            }
-        ],
-        "final_answer": {"value": "The man is playing a guitar in the video.", "justification":  "Through scene segmentation and targeted action recognition, we isolated the most relevant frames and identified the man's activity with high confidence, leading to a precise and grounded answer."
-            }
-        }
-"""
-instruction_prompt = "You are an intelligent multi-modal assistant. You are provided with:\n" \
-             "- A text query\n" \
-             "- An image or video\n" \
-             "- A set of tools to assist with your reasoning with meta data of tools given as follows:\n"\
-             f"{meta_data}\n\n" \
-             "Your objective is to answer the query based on the given visual content " \
-             "by choosing and using the most appropriate tools. You must reason step-by-step. " \
-             "Each reasoning step should include: \n" \
-             + p
 
 instruction_prompt = f"""
 You are an intelligent multi-modal assistant.
@@ -178,11 +115,6 @@ Answer the query by reasoning step-by-step and using tools only when necessary. 
 """
 
 
-reasoning_data_path ="/share/data/drive_1/hanan/multiagent_eval_data/VCA-Bench/metadata/verified_data.json"
-with open(reasoning_data_path, "r") as g:
-    reason_data = json.load(g)
-
-
 ## model inference
 
 model_id = "meta-llama/Llama-3.2-11B-Vision-Instruct"
@@ -193,146 +125,154 @@ model = MllamaForConditionalGeneration.from_pretrained(
 )
 processor = AutoProcessor.from_pretrained(model_id)
 
-# model_id = "Llama-3.2-11B-Vision"
 
-# model = MllamaForConditionalGeneration.from_pretrained(
-#     model_id,
-#     torch_dtype=torch.bfloat16,
-#     device_map="auto",
-# )
-# processor = AutoProcessor.from_pretrained(model_id)
-
-
-
-base_path = "/share/data/drive_1/hanan/multiagent_eval_data/VCA-Bench/samples"
-save_path  = "llama32_results_final.json"
 required_keys = ["reasoning_steps", "final_answer"]
-final_results = []
-max_attempts = 3
 
-for key, value in reason_data.items():
-    d = {}
-# try:
-    video_flag = False
-    data = reason_data[key][0]
-    sample = data["file_path"]
-    sample_list = [img.strip() for img in sample.split(",")]
-    if len(sample_list)>1 :
-        continue
-    if sample_list[0].split(".")[1].lower() in ["mp4", "avi", "mov"]:
-        video_flag = True
-        continue
-    sample_path = [os.path.join(base_path, s) for s in sample_list]
-    query = data["query"]
+if __name__=="__main__":
 
-    valid_response = False
+    final_results = []
+    max_attempts = 2
 
-    for attempt in range(max_attempts):
+    # Adding arguments
+    parser.add_argument("--save_path",default="llama32_final_results.json", help = "path to Output file")
+    parser.add_argument("--base_path", default="./AgentX/files",help = "path to data folder")
+    parser.add_argument("--tool_data_path", default="./AgentX/tools_metadata.json", help = "path to tool metadata json file")
+    parser.add_argument("--gt_data_path", default="./AgentX/data.json", help = "path to ground truth json file")
+
+    # Read arguments from command line
+    args = parser.parse_args()
+
+        ## read the gt reason data
+    with open(args.gt_data_path, "r") as g:
+        reason_data = json.load(g)
+    g.close()
+    
+    ## read the tool meta data
+    with open(args.tool_data_path, "r") as f:
+        meta_data = json.load(f)
+    f.close()
+    meta_data = json.dumps(meta_data)
+    instruction_prompt = instruction_prompt.format(meta_data=meta_data)
+
+    for key, value in reason_data.items():
+        d = {}
         try:
-            # Build messages
-            if not video_flag:
-                if len(sample_path) == 1:
-                    
-                    chat = [{"role": "syste,","content": instruction_prompt},
-                        {
-                            "role": "user",
-                            "content": [
-                                {"type": "image"},
-                                {"type": "text", "text":  "Query: " + query},
-                            ]
-                        }
-                    ]
-                else:
-                    chat = [
-                        {
-                            "role": "user",
-                            "content": [
-                                {"type": "image"},
-                                {"type": "image"},
-                                {"type": "text", "text":instruction_prompt + "\n" + "Query: " + query},
-                            ]
-                        },
+            video_flag = False
+            data = reason_data[key][0]
+            sample = data["file_path"]
+            sample_list = [img.strip() for img in sample.split(",")]
+            if len(sample_list)>1 :
+                continue
+            if sample_list[0].split(".")[1].lower() in ["mp4", "avi", "mov"]:
+                video_flag = True
+                continue
+            sample_path = [os.path.join(args.base_path, s) for s in sample_list]
+            query = data["query"]
 
-                    ] 
-            else:
-                frame_paths, temp_dir = extract_sampled_frames(sample_path[0], num_samples=4)
-                chat = [
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "image"},
-                            {"type": "image"},
-                            {"type": "text", "text": instruction_prompt + "\n" + "Query: " + query},
-                        ]
-                    },
-                ]
-                sample_path = frame_paths[:1]
-            # Generate
-            image = [Image.open(im) for im in sample_path]
-            input_text = processor.apply_chat_template(chat, add_generation_prompt=True)
-            inputs = processor(
-                image,
-                input_text,
-                add_special_tokens=False,
-                return_tensors="pt"
-            ).to(model.device)
+            valid_response = False
 
-            output = model.generate(**inputs, max_new_tokens=1024)
-            response = processor.decode(output[0])
-            #output_text = re.sub(r"^```(?:json)?\s*|\s*```$", "", output_text.strip(), flags=re.IGNORECASE)
-            output_text = extract_last_json_block(response)
-
-            print(f"Attempt {attempt + 1} response for key {key}:\n{response}")
-
-            if output_text:
+            for attempt in range(max_attempts):
                 try:
-                    response_dict = output_text  #json.loads(output_text)
-                    
-                    if all(k in response_dict for k in required_keys):
-                        d[key] = {
-                            "query": query,
-                            "filename": sample,
-                            **response_dict
-                        }
-                        valid_response = True
-                        break  # success
-                except json.JSONDecodeError:
-                    print(f"Invalid JSON on attempt {attempt + 1} for key {key}: {output_text}")
-                    pass
+                    # Build messages
+                    if not video_flag:
+                        if len(sample_path) == 1:
+                            
+                            chat = [{"role": "syste,","content": instruction_prompt},
+                                {
+                                    "role": "user",
+                                    "content": [
+                                        {"type": "image"},
+                                        {"type": "text", "text":  "Query: " + query},
+                                    ]
+                                }
+                            ]
+                        else:
+                            chat = [
+                                {
+                                    "role": "user",
+                                    "content": [
+                                        {"type": "image"},
+                                        {"type": "image"},
+                                        {"type": "text", "text":instruction_prompt + "\n" + "Query: " + query},
+                                    ]
+                                },
 
-            time.sleep(5)
+                            ] 
+                    else:
+                        frame_paths, temp_dir = extract_sampled_frames(sample_path[0], num_samples=4)
+                        chat = [
+                            {
+                                "role": "user",
+                                "content": [
+                                    {"type": "image"},
+                                    {"type": "image"},
+                                    {"type": "text", "text": instruction_prompt + "\n" + "Query: " + query},
+                                ]
+                            },
+                        ]
+                        sample_path = frame_paths[:1]
+                    # Generate
+                    image = [Image.open(im) for im in sample_path]
+                    input_text = processor.apply_chat_template(chat, add_generation_prompt=True)
+                    inputs = processor(
+                        image,
+                        input_text,
+                        add_special_tokens=False,
+                        return_tensors="pt"
+                    ).to(model.device)
 
-        except Exception as attempt_err:
-            print(f"Exception on attempt {attempt + 1} for key {key}: {attempt_err}")
-            time.sleep(5)
+                    output = model.generate(**inputs, max_new_tokens=1024)
+                    response = processor.decode(output[0])
+                    #output_text = re.sub(r"^```(?:json)?\s*|\s*```$", "", output_text.strip(), flags=re.IGNORECASE)
+                    output_text = extract_last_json_block(response)
+
+                    print(f"Attempt {attempt + 1} response for key {key}:\n{response}")
+
+                    if output_text:
+                        try:
+                            response_dict = output_text  #json.loads(output_text)
+                            
+                            if all(k in response_dict for k in required_keys):
+                                d[key] = {
+                                    "query": query,
+                                    "filename": sample,
+                                    **response_dict
+                                }
+                                valid_response = True
+                                break  # success
+                        except json.JSONDecodeError:
+                            print(f"Invalid JSON on attempt {attempt + 1} for key {key}: {output_text}")
+                            pass
+
+                    time.sleep(5)
+
+                except Exception as attempt_err:
+                    print(f"Exception on attempt {attempt + 1} for key {key}: {attempt_err}")
+                    time.sleep(5)
+                    continue
+
+            if not valid_response:
+                d[key] = {
+                    "query": query,
+                    "filename": sample,
+                    "reasoning_steps": "",
+                    "final_answer": {
+                        "value": "",
+                        "justification": ""
+                    }
+                }
+
+            final_results.append(d)
+            with open(args.save_path, "w") as f:
+                json.dump(final_results, f, indent=2)
+            
+            if video_flag:
+                shutil.rmtree(temp_dir.name)
+
+        except Exception as e:
+            print(f"Exception for key {key}: {e}")
             continue
 
-    if not valid_response:
-        d[key] = {
-            "query": query,
-            "filename": sample,
-            "reasoning_steps": "",
-            "final_answer": {
-                "value": "",
-                "justification": ""
-            }
-        }
 
-    final_results.append(d)
-    with open(save_path, "w") as f:
-        json.dump(final_results, f, indent=2)
-    
-    # if video_flag:
-    #     shutil.rmtree(temp_dir.name)
-
-    # except Exception as e:
-    #     print(f"Exception for key {key}: {e}")
-    #     continue
-
-
-
-
-with open('llama32_results_final_backup.json', 'w') as f:
-    json.dump(final_results, f)
 
 
