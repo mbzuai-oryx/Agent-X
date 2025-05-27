@@ -31,7 +31,7 @@
 Our work is based on the following paper:  
 📄 **LLM Post-Training: A Deep Dive into Reasoning Large Language Models** – Available on [![arXiv](https://img.shields.io/badge/arXiv-2502.21321-b31b1b.svg)](https://arxiv.org/pdf/2502.21321)
 
-#### [Komal Kumar](mailto:komal.kumar@mbzuai.ac.ae)* , [Tajamul Ashraf](https://www.tajamulashraf.com)* , [Omkar Thawakar](https://omkarthawakar.github.io/index.html) , [Rao Muhammad Anwer](https://mbzuai.ac.ae/study/faculty/rao-muhammad-anwer/) , [Hisham Cholakkal](https://mbzuai.ac.ae/study/faculty/hisham-cholakkal/) , [Mubarak Shah](https://www.crcv.ucf.edu/person/mubarak-shah/) , [Ming-Hsuan Yang](https://research.google/people/105989/) , [Philip H.S. Torr](https://en.wikipedia.org/wiki/Philip_Torr) , [Fahad Shahbaz Khan](https://sites.google.com/view/fahadkhans/home) , and [Salman Khan](https://salman-h-khan.github.io/)  
+#### [Tajamul Ashraf](https://www.tajamulashraf.com)* , [Amal Saqib](https://www.tajamulashraf.com)* , [Omkar Thawakar](https://omkarthawakar.github.io/index.html) , [Rao Muhammad Anwer](https://mbzuai.ac.ae/study/faculty/rao-muhammad-anwer/) , [Hisham Cholakkal](https://mbzuai.ac.ae/study/faculty/hisham-cholakkal/) , [Mubarak Shah](https://www.crcv.ucf.edu/person/mubarak-shah/) , [Ming-Hsuan Yang](https://research.google/people/105989/) , [Philip H.S. Torr](https://en.wikipedia.org/wiki/Philip_Torr) , [Fahad Shahbaz Khan](https://sites.google.com/view/fahadkhans/home) , and [Salman Khan](https://salman-h-khan.github.io/)  
 \* Equally contributing first authors
 
  
