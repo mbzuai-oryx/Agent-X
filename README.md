@@ -112,6 +112,8 @@ Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans d
 | GPT-4o           | <ins><strong>0.60</strong></ins> | <ins><strong>0.47</strong></ins> | 0.72 | <ins><strong>0.81</strong></ins> | <ins><strong>0.57</strong></ins> | <ins><strong>0.79</strong></ins> | 0.59 | 0.37 | <ins><strong>0.70</strong></ins> | <ins><strong>0.68</strong></ins> |
 | OpenAI o4-mini   | 0.42 | 0.32 | <ins><strong>0.89</strong></ins> | 0.71 | 0.51 | 0.60 | <ins><strong>0.80</strong></ins> | <ins><strong>0.45</strong></ins> | *0.67* | 0.63 |
 
+_Best values are **bold + underlined**; second-best values are *italic*._
+
 ### With Qwen-15B  as a judge
 | **Model** | Ground<sub>s</sub> | Tool<sub>p</sub> | Tool<sub>acc</sub> | Fact<sub>acc</sub> | Context<sub>s</sub> | Fact<sub>p</sub> | Sem<sub>acc</sub> | Ground<sub>acc</sub> | Ground<sub>acc</sub><sup>*</sup> | Tool<sub>acc</sub><sup>s</sup> |
 |----------|--------------------|------------------|--------------------|--------------------|---------------------|------------------|-------------------|-----------------------|------------------------------|---------------------------|
