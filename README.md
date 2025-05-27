@@ -106,8 +106,6 @@ Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans d
 | LLaMA-3.2-11B-Vision    | 0.03                     | 0.15                     | 0.14                         | <ins><strong>0.70</strong></ins> | 0.08                        | *0.70*                   | 0.24                         | 0.07                         | 0.26                          | 0.42                        |
 | Kimi-VL-A3B-Thinking    | 0.26                   | *0.19*                   | *0.59*                       | *0.62*                       | *0.42*                      | *0.52*                   | <ins><strong>0.65</strong></ins>     | <ins><strong>0.29</strong></ins>     | 0.29                          | 0.48                        |
 | mPLUG-Owl3-7B-240728    | 0.10                     | 0.14                     | 0.30                         | 0.49                         | 0.25                        | 0.32                     | *0.37*                       | *0.11*                       | 0.26                          | *0.50*                      |
-
-
 | *Closed-source* |  |  |  |  |  |  |  |  |  |  |
 | Gemini-1.5-Pro  | 0.43 | 0.23 | *0.84* | 0.62 | 0.45 | 0.53 | 0.62 | 0.04 | 0.56 | 0.48 |
 | Gemini-2.5-Pro  | 0.40 | *0.36* | 0.81 | *0.72* | 0.48 | 0.64 | *0.73* | *0.40* | 0.56 | *0.62* |
