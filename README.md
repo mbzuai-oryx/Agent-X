@@ -28,11 +28,23 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 </div>
 
+Our work is based on the following paper:  
+📄 **LLM Post-Training: A Deep Dive into Reasoning Large Language Models** – Available on [![arXiv](https://img.shields.io/badge/arXiv-2502.21321-b31b1b.svg)](https://arxiv.org/pdf/2502.21321)
+
+#### [Komal Kumar](mailto:komal.kumar@mbzuai.ac.ae)* , [Tajamul Ashraf](https://www.tajamulashraf.com)* , [Omkar Thawakar](https://omkarthawakar.github.io/index.html) , [Rao Muhammad Anwer](https://mbzuai.ac.ae/study/faculty/rao-muhammad-anwer/) , [Hisham Cholakkal](https://mbzuai.ac.ae/study/faculty/hisham-cholakkal/) , [Mubarak Shah](https://www.crcv.ucf.edu/person/mubarak-shah/) , [Ming-Hsuan Yang](https://research.google/people/105989/) , [Philip H.S. Torr](https://en.wikipedia.org/wiki/Philip_Torr) , [Fahad Shahbaz Khan](https://sites.google.com/view/fahadkhans/home) , and [Salman Khan](https://salman-h-khan.github.io/)  
+\* Equally contributing first authors
+
+ 
+- **Corresponding authors:** [Komal Kumar](mailto:komal.kumar@mbzuai.ac.ae), [Tajamul Ashraf](https://www.tajamulashraf.com/).
+
 
 
 ## 🌟 Introduction
 
 >Current tool-use tests for vision-centric LLMs rely on single-turn, synthetic queries and text-only inputs, so they miss the real-world challenge of multi-step, multimodal reasoning. Agent-X closes this gap with 828 authentic tasks spanning images, videos, and mixed-modal instructions across six domains—from web browsing to autonomous driving. Each task demands explicit, step-by-step decisions and judicious tool use, and our evaluation scores every reasoning step as well as the overall chain. Even top models (GPT, Gemini, Qwen) solve fewer than half of these tasks, exposing major bottlenecks and pointing the way for future research.
+
+
+## 🌟 What is Agent-X
 
 Agent-X is a benchmark for assessing deep-reasoning and tool-use skills of vision-centric LLM agents in real-world settings. It highlights three key aspects:
 - **Authentic multi-step tasks.** The benchmark offers 828 human-authored tasks with implicit tool use and sequential planning requirements, spanning six domains such as web browsing, surveillance, autonomous driving, sports, and math reasoning. 
@@ -47,10 +59,6 @@ The comparison of Agent-Xqueries with AI-generated queries is shown in the table
  <img src="table_comparison.png" width="800"/>
 </div>
 
-## 📣 What's New
-
-- **[2025.5.27]** Release the evaluation and tool deployment code of Agent-X. 🔥🔥🔥
-- **[2025.5.22]** Release the Agent-Xdataset on Hugging Face. 🎉🎉🎉
 
 ## 📚 Dataset Statistics
 Overview of the Agent-X benchmark. Key data statistics,  overall frequency of the tool
