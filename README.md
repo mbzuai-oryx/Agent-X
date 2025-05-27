@@ -93,8 +93,9 @@ We evaluate the language models in two modes:
 Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans denote InstAcc, ToolAcc, ArgAcc SummAcc, and AnsAcc, respectively. P, O, L, C denote the F1 score of tool selection in Perception, Operation, Logic, and Creativity categories. ***Bold*** denotes the best score among all models. <ins>*Underline*</ins> denotes the best score under the same model scale. ***AnsAcc*** reflects the overall performance.
 
 ### With GPT-4o as a judge
-| **Models** | **Ground<sub>s</sub>** | **Tool<sub>p</sub>** | **Tool<sub>acc</sub>** | **Fact<sub>acc</sub>** | **Context<sub>s</sub>** | **Fact<sub>p</sub>** | **Sem<sub>acc</sub>** | **Ground<sub>acc</sub>** | **Ground<sub>acc</sub><sup>*</sup>** | **Tool<sub>acc</sub><sup>s</sup>** |
-| *Open-source* |  |  |  |  |  |  |  |  |  |  |
+| **Model** | Ground<sub>s</sub> | Tool<sub>p</sub> | Tool<sub>acc</sub> | Fact<sub>acc</sub> | Context<sub>s</sub> | Fact<sub>p</sub> | Sem<sub>acc</sub> | Ground<sub>acc</sub> | Ground<sub>acc</sub><sup>*</sup> | Tool<sub>acc</sub><sup>s</sup> |
+|----------|--------------------|------------------|--------------------|--------------------|---------------------|------------------|-------------------|-----------------------|------------------------------|---------------------------|
+| *Open-source* |||||||||||
 | Phi-4-VL-Instruct       | 0.13                     | 0.21                     | 0.24                         | 0.61                         | 0.19                        | 0.47                     | 0.40                         | 0.11                         | 0.26                          | 0.42                        |
 | InternVL-2.5-8B         | *0.45*                   | *0.31*                   | 0.47                         | *0.68*                       | *0.47*                      | *0.52*                   | *0.60*                       | *0.28*                       | *0.55*                        | *0.58*                      |
 | Gemma-3-4B              | 0.26                     | 0.30                     | <ins><strong>0.78</strong></ins> | 0.61                         | 0.54                        | 0.38                     | 0.54                         | 0.27                         | <ins><strong>0.67</strong></ins>     | 0.60                        |
