@@ -94,7 +94,7 @@ Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans d
 
 <!-- full-width table with horizontal scroll fallback -->
 <div style="overflow-x:auto;">
-<table width="100%">
+<table width="120%">
   <thead>
     <tr>
       <th><strong>Model</strong></th>
