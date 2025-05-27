@@ -94,7 +94,7 @@ Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans d
 
 ### Overall Results on Agent-X
 
-| **Model** | **G<sub>s</sub>** | **T<sub>p</sub>** | **T<sub>acc</sub>** | **F<sub>acc</sub>** | **C<sub>s</sub>** | **F<sub>p</sub>** | **S<sub>acc</sub>** | **G<sub>acc</sub>** | **G<sub>a</sub><sup>*</sup>** | **T<sub>acc</sub><sup>s</sup>** |
+| **Model** | **G<sub>s</sub>** | **T<sub>p</sub>** | **T<sub>acc</sub>** | **F<sub>acc</sub>** | **C<sub>s</sub>** | **F<sub>p</sub>** | **S<sub>acc</sub>** | **G<sub>acc</sub>** | **G<sub>a</sub><sup>*</sup> (Img-Gen)** | **T<sub>acc</sub><sup>score</sup>** |
 |-----------|-------|-------|--------|--------|-------|-------|--------|--------|--------|---------|
 | *Open-source Models* |  |  |  |  |  |  |  |  |  |  |
 | Phi-4-VL-Instruct | 0.13 | 0.21 | 0.24 | 0.61 | 0.19 | 0.47 | 0.40 | 0.11 | 0.26 | 0.42 |
