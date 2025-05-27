@@ -3,18 +3,18 @@
   <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif"
        width="100%" />
 </div>
-
+<p align="center">
+    <img src="https://i.imgur.com/waxVImv.png" alt="Oryx Video-ChatGPT">
+</p>
 <!-- centred logo -->
 <div align="center" style="margin:24px 0;">
   <img src="logo.png" width="85%" />
 </div>
 
 <!-- bottom full-width GIF -->
-<div align="left" style="margin:24px 0;">
-  <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif"
-       width="100%" />
-</div>
-
+<p align="center">
+    <img src="https://i.imgur.com/waxVImv.png" alt="Oryx Video-ChatGPT">
+</p>
 <h1 align="left" style="margin:24px 0;">
   Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks
 </h1>
