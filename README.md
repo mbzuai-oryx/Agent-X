@@ -1,18 +1,24 @@
-<div align="left">
-  <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif"
-       width="100%" />
-
-<div align="center">
-<figure class="center-figure"> <img src="logo.png" width="85%"></figure>
-
-<div align="left">
+<!-- top full-width GIF -->
+<div align="left" style="margin:24px 0;">
   <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif"
        width="100%" />
 </div>
 
-<h1 align="left">
-      Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks
+<!-- centred logo -->
+<div align="center" style="margin:24px 0;">
+  <img src="logo.png" width="85%" />
+</div>
+
+<!-- bottom full-width GIF -->
+<div align="left" style="margin:24px 0;">
+  <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif"
+       width="100%" />
+</div>
+
+<h1 align="left" style="margin:24px 0;">
+  Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks
 </h1>
+
 
 <div align="left">
 
