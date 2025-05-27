@@ -21,7 +21,7 @@ Agent-X is a benchmark for assessing deep-reasoning and tool-use skills of visio
  <img src="data_teasor.png" width="800"/>
 </div>
 
-The comparison of GTA queries with AI-generated queries is shown in the table below. The steps and tool types for queries in ToolBench and m\&m's are explicitly stated, as marked in red and blue. The queries in APIBench are simple, only containing one step. Our GTA's queries are both step-implicit and tool-implicit.
+The comparison of Agent-Xqueries with AI-generated queries is shown in the table below. The steps and tool types for queries in ToolBench and m\&m's are explicitly stated, as marked in red and blue. The queries in APIBench are simple, only containing one step. Our GTA's queries are both step-implicit and tool-implicit.
 <div align="center">
  <img src="table_comparison.png" width="800"/>
 </div>
@@ -29,7 +29,7 @@ The comparison of GTA queries with AI-generated queries is shown in the table be
 ## 📣 What's New
 
 - **[2025.5.27]** Release the evaluation and tool deployment code of Agent-X. 🔥🔥🔥
-- **[2025.5.22]** Release the GTA dataset on Hugging Face. 🎉🎉🎉
+- **[2025.5.22]** Release the Agent-Xdataset on Hugging Face. 🎉🎉🎉
 
 ## 📚 Dataset Statistics
 Overview of the Agent-X benchmark. Key data statistics,  overall frequency of the tool
@@ -98,7 +98,7 @@ llama-3.1-nemotron-70b-instruct-hf | 27.43 | 18.31 | 0 | 51.24 | 20.18 | 35.59 |
 
 ## 🚀 Evaluate on GTA
 
-### Prepare GTA Dataset
+### Prepare Agent-XDataset
 1. Clone this repo.
 ```shell
 git clone https://github.com/open-compass/GTA.git
@@ -160,7 +160,7 @@ mim install mmcv==2.1.0
 ```
 Open ```~/anaconda3/envs/agentlego/lib/python3.11/site-packages/transformers/modeling_utils.py```, then set ```_supports_sdpa = False``` to ```_supports_sdpa = True``` in line 1279.
 
-2. Deploy tools for GTA benchmark.
+2. Deploy tools for Agent-Xbenchmark.
 
 To use the GoogleSearch and MathOCR tools, you should first get the Serper API key from https://serper.dev, and the Mathpix API key from https://mathpix.com/. Then export these keys as environment variables.
 
@@ -303,16 +303,9 @@ python run.py configs/eval_gta_bench.py -p llmit -q auto --max-num-workers 32 --
 
 
 # 📝 Citation
-If you use GTA in your research, please cite the following paper:
-```bibtex
-@misc{wang2024gtabenchmarkgeneraltool,
-      title={GTA: A Benchmark for General Tool Agents}, 
-      author={Jize Wang and Zerun Ma and Yining Li and Songyang Zhang and Cailian Chen and Kai Chen and Xinyi Le},
-      year={2024},
-      eprint={2407.08713},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2407.08713}, 
+If you use Agent-Xin your research, please cite the following paper:
+```
+
 }
 ```
 
