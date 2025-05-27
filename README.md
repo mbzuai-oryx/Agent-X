@@ -96,23 +96,23 @@ Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans d
 | **Model** | Ground<sub>s</sub> | Tool<sub>p</sub> | Tool<sub>acc</sub> | Fact<sub>acc</sub> | Context<sub>s</sub> | Fact<sub>p</sub> | Sem<sub>acc</sub> | Ground<sub>acc</sub> | Ground<sub>acc</sub><sup>*</sup> | Tool<sub>acc</sub><sup>s</sup> |
 |----------|--------------------|------------------|--------------------|--------------------|---------------------|------------------|-------------------|-----------------------|------------------------------|---------------------------|
 | *Open-source* |||||||||||
-| Phi-4-VL-Instruct       | 0.13                     | 0.21                     | 0.24                         | 0.61                         | 0.19                        | 0.47                     | 0.40                         | 0.11                         | 0.26                          | 0.42                        |
-| InternVL-2.5-8B         | *0.45*                   | *0.31*                   | 0.47                         | *0.68*                       | *0.47*                      | *0.52*                   | *0.60*                       | *0.28*                       | *0.55*                        | *0.58*                      |
+| Phi-4-VL-Instruct | 0.13 | 0.21 | 0.24 | 0.61 | 0.19 | 0.47 | 0.40 | 0.11 | 0.26 | 0.42 |
+| InternVL-2.5-8B         | 0.45                   | *0.31*                   | 0.47                         | *0.68*                       | *0.47*                      | *0.52*                   | *0.60*                       | *0.28*                       | *0.55*                        | *0.58*                      |
 | Gemma-3-4B              | 0.26                     | 0.30                     | <ins><strong>0.78</strong></ins> | 0.61                         | 0.54                        | 0.38                     | 0.54                         | 0.27                         | <ins><strong>0.67</strong></ins>     | 0.60                        |
 | InternVL-3-8B           | *0.46*                   | 0.34                     | 0.54                         | *0.68*                       | 0.45                        | <ins><strong>0.70</strong></ins> | 0.40                         | 0.20                         | 0.59                          | *0.62*                      |
 | VideoLLaMA-3-7B         | 0.45                     | 0.28                     | 0.46                         | 0.65                         | 0.46                        | 0.62                     | 0.54                         | 0.28                         | 0.54                          | 0.54                        |
 | Qwen-2.5-VL-7B          | <ins><strong>0.54</strong></ins> | <ins><strong>0.43</strong></ins> | *0.63*                       | <ins><strong>0.75</strong></ins> | <ins><strong>0.57</strong></ins> | 0.56                     | <ins><strong>0.67</strong></ins>     | 0.36                         | *0.65*                        | <ins><strong>0.67</strong></ins>     |
 | Pixtral-12B             | 0.12                     | 0.20                     | *0.63*                       | 0.45                         | 0.19                        | 0.26                     | 0.34                         | 0.07                         | <ins><strong>0.55</strong></ins>     | <ins><strong>0.54</strong></ins>     |
 | LLaMA-3.2-11B-Vision    | 0.03                     | 0.15                     | 0.14                         | <ins><strong>0.70</strong></ins> | 0.08                        | *0.70*                   | 0.24                         | 0.07                         | 0.26                          | 0.42                        |
-| Kimi-VL-A3B-Thinking    | *0.26*                   | *0.19*                   | *0.59*                       | *0.62*                       | *0.42*                      | *0.52*                   | <ins><strong>0.65</strong></ins>     | <ins><strong>0.29</strong></ins>     | 0.29                          | 0.48                        |
+| Kimi-VL-A3B-Thinking    | 0.26                   | *0.19*                   | *0.59*                       | *0.62*                       | *0.42*                      | *0.52*                   | <ins><strong>0.65</strong></ins>     | <ins><strong>0.29</strong></ins>     | 0.29                          | 0.48                        |
 | mPLUG-Owl3-7B-240728    | 0.10                     | 0.14                     | 0.30                         | 0.49                         | 0.25                        | 0.32                     | *0.37*                       | *0.11*                       | 0.26                          | *0.50*                      |
 
 
 | *Closed-source* |  |  |  |  |  |  |  |  |  |  |
-| Gemini-1.5-Pro   | 0.43 | 0.23 | *0.84* | 0.62 | 0.45 | 0.53 | 0.62 | 0.04 | 0.56 | 0.48 |
-| Gemini-2.5-Pro   | 0.40 | 0.36 | 0.81 | 0.72 | 0.48 | 0.64 | *0.73* | *0.40* | 0.56 | 0.62 |
-| GPT-4o           | <ins><strong>0.60</strong></ins> | <ins><strong>0.47</strong></ins> | 0.72 | <ins><strong>0.81</strong></ins> | <ins><strong>0.57</strong></ins> | <ins><strong>0.79</strong></ins> | 0.59 | 0.37 | <ins><strong>0.70</strong></ins> | <ins><strong>0.68</strong></ins> |
-| OpenAI o4-mini   | 0.42 | 0.32 | <ins><strong>0.89</strong></ins> | 0.71 | 0.51 | 0.60 | <ins><strong>0.80</strong></ins> | <ins><strong>0.45</strong></ins> | *0.67* | 0.63 |
+| Gemini-1.5-Pro  | 0.43 | 0.23 | *0.84* | 0.62 | 0.45 | 0.53 | 0.62 | 0.04 | 0.56 | 0.48 |
+| Gemini-2.5-Pro  | 0.40 | *0.36* | 0.81 | *0.72* | 0.48 | 0.64 | *0.73* | *0.40* | 0.56 | *0.62* |
+| GPT-4o          | <ins><strong>0.60</strong></ins> | <ins><strong>0.47</strong></ins> | 0.72 | <ins><strong>0.81</strong></ins> | <ins><strong>0.57</strong></ins> | <ins><strong>0.79</strong></ins> | 0.59 | 0.37 | <ins><strong>0.70</strong></ins> | <ins><strong>0.68</strong></ins> |
+| OpenAI o4-mini  | *0.42* | 0.32 | <ins><strong>0.89</strong></ins> | 0.71 | *0.51* | *0.60* | <ins><strong>0.80</strong></ins> | <ins><strong>0.45</strong></ins> | *0.67* | 0.63 |
 
 _Best values are **bold + underlined**; second-best values are *italic*._
 
