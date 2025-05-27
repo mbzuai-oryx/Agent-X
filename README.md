@@ -103,7 +103,7 @@ Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans d
 | VideoLLaMA-3-7B  | 0.45 | 0.28 | 0.46 | 0.65 | 0.46 | 0.62 | 0.54 | 0.28 | 0.54 | 0.54 |
 | Qwen-2.5-VL-7B   | *0.54* | *0.43* | 0.63 | *0.75* | <ins><strong>0.57</strong></ins> | 0.56 | <ins><strong>0.67</strong></ins> | 0.36 | *0.65* | *0.67* |
 | Pixtral-12B      | *0.12* | <ins><strong>0.20</strong></ins> | <ins><strong>0.63</strong></ins> | 0.45 | 0.19 | 0.26 | 0.34 | 0.07 | <ins><strong>0.55</strong></ins> | <ins><strong>0.54</strong></ins> |
-| LLaMA-3.2-11B-Vision   | 0.03               | 0.15             | 0.14               | <ins><strong>0.70</strong></ins> | 0.08                |<ins><strong>0.70</strong></ins> | 0.24               | 0.07                  | 0.26                        | 0.42                    |
+| LLaMA-3.2-11B-Vision   | 0.03 | 0.15| 0.14 | <ins><strong>0.70</strong></ins> | 0.08  |<ins><strong>0.70</strong></ins> | 0.24               | 0.07                  | 0.26                        | 0.42                    |
 | Kimi-VL-A3B-Thinking   | <ins><strong>0.26</strong></ins> | *0.19*           | *0.59*             | *0.62*             | <ins><strong>0.42</strong></ins>  | *0.52*           | <ins><strong>0.65</strong></ins>  | <ins><strong>0.29</strong></ins>  | *0.29*                      | 0.48                    |
 | mPLUG-Owl3-7B-240728   | 0.10               | 0.14             | 0.30               | 0.49               | *0.25*              | 0.32             | *0.37*             | *0.11*                | *0.26*                      | *0.50*                  |
 | *Closed-source* |  |  |  |  |  |  |  |  |  |  |
