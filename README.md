@@ -43,7 +43,7 @@ usage, number of steps, and distribution of tasks across the six vision-centric 
 The detailed information of 14 tools are shown in the table below.
 
 <div align="center">
- <img src="pipeline.png" width="800"/>
+ <img src="pipeline.pdf" width="800"/>
 </div>
 
 ## 🏆 Leaderboard, July 2024
