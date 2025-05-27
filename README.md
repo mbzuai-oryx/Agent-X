@@ -37,6 +37,13 @@ Our work is based on the following paper:
 - **Correspondence:** [Tajamul Ashraf](https://www.tajamulashraf.com), [Amal Saqib](https://www.tajamulashraf.com/).
 
 
+## 🚀 Updates
+
+### [2024-07-03]
+- ✨ **Released evaluation & tool-deployment code for GTA** 🔥🔥🔥
+
+### [2024-07-01]
+- 📦 **Published the GTA dataset on Hugging Face** 🎉🎉🎉
 
 ## 🌟 Introduction
 
