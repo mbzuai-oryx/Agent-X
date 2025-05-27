@@ -28,14 +28,11 @@ The comparison of GTA queries with AI-generated queries is shown in the table be
 
 ## 📣 What's New
 
-- **[2025.3.25]** Update 🏆Leaderboard, Mar. 2025, including new models such as Deepseek-R1, Deepseek-V3, Qwen-QwQ, Qwen-2.5-max series.
-- **[2024.9.26]** GTA is accepted to NeurIPS 2024 Dataset and Benchmark Track! 🎉🎉🎉
-- **[2024.7.11]** Paper available on arXiv. ✨✨✨
-- **[2024.7.3]** Release the evaluation and tool deployment code of GTA. 🔥🔥🔥
-- **[2024.7.1]** Release the GTA dataset on Hugging Face. 🎉🎉🎉
+- **[2025.5.27]** Release the evaluation and tool deployment code of Agent-X. 🔥🔥🔥
+- **[2025.5.22]** Release the GTA dataset on Hugging Face. 🎉🎉🎉
 
 ## 📚 Dataset Statistics
-GTA comprises a total of 229 questions. The basic dataset statistics is presented below.  The number of tools involved in each question varies from 1 to 4. The steps to resolve the questions range from 2 to 8.
+A comprises a total of 229 questions. The basic dataset statistics is presented below.  The number of tools involved in each question varies from 1 to 4. The steps to resolve the questions range from 2 to 8.
 
 <div align="center">
  <img src="figs/statistics.jpg" width="800"/>
