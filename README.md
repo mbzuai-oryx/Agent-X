@@ -35,7 +35,7 @@ The comparison of GTA queries with AI-generated queries is shown in the table be
 A comprises a total of 229 questions. The basic dataset statistics is presented below.  The number of tools involved in each question varies from 1 to 4. The steps to resolve the questions range from 2 to 8.
 
 <div align="center">
- <img src="figs/statistics.jpg" width="800"/>
+ <img src="data_statistics.png" width="800"/>
 </div>
 
 The detailed information of 14 tools are shown in the table below.
