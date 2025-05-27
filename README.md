@@ -1,7 +1,13 @@
+<p align="center">
+    <img src="https://i.imgur.com/waxVImv.png" alt="Oryx Video-ChatGPT">
+</p>
 
 <div align="center">
 <figure class="center-figure"> <img src="logo.png" width="85%"></figure>
 </div>
+<p align="center">
+    <img src="https://i.imgur.com/waxVImv.png" alt="Oryx Video-ChatGPT">
+</p>
 
 <h1 align="left">
       Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks
