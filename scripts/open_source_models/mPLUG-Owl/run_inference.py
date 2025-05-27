@@ -11,12 +11,12 @@ import cv2
 import json
 import shutil
 from tempfile import TemporaryDirectory
-import cv2
 import random
 import torch
 from transformers import AutoConfig, AutoModel
 from transformers import AutoTokenizer, AutoProcessor
-from decord import VideoReader, cpu    # pip install decord
+from decord import VideoReader, cpu    
+# pip install decord
 
 
 MAX_NUM_FRAMES=4
@@ -87,11 +87,7 @@ def extract_sampled_frames(video_path, num_samples=4):
     # Return the list of frame file paths
     return frame_paths, temp_dir
 
-tool_metadata_path = "/share/data/drive_1/hanan/multiagent_eval_data/toolmeta.json"
-with open(tool_metadata_path, "r") as f:
-    meta_data = json.load(f)
-f.close()
-meta_data = json.dumps(meta_data)
+
 
 instruction_prompt = """
 You are an intelligent multi-modal assistant. You are provided with:
@@ -151,150 +147,156 @@ Your entire response must be a **single JSON dictionary** containing only the fo
   }}
 }}
 """
-instruction_prompt = instruction_prompt.format(meta_data=meta_data)
-
-reasoning_data_path ="/share/data/drive_1/hanan/multiagent_eval_data/VCA-Bench/metadata/verified_data.json"
-with open(reasoning_data_path, "r") as g:
-    reason_data = json.load(g)
 
 
-## model inference
 
-model_path = '/share/data/drive_2/hanan/mPLUG-Owl/mPLUG-Owl3/mPLUG-Owl3-7B-240728'
+## model load
+
+model_path = 'mPLUG-Owl/mPLUG-Owl3-7B-240728'
 config = AutoConfig.from_pretrained(model_path,trust_remote_code=True)
-print(config)
 # model = mPLUGOwl3Model(config).cuda().half()
 model = AutoModel.from_pretrained(model_path, attn_implementation='flash_attention_2', torch_dtype=torch.half,trust_remote_code=True)
 model.eval().cuda()
-model_path = '/share/data/drive_2/hanan/mPLUG-Owl/mPLUG-Owl3/mPLUG-Owl3-7B-240728'
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 processor = model.init_processor(tokenizer)
 
 
 
-base_path = "/share/data/drive_1/hanan/multiagent_eval_data/VCA-Bench/samples"
-save_path  = "mplugowl_results_final.json"
+
 required_keys = ["reasoning_steps", "final_answer"]
-final_results = []
-max_attempts = 1
 
-for key, value in reason_data.items():
-    d = {}
-# # try:
-#     if int(key)<=432:
-#         continue
-    video_flag = False
-    data = reason_data[key][0]
-    sample = data["file_path"]
-    sample_list = [img.strip() for img in sample.split(",")]
-    if sample_list[0].split(".")[1].lower() in ["mp4", "avi", "mov"]:
-        video_flag = True
-    sample_path = [os.path.join(base_path, s) for s in sample_list]
-    query = data["query"]
+if __name__=="__main__":
 
-    valid_response = False
+    final_results = []
+    max_attempts = 2
 
-    for attempt in range(max_attempts):
-        # try:
-            # Build messages
-            if not video_flag:
-                if len(sample_path) == 1:
-                    messages = [
-                        {"role": "user", "content": "<|image|>" + "\n" + instruction_prompt + "\n" + "Query: " + query},
-                        {"role": "assistant", "content": ""}
-                    ]
+    # Adding arguments
+    parser.add_argument("--save_path",default="mplugowl_final_results.json", help = "path to Output file")
+    parser.add_argument("--base_path", default="./AgentX/files",help = "path to data folder")
+    parser.add_argument("--tool_data_path", default="./AgentX/tools_metadata.json", help = "path to tool metadata json file")
+    parser.add_argument("--gt_data_path", default="./AgentX/data.json", help = "path to ground truth json file")
 
-                else:
-                    messages = [
-                        {"role": "user", "content": "<|image|><|image|>" + "\n" + instruction_prompt + "\n" + "Query: " + query},
-                        {"role": "assistant", "content": ""}
-                    ]
-                image = [Image.open(p).convert('RGB') for p in sample_path]
-                inputs = processor(messages, images=image, videos=None)
+    # Read arguments from command line
+    args = parser.parse_args()
 
-                inputs.to('cuda')
-                inputs.update({
-                    'tokenizer': tokenizer,
-                    'max_new_tokens':1024,
-                    'decode_text':True,
-                })
-
-
-                response = model.generate(**inputs)[0]
-            else:
-                frames = encode_video(sample_path[0])
-                messages = [
-                        {"role": "user", "content": "<|video|>" + "\n" + instruction_prompt + "\n" + "Query: " + query},
-                        {"role": "assistant", "content": ""}
-                    ]
-
-                inputs = processor(messages, images=None, videos=[frames])
-
-                inputs.to('cuda')
-                inputs.update({
-                    'tokenizer': tokenizer,
-                    'max_new_tokens':1024,
-                    'decode_text':True,
-                })
-
-                response = model.generate(**inputs)[0]
-
-            
-            #output_text = extract_full_json_with_final_answer(output)
-            output_text = re.sub(r"^```(?:json)?\s*|\s*```$", "", response.strip(), flags=re.IGNORECASE)
-            #output_text = extract_last_json_block(output)
-
-            print(f"Attempt {attempt + 1} response for key {key}:\n{response}")
-
-            if output_text:
-                try:
-                    response_dict = json.loads(output_text)
-                    
-                    if all(k in response_dict for k in required_keys):
-                        d[key] = {
-                            "query": query,
-                            "filename": sample,
-                            **response_dict
-                        }
-                        valid_response = True
-                        break  # success
-                except json.JSONDecodeError:
-                    print(f"Invalid JSON on attempt {attempt + 1} for key {key}: {output_text}")
-                    pass
-
-            time.sleep(5)
-
-        # except Exception as attempt_err:
-        #     print(f"Exception on attempt {attempt + 1} for key {key}: {attempt_err}")
-        #     time.sleep(5)
-        #     continue
-
-    if not valid_response:
-        d[key] = {
-            "query": query,
-            "filename": sample,
-            "reasoning_steps": "",
-            "final_answer": {
-                "value": "",
-                "justification": ""
-            }
-        }
-
-    final_results.append(d)
-    with open(save_path, "w") as f:
-        json.dump(final_results, f, indent=2)
+        ## read the gt reason data
+    with open(args.gt_data_path, "r") as g:
+        reason_data = json.load(g)
+    g.close()
     
-    # if video_flag:
-    #     shutil.rmtree(temp_dir.name)
+    ## read the tool meta data
+    with open(args.tool_data_path, "r") as f:
+        meta_data = json.load(f)
+    f.close()
+    meta_data = json.dumps(meta_data)
+    instruction_prompt = instruction_prompt.format(meta_data=meta_data)
 
-    # except Exception as e:
-    #     print(f"Exception for key {key}: {e}")
-    #     continue
+    for key, value in reason_data.items():
+        d = {}
+        try:
+            video_flag = False
+            data = reason_data[key][0]
+            sample = data["file_path"]
+            sample_list = [img.strip() for img in sample.split(",")]
+            if sample_list[0].split(".")[1].lower() in ["mp4", "avi", "mov"]:
+                video_flag = True
+            sample_path = [os.path.join(args.base_path, s) for s in sample_list]
+            query = data["query"]
+
+            valid_response = False
+
+            for attempt in range(max_attempts):
+                # try:
+                    # Build messages
+                    if not video_flag:
+                        if len(sample_path) == 1:
+                            messages = [
+                                {"role": "user", "content": "<|image|>" + "\n" + instruction_prompt + "\n" + "Query: " + query},
+                                {"role": "assistant", "content": ""}
+                            ]
+
+                        else:
+                            messages = [
+                                {"role": "user", "content": "<|image|><|image|>" + "\n" + instruction_prompt + "\n" + "Query: " + query},
+                                {"role": "assistant", "content": ""}
+                            ]
+                        image = [Image.open(p).convert('RGB') for p in sample_path]
+                        inputs = processor(messages, images=image, videos=None)
+
+                        inputs.to('cuda')
+                        inputs.update({
+                            'tokenizer': tokenizer,
+                            'max_new_tokens':1024,
+                            'decode_text':True,
+                        })
 
 
+                        response = model.generate(**inputs)[0]
+                    else:
+                        frames = encode_video(sample_path[0])
+                        messages = [
+                                {"role": "user", "content": "<|video|>" + "\n" + instruction_prompt + "\n" + "Query: " + query},
+                                {"role": "assistant", "content": ""}
+                            ]
 
+                        inputs = processor(messages, images=None, videos=[frames])
 
-with open('mplugowl_results_final_backup.json', 'w') as f:
-    json.dump(final_results, f)
+                        inputs.to('cuda')
+                        inputs.update({
+                            'tokenizer': tokenizer,
+                            'max_new_tokens':1024,
+                            'decode_text':True,
+                        })
+
+                        response = model.generate(**inputs)[0]
+
+                    
+                    #output_text = extract_full_json_with_final_answer(output)
+                    output_text = re.sub(r"^```(?:json)?\s*|\s*```$", "", response.strip(), flags=re.IGNORECASE)
+                    #output_text = extract_last_json_block(output)
+
+                    print(f"Attempt {attempt + 1} response for key {key}:\n{response}")
+
+                    if output_text:
+                        try:
+                            response_dict = json.loads(output_text)
+                            
+                            if all(k in response_dict for k in required_keys):
+                                d[key] = {
+                                    "query": query,
+                                    "filename": sample,
+                                    **response_dict
+                                }
+                                valid_response = True
+                                break  # success
+                        except json.JSONDecodeError:
+                            print(f"Invalid JSON on attempt {attempt + 1} for key {key}: {output_text}")
+                            pass
+
+                    time.sleep(5)
+
+                # except Exception as attempt_err:
+                #     print(f"Exception on attempt {attempt + 1} for key {key}: {attempt_err}")
+                #     time.sleep(5)
+                #     continue
+
+            if not valid_response:
+                d[key] = {
+                    "query": query,
+                    "filename": sample,
+                    "reasoning_steps": "",
+                    "final_answer": {
+                        "value": "",
+                        "justification": ""
+                    }
+                }
+
+            final_results.append(d)
+            with open(args.save_path, "w") as f:
+                json.dump(final_results, f, indent=2)
+
+        except Exception as e:
+            print(f"Exception for key {key}: {e}")
+            continue
 
 
