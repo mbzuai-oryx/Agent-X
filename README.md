@@ -24,19 +24,6 @@
 
 
 
-
-
-
-
-<div align="center">
-
-[⬇️ [Dataset]()]
-[📃 [Paper]()]
-[🌐 [Project Page]()]
-[🤗 [Hugging Face]()]
-
-</div>
-
 ## 🌟 Introduction
 
 >Current tool-use tests for vision-centric LLMs rely on single-turn, synthetic queries and text-only inputs, so they miss the real-world challenge of multi-step, multimodal reasoning. Agent-X closes this gap with 828 authentic tasks spanning images, videos, and mixed-modal instructions across six domains—from web browsing to autonomous driving. Each task demands explicit, step-by-step decisions and judicious tool use, and our evaluation scores every reasoning step as well as the overall chain. Even top models (GPT, Gemini, Qwen) solve fewer than half of these tasks, exposing major bottlenecks and pointing the way for future research.
