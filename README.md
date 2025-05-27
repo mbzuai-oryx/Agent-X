@@ -39,11 +39,9 @@ Our work is based on the following paper:
 
 ## 🚀 Updates
 
-### [2024-07-03]
-- ✨ **Released evaluation & tool-deployment code for GTA** 🔥🔥🔥
+### [2024-07-03]: **Released evaluation & deployment code for Agent-X** 🔥🔥🔥
 
-### [2024-07-01]
-- 📦 **Published the GTA dataset on Hugging Face** 🎉🎉🎉
+### [2024-07-01]:  **Published the Agent-X dataset on Hugging Face** 🎉🎉🎉
 
 ## 🌟 Introduction
 
