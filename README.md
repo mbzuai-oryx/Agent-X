@@ -97,7 +97,7 @@ We evaluate models on the Agent-X benchmark across **three distinct modes**:
 
 3. **Outcome**: Measures the agent’s overall task-solving performance by verifying the correctness of the final answer and appropriate tool usage.
 
-We report results using **GPT-4** and **Qwen-1.5-72B** as evaluation judges. For each metric, the **best-performing value is shown in bold and underlined**, while the **second-best is italicized**.
+We report results using **GPT-4** and **Qwen-15B** as evaluation judges. For each metric, the **best-performing value is shown in bold and underlined**, while the **second-best is italicized**.
 
 
 ### With GPT-4o as a judge
