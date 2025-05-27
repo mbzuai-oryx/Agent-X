@@ -92,22 +92,21 @@ We evaluate the language models in two modes:
 
 Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans denote InstAcc, ToolAcc, ArgAcc SummAcc, and AnsAcc, respectively. P, O, L, C denote the F1 score of tool selection in Perception, Operation, Logic, and Creativity categories. ***Bold*** denotes the best score among all models. <ins>*Underline*</ins> denotes the best score under the same model scale. ***AnsAcc*** reflects the overall performance.
 
-<!-- full-width table with horizontal scroll fallback -->
-<div style="overflow-x:auto;">
-<table width="1800">
+<!-- 100 % of the README column + equal columns -->
+<table style="width:100%; table-layout:fixed;">
   <thead>
     <tr>
-      <th><strong>Model</strong></th>
-      <th><strong>G<sub>s</sub></strong></th>
-      <th><strong>T<sub>p</sub></strong></th>
-      <th><strong>T<sub>acc</sub></strong></th>
-      <th><strong>F<sub>acc</sub></strong></th>
-      <th><strong>C<sub>s</sub></strong></th>
-      <th><strong>F<sub>p</sub></strong></th>
-      <th><strong>S<sub>acc</sub></strong></th>
-      <th><strong>G<sub>acc</sub></strong></th>
-      <th><strong>G<sub>a</sub><sup>*</sup></strong></th>
-      <th><strong>T<sub>acc</sub><sup>s</sup></strong></th>
+      <th>Model</th>
+      <th>G<sub>s</sub></th>
+      <th>T<sub>p</sub></th>
+      <th>T<sub>acc</sub></th>
+      <th>F<sub>acc</sub></th>
+      <th>C<sub>s</sub></th>
+      <th>F<sub>p</sub></th>
+      <th>S<sub>acc</sub></th>
+      <th>G<sub>acc</sub></th>
+      <th>G<sub>a</sub><sup>*</sup></th>
+      <th>T<sub>acc</sub><sup>s</sup></th>
     </tr>
   </thead>
   <tbody>
@@ -127,9 +126,7 @@ Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans d
 </table>
 </div>
 
-<p><em>Best values are <ins><strong>bold&nbsp;+&nbsp;underlined</strong></ins>; second-best values are <em>italic</em>.</em></p>
-
-
+<p><em>Best values are <ins><strong>bold + underlined</strong></ins>; second-best values are <em>italic</em>.</em></p>
 
 
 ## 🚀 Evaluate on GTA
