@@ -92,24 +92,42 @@ We evaluate the language models in two modes:
 
 Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans denote InstAcc, ToolAcc, ArgAcc SummAcc, and AnsAcc, respectively. P, O, L, C denote the F1 score of tool selection in Perception, Operation, Logic, and Creativity categories. ***Bold*** denotes the best score among all models. <ins>*Underline*</ins> denotes the best score under the same model scale. ***AnsAcc*** reflects the overall performance.
 
-### Overall Results on Agent-X
+<!-- full-width table with horizontal scroll fallback -->
+<div style="overflow-x:auto;">
+<table width="100%">
+  <thead>
+    <tr>
+      <th><strong>Model</strong></th>
+      <th><strong>G<sub>s</sub></strong></th>
+      <th><strong>T<sub>p</sub></strong></th>
+      <th><strong>T<sub>acc</sub></strong></th>
+      <th><strong>F<sub>acc</sub></strong></th>
+      <th><strong>C<sub>s</sub></strong></th>
+      <th><strong>F<sub>p</sub></strong></th>
+      <th><strong>S<sub>acc</sub></strong></th>
+      <th><strong>G<sub>acc</sub></strong></th>
+      <th><strong>G<sub>a</sub><sup>*</sup></strong></th>
+      <th><strong>T<sub>acc</sub><sup>s</sup></strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td colspan="11"><em>Open-source</em></td></tr>
+    <tr><td>Phi-4-VL-Instruct</td><td>0.13</td><td>0.21</td><td>0.24</td><td>0.61</td><td>0.19</td><td>0.47</td><td>0.40</td><td>0.11</td><td>0.26</td><td>0.42</td></tr>
+    <tr><td>InternVL-2.5-8B</td><td>0.45</td><td>0.31</td><td>0.47</td><td>0.68</td><td>0.47</td><td>0.52</td><td>0.60</td><td>0.28</td><td>0.55</td><td>0.58</td></tr>
+    <tr><td>Gemma-3-4B</td><td>0.26</td><td>0.30</td><td><ins><strong>0.78</strong></ins></td><td>0.61</td><td><em>0.54</em></td><td>0.38</td><td>0.54</td><td>0.27</td><td><em>0.67</em></td><td>0.60</td></tr>
+    <tr><td>InternVL-3-8B</td><td>0.46</td><td>0.34</td><td>0.54</td><td>0.68</td><td>0.45</td><td><em>0.70</em></td><td>0.40</td><td>0.20</td><td>0.59</td><td>0.62</td></tr>
+    <tr><td>VideoLLaMA-3-7B</td><td>0.45</td><td>0.28</td><td>0.46</td><td>0.65</td><td>0.46</td><td>0.62</td><td>0.54</td><td>0.28</td><td>0.54</td><td>0.54</td></tr>
+    <tr><td>Qwen-2.5-VL-7B</td><td><em>0.54</em></td><td><em>0.43</em></td><td>0.63</td><td><em>0.75</em></td><td><ins><strong>0.57</strong></ins></td><td>0.56</td><td><ins><strong>0.67</strong></ins></td><td>0.36</td><td><em>0.65</em></td><td><em>0.67</em></td></tr>
+    <tr><td colspan="11"><em>Closed-source</em></td></tr>
+    <tr><td>Gemini-1.5-Pro</td><td>0.43</td><td>0.23</td><td><em>0.84</em></td><td>0.62</td><td>0.45</td><td>0.53</td><td>0.62</td><td>0.04</td><td>0.56</td><td>0.48</td></tr>
+    <tr><td>Gemini-2.5-Pro</td><td>0.40</td><td>0.36</td><td>0.81</td><td>0.72</td><td>0.48</td><td>0.64</td><td><em>0.73</em></td><td><em>0.40</em></td><td>0.56</td><td>0.62</td></tr>
+    <tr><td>GPT-4o</td><td><ins><strong>0.60</strong></ins></td><td><ins><strong>0.47</strong></ins></td><td>0.72</td><td><ins><strong>0.81</strong></ins></td><td><ins><strong>0.57</strong></ins></td><td><ins><strong>0.79</strong></ins></td><td>0.59</td><td>0.37</td><td><ins><strong>0.70</strong></ins></td><td><ins><strong>0.68</strong></ins></td></tr>
+    <tr><td>OpenAI o4-mini</td><td>0.42</td><td>0.32</td><td><ins><strong>0.89</strong></ins></td><td>0.71</td><td>0.51</td><td>0.60</td><td><ins><strong>0.80</strong></ins></td><td><ins><strong>0.45</strong></ins></td><td><em>0.67</em></td><td>0.63</td></tr>
+  </tbody>
+</table>
+</div>
 
-| **Model** | **G<sub>s</sub>** | **T<sub>p</sub>** | **T<sub>acc</sub>** | **F<sub>acc</sub>** | **C<sub>s</sub>** | **F<sub>p</sub>** | **S<sub>acc</sub>** | **G<sub>acc</sub>** | **G<sub>a</sub><sup>*</sup> (Img-Gen)** | **T<sub>acc</sub><sup>score</sup>** |
-|-----------|-------|-------|--------|--------|-------|-------|--------|--------|--------|---------|
-| *Open-source Models* |  |  |  |  |  |  |  |  |  |  |
-| Phi-4-VL-Instruct | 0.13 | 0.21 | 0.24 | 0.61 | 0.19 | 0.47 | 0.40 | 0.11 | 0.26 | 0.42 |
-| InternVL-2.5-8B  | 0.45 | 0.31 | 0.47 | 0.68 | 0.47 | 0.52 | 0.60 | 0.28 | 0.55 | 0.58 |
-| Gemma-3-4B       | 0.26 | 0.30 | 0.78 | 0.61 | *0.54* | 0.38 | 0.54 | 0.27 | *0.67* | 0.60 |
-| InternVL-3-8B    | 0.46 | 0.34 | 0.54 | 0.68 | 0.45 | *0.70* | 0.40 | 0.20 | 0.59 | 0.62 |
-| VideoLLaMA-3-7B  | 0.45 | 0.28 | 0.46 | 0.65 | 0.46 | 0.62 | 0.54 | 0.28 | 0.54 | 0.54 |
-| Qwen-2.5-VL-7B   | *0.54* | *0.43* | 0.63 | *0.75* | <ins><strong>0.57</strong></ins> | 0.56 | <ins><strong>0.67</strong></ins> | 0.36 | *0.65* | *0.67* |
-| *Closed-source Models* |  |  |  |  |  |  |  |  |  |  |
-| Gemini-1.5-Pro   | 0.43 | 0.23 | *0.84* | 0.62 | 0.45 | 0.53 | 0.62 | 0.04 | 0.56 | 0.48 |
-| Gemini-2.5-Pro   | 0.40 | 0.36 | 0.81 | 0.72 | 0.48 | 0.64 | *0.73* | *0.40* | 0.56 | 0.62 |
-| GPT-4o           | <ins><strong>0.60</strong></ins> | <ins><strong>0.47</strong></ins> | 0.72 | <ins><strong>0.81</strong></ins> | <ins><strong>0.57</strong></ins> | <ins><strong>0.79</strong></ins> | 0.59 | 0.37 | <ins><strong>0.70</strong></ins> | <ins><strong>0.68</strong></ins> |
-| OpenAI o4-mini   | 0.42 | 0.32 | <ins><strong>0.89</strong></ins> | 0.71 | 0.51 | 0.60 | <ins><strong>0.80</strong></ins> | <ins><strong>0.45</strong></ins> | *0.67* | 0.63 |
-
-_Best values are **bold + underlined**; second-best values are *italic*._
+<p><em>Best values are <ins><strong>bold&nbsp;+&nbsp;underlined</strong></ins>; second-best values are <em>italic</em>.</em></p>
 
 
 
