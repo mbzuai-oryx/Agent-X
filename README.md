@@ -129,10 +129,10 @@ _Best values are **bold + underlined**; second-best values are *italic*._
 | Kimi-VL-A3B-Thinking [58]    | 0.47 | 0.20 | 0.59 | <ins><strong>0.79</strong></ins> | *0.64* | *0.68* | *0.74* | *0.35* | 0.60 | 0.62 |
 | mPLUG-Owl3-7B-240728 [73]    | 0.30 | 0.11 | 0.31 | 0.59 | 0.48 | 0.48 | 0.56 | 0.16 | 0.45 | 0.48 |
 | *Closed-source* |||||||||||
-| Gemini-1.5-Pro [56]       | 0.57 | 0.36 | *0.80* | *0.82* | 0.73 | *0.76* | 0.63 | 0.05 | <ins><strong>0.77</strong></ins> | 0.71 |
-| Gemini-2.5-Pro [55]       | *0.63* | *0.40* | <ins><strong>0.84</strong></ins> | <ins><strong>0.86</strong></ins> | *0.76* | <ins><strong>0.80</strong></ins> | *0.83* | *0.50* | 0.74 | *0.72* |
+| Gemini-1.5-Pro [56]       | *0.57* | *0.36* | *0.80* | *0.82* | 0.73 | 0.76 | 0.63 | 0.05 | <ins><strong>0.77</strong></ins> | *0.71* |
+| Gemini-2.5-Pro [55]       | <ins><strong>0.63</ins></strong> | <ins><strong>0.40</ins></strong> | *0.84* | 0.86 | *0.76* | <ins><strong>0.80</strong></ins> | *0.83* | *0.50* | *0.74* | <ins><strong>0.72</ins></strong> |
 | GPT-4o [21]               | 0.46 | 0.27 | 0.63 | 0.72 | 0.59 | 0.75 | 0.69 | 0.44 | 0.48 | 0.56 |
-| OpenAI-o4-mini [45]       | <ins><strong>0.63</strong></ins> | 0.35 | *0.86* | *0.89* | <ins><strong>0.78</strong></ins> | 0.79 | <ins><strong>0.88</strong></ins> | <ins><strong>0.53</strong></ins> | *0.64* | <ins><strong>0.69</strong></ins> |
+| OpenAI-o4-mini [45]       | <ins><strong>0.63</strong></ins> | 0.35 | <ins><strong>0.86</ins></strong> | <ins><strong>0.89</ins></strong> | <ins><strong>0.78</strong></ins> | *0.79* | <ins><strong>0.88</strong></ins> | <ins><strong>0.53</strong></ins> | 0.64 | <ins><strong>0.69</strong></ins> |
 
 
 
