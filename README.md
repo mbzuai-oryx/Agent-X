@@ -32,7 +32,9 @@ The comparison of GTA queries with AI-generated queries is shown in the table be
 - **[2025.5.22]** Release the GTA dataset on Hugging Face. 🎉🎉🎉
 
 ## 📚 Dataset Statistics
-A comprises a total of 229 questions. The basic dataset statistics is presented below.  The number of tools involved in each question varies from 1 to 4. The steps to resolve the questions range from 2 to 8.
+Overview of the Agent-X benchmark. Key data statistics,  overall frequency of the tool
+usage, number of steps, and distribution of tasks across the six vision-centric environments.
+
 
 <div align="center">
  <img src="data_statistics.png" width="800"/>
@@ -41,7 +43,7 @@ A comprises a total of 229 questions. The basic dataset statistics is presented 
 The detailed information of 14 tools are shown in the table below.
 
 <div align="center">
- <img src="figs/tools.jpg" width="800"/>
+ <img src="pipeline.png" width="800"/>
 </div>
 
 ## 🏆 Leaderboard, July 2024
