@@ -1,13 +1,14 @@
-<p align="center">
-    <img src="https://i.imgur.com/waxVImv.png" alt="Oryx Video-ChatGPT">
-</p>
-
+<div align="left">
+  <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif"
+       width="100%" />
+</di
 <div align="center">
 <figure class="center-figure"> <img src="logo.png" width="85%"></figure>
-</div>
-<p align="center">
-    <img src="https://i.imgur.com/waxVImv.png" alt="Oryx Video-ChatGPT">
-</p>
+
+<div align="left">
+  <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif"
+       width="100%" />
+</di
 
 <h1 align="left">
       Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks
@@ -36,12 +37,7 @@ Our work is based on the following paper:
 
 - **Correspondence:** [Tajamul Ashraf](https://www.tajamulashraf.com), [Amal Saqib](https://www.tajamulashraf.com/).
 
-<!-- full-width GIF with a 6 px black border -->
-<div align="left">
-  <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif"
-       width="100%"
-       style="border:6px solid #000;" />
-</div>
+
 
 
 ## 🚀 Updates
