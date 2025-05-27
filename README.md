@@ -33,11 +33,12 @@ Our work is based on the following paper:
 #### [Tajamul Ashraf](https://www.tajamulashraf.com)* , [Amal Saqib](https://www.tajamulashraf.com)* , [Omkar Thawakar](https://omkarthawakar.github.io/index.html) , [Rao Muhammad Anwer](https://mbzuai.ac.ae/study/faculty/rao-muhammad-anwer/) , [Hisham Cholakkal](https://mbzuai.ac.ae/study/faculty/hisham-cholakkal/) , [Mubarak Shah](https://www.crcv.ucf.edu/person/mubarak-shah/) , [Ming-Hsuan Yang](https://research.google/people/105989/) , [Philip H.S. Torr](https://en.wikipedia.org/wiki/Philip_Torr) , [Fahad Shahbaz Khan](https://sites.google.com/view/fahadkhans/home) , and [Salman Khan](https://salman-h-khan.github.io/)  
 \* Equally contribution
 
+
+- **Correspondence:** [Tajamul Ashraf](https://www.tajamulashraf.com), [Amal Saqib](https://www.tajamulashraf.com/).
+
  <div align="left">
 <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif">
 </div>
-- **Correspondence:** [Tajamul Ashraf](https://www.tajamulashraf.com), [Amal Saqib](https://www.tajamulashraf.com/).
-
 ## 🚀 Updates
 
  [2024-07-03]: **Released evaluation & deployment code for Agent-X** 🔥🔥🔥
