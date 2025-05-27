@@ -1,10 +1,10 @@
 
 <div align="center">
-<figure class="center-figure"> <img src="media/logo.png" width="85%"></figure>
+<figure class="center-figure"> <img src="logo.png" width="85%"></figure>
 </div>
 
 <h1 align="left">
-    STaRK: Benchmarking LLM Retrieval on Textual and Relational Knowledge Bases
+      Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks
 </h1>
 
 <div align="left">
@@ -26,7 +26,7 @@
 
 
 
-# Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks
+
 
 <div align="center">
 
