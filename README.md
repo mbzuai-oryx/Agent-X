@@ -85,14 +85,20 @@ We design the Agent-X benchmark using a semi-automated pipeline that ensures eac
  <img src="pipeline.png" width="800"/>
 </div>
 
-## 🏆 Leaderboard, July 2024
+## 🏆 Leaderboard, May 2025
 
-We evaluate the language models in two modes:
-- **Step-by-step mode.** It is designed to evaluate the model's fine-grained tool-use capabilities. In this mode, the model is provided with the initial $n$ steps of the reference tool chain as prompts, with the expectation to predict the action in step $n+1$. Four metrics are devised under step-by-step mode: ***InstAcc*** (instruction following accuracy), ***ToolAcc*** (tool selection accuracy), ***ArgAcc*** (argument prediction accuracy), and ***SummAcc*** (answer summarizing accuracy).
+### Evaluation Protocol
 
-- **End-to-end mode.** It is designed to reflect the tool agent's actual task executing performance. In this mode, the model actually calls the tools and solves the problem by itself. We use ***AnsAcc*** (final answer accuracy) to measure the accuracy of the execution result. Besides, we calculate four ***F1 scores of tool selection: P, L, O, C*** in perception, operation, logic, and creativity categories, to measure the tool selection capability. 
+We evaluate models on the Agent-X benchmark across **three distinct modes**:
 
-Here is the performance of various LLMs on GTA. Inst, Tool, Arg, Summ, and Ans denote InstAcc, ToolAcc, ArgAcc SummAcc, and AnsAcc, respectively. P, O, L, C denote the F1 score of tool selection in Perception, Operation, Logic, and Creativity categories. ***Bold*** denotes the best score among all models. <ins>*Underline*</ins> denotes the best score under the same model scale. ***AnsAcc*** reflects the overall performance.
+1. **Step-by-Step**: Assesses the agent’s ability to execute individual reasoning steps, focusing on how well it follows structured tool-use sequences grounded in visual inputs.
+
+2. **Deep Reasoning**: Evaluates the coherence and logical consistency of the full reasoning trace. This mode emphasizes the agent’s capacity to integrate visual and textual context to produce semantically meaningful and factually accurate explanations.
+
+3. **Outcome**: Measures the agent’s overall task-solving performance by verifying the correctness of the final answer and appropriate tool usage.
+
+We report results using **GPT-4** and **Qwen-1.5-72B** as evaluation judges. For each metric, the **best-performing value is shown in bold and underlined**, while the **second-best is italicized**.
+
 
 ### With GPT-4o as a judge
 | **Model** | Ground<sub>s</sub> | Tool<sub>p</sub> | Tool<sub>acc</sub> | Fact<sub>acc</sub> | Context<sub>s</sub> | Fact<sub>p</sub> | Sem<sub>acc</sub> | Ground<sub>acc</sub> | Ground<sub>acc</sub><sup>*</sup> | Tool<sub>acc</sub><sup>s</sup> |
