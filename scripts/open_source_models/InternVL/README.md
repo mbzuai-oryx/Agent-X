@@ -10,6 +10,7 @@ pip install flash-attn==2.3.6 --no-build-isolation
 
 ```
 
+### Model weights
 Access the InternVL-2.5-8B and InternVL3-8B weights below:
 
 <table>
