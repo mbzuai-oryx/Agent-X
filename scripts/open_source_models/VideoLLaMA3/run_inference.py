@@ -3,7 +3,8 @@ from transformers import AutoModelForCausalLM, AutoProcessor
 import os
 import json
 import time
-
+import argparse
+parser = argparse.ArgumentParser()
 
 p = {
     "reasoning_step_format": [
