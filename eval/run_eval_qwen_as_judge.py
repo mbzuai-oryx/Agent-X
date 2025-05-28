@@ -6,22 +6,8 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import time
 import re
-
-
-device = "cuda:0"
-model_name = "Qwen3-14B"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    torch_dtype=torch.bfloat16,
-    device_map="auto",attn_implementation="flash_attention_2")
-max_new_tokens = 1024
-#)
-#model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-#    model_path, torch_dtype=torch.bfloat16, device_map="auto",attn_implementation="flash_attention_2",
-#)
-#processor = AutoProcessor.from_pretrained(model_path)
-
+import argparse
+parser = argparse.ArgumentParser()
 
 
 ###################### GROUNDING SCORE #####################################
@@ -718,12 +704,6 @@ def get_reward_score(query, reasoning_steps):
     max_new_tokens=max_new_tokens
                         )
     output_ids = generated_ids[0][len(model_inputs.input_ids[0]):].tolist() 
-    # parsing thinking content
-    # try:
-    #     # rindex finding 151668 (</think>)
-    #     index = len(output_ids) - output_ids[::-1].index(151668)
-    # except ValueError:
-    #     index = 0
     content = tokenizer.decode(output_ids, skip_special_tokens=True).strip("\n")
     response = re.sub(r"^```(?:json)?\s*|\s*```$", "", content.strip(), flags=re.IGNORECASE)
     return response
@@ -755,105 +735,109 @@ def extract_tools_used(response_dict):
 
 
 
-tool_metadata_path = "/share/data/drive_1/hanan/multiagent_eval_data/toolmeta.json"
-with open(tool_metadata_path, "r") as f:
-    tool_data = json.load(f)
-f.close()
-tool_data = json.dumps(tool_data)
-print(type(tool_data))
 
-gt_path ="/share/data/drive_1/hanan/multiagent_eval_data/VCA-Bench/metadata/master.json"
-with open(gt_path, "r") as f:
-    gt_data = json.load(f)
+if __name__ == "__main__":
 
-# print(gt_data["0"][0]["tool_metadata"])
-# print(gt_data["0"][0]["reasoning_steps"])
-# print(gt_data["0"][0]["final_answer"])
+    device = "cuda:0"
+    model_name = "Qwen/Qwen3-14B"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=torch.bfloat16,
+        device_map="auto",attn_implementation="flash_attention_2")
+    max_new_tokens = 1024
 
+    # Adding arguments
+    parser.add_argument("--save_path",default="eval_results.json", help = "path to Output evaluation results json file")
+    parser.add_argument("--pred_path", default="qwenvl_results_final.json", help = "path to model predictions json file")
+    parser.add_argument("--gt_data_path", default="./AgentX/data.json", help = "path to ground truth json file")
 
-pred_path ="/share/data/drive_2/hanan/kimi_vl/kimivl_results_final.json"
+    # Read arguments from command line
+    args = parser.parse_args()
 
-with open(pred_path, "r") as g:
-    pred_data = json.load(g)
+        ## read the gt reason data
+    with open(args.gt_data_path, "r") as g:
+        gt_data = json.load(g)
+    g.close()
 
-save_path = "kimivl_evaluation_results_with_qwen_judge.json"
-save_path_backup = save_path.split(".")[0]+ "_backup.json"
-save_dict = {}
-for data in pred_data:
-    key = list(data.keys())[0]
-    print(key)
-    scores = {
-                "grounding_accuracy": None,
-                "precision_score": None,
-                "tool_accuray": None,
-                "faithfulness_accuray": None,
-                "goal_accuray": None,
-                "toolset_accuray": None,
-                "step_score": None,
-                "context_score": None,
-                "clarity_penalty": None,
-                "factual_precision": None,
-                "semantic_accuracy": None,
-                "reward_score": None
-            }
-    try:
+    with open(args.pred_path, "r") as f:
+        pred_data = json.load(g)
+    f.close()
 
-        for key, value in data.items():
-            
-            gt_query = gt_data[key][0]["query"]
-            gt_tools = gt_data[key][0]["tool_metadata"].keys()
-            gt_tool_metadata = gt_data[key][0]["tool_metadata"]
-            gt_reasoning_steps = gt_data[key][0]["reasoning_steps"]
-            gt_final_answer = gt_data[key][0]["final_answer"] 
+    save_dict = {}
 
-            if 'reasoning_steps' in value.keys():
-                #pred_tools = extract_tools_used(value['reasoning_steps'])
-                pred_reasoning_steps = value['reasoning_steps']
-            else:
-                pred_tools = '[]'
-                pred_reasoning_steps = '[]'
-            if 'final_answer' in value.keys():
-                pred_final_answer = value['final_answer']
-            else:
-                pred_final_answer = '[]'
-
-            gt_final = {"query":gt_query, "GT reasoning steps":gt_reasoning_steps, "GT final answer": gt_final_answer}
-            gt_query_type = gt_data[key][0]["query_type"]
-
-            grounding_accuracy = get_grounding_score(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps,ensure_ascii=False, indent=2))
-            precision_score = get_precision_score(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
-            tool_accuray = get_tool_accuray(json.dumps(gt_tool_metadata, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
-            faithfulness_accuray = get_faithfulness_accuray(json.dumps(gt_final), json.dumps(pred_reasoning_steps))
-            goal_accuray = get_goal_accuray(json.dumps(gt_final_answer, ensure_ascii=False, indent=2), gt_query_type, json.dumps(pred_final_answer, ensure_ascii=False, indent=2))
-            toolset_accuray = get_toolset_accuray(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
-            step_score = get_step_score(json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
-            context_score = get_context_score(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
-            clarity_penalty = get_clarity_penalty(json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
-            factual_precision = get_factual_precision(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
-            semantic_accuracy = get_semantic_accuracy(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2), json.dumps(pred_final_answer, ensure_ascii=False, indent=2))
-            reward_score = get_reward_score(json.dumps(gt_query, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
-
+    for data in pred_data:
+        key = list(data.keys())[0]
+        print(key)
         scores = {
-                "grounding_accuracy": grounding_accuracy,
-                "precision_score": precision_score,
-                "tool_accuray": tool_accuray,
-                "faithfulness_accuray": faithfulness_accuray,
-                "goal_accuray": goal_accuray,
-                "toolset_accuray": toolset_accuray,
-                "step_score": step_score,
-                "context_score": context_score,
-                "clarity_penalty": clarity_penalty,
-                "factual_precision": factual_precision,
-                "semantic_accuracy": semantic_accuracy,
-                "reward_score": reward_score
-            }
-        print(scores)
-        save_dict[key] = scores
-        with open(save_path, "w") as f:
-                json.dump(save_dict, f, indent=2)
-    except Exception as e:
-        print(e)
-        save_dict[key] = scores
+                    "grounding_accuracy": None,
+                    "precision_score": None,
+                    "tool_accuray": None,
+                    "faithfulness_accuray": None,
+                    "goal_accuray": None,
+                    "toolset_accuray": None,
+                    "step_score": None,
+                    "context_score": None,
+                    "clarity_penalty": None,
+                    "factual_precision": None,
+                    "semantic_accuracy": None,
+                    "reward_score": None
+                }
+        try:
 
-with open(save_path_backup, 'w') as f:
-    json.dump(save_dict, f)
+            for key, value in pred_data.items():
+                
+                gt_query = gt_data[key][0]["query"]
+                gt_tools = gt_data[key][0]["tool_metadata"].keys()
+                gt_tool_metadata = gt_data[key][0]["tool_metadata"]
+                gt_reasoning_steps = gt_data[key][0]["reasoning_steps"]
+                gt_final_answer = gt_data[key][0]["final_answer"] 
+
+                if 'reasoning_steps' in value.keys():
+                    #pred_tools = extract_tools_used(value['reasoning_steps'])
+                    pred_reasoning_steps = value['reasoning_steps']
+                else:
+                    pred_tools = '[]'
+                    pred_reasoning_steps = '[]'
+                if 'final_answer' in value.keys():
+                    pred_final_answer = value['final_answer']
+                else:
+                    pred_final_answer = '[]'
+
+                gt_final = {"query":gt_query, "GT reasoning steps":gt_reasoning_steps, "GT final answer": gt_final_answer}
+                gt_query_type = gt_data[key][0]["query_type"]
+
+                grounding_accuracy = get_grounding_score(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps,ensure_ascii=False, indent=2))
+                precision_score = get_precision_score(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
+                tool_accuray = get_tool_accuray(json.dumps(gt_tool_metadata, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
+                faithfulness_accuray = get_faithfulness_accuray(json.dumps(gt_final), json.dumps(pred_reasoning_steps))
+                goal_accuray = get_goal_accuray(json.dumps(gt_final_answer, ensure_ascii=False, indent=2), gt_query_type, json.dumps(pred_final_answer, ensure_ascii=False, indent=2))
+                toolset_accuray = get_toolset_accuray(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
+                step_score = get_step_score(json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
+                context_score = get_context_score(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
+                clarity_penalty = get_clarity_penalty(json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
+                factual_precision = get_factual_precision(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
+                semantic_accuracy = get_semantic_accuracy(json.dumps(gt_final, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2), json.dumps(pred_final_answer, ensure_ascii=False, indent=2))
+                reward_score = get_reward_score(json.dumps(gt_query, ensure_ascii=False, indent=2), json.dumps(pred_reasoning_steps, ensure_ascii=False, indent=2))
+
+            scores = {
+                    "grounding_accuracy": grounding_accuracy,
+                    "precision_score": precision_score,
+                    "tool_accuray": tool_accuray,
+                    "faithfulness_accuray": faithfulness_accuray,
+                    "goal_accuray": goal_accuray,
+                    "toolset_accuray": toolset_accuray,
+                    "step_score": step_score,
+                    "context_score": context_score,
+                    "clarity_penalty": clarity_penalty,
+                    "factual_precision": factual_precision,
+                    "semantic_accuracy": semantic_accuracy,
+                    "reward_score": reward_score
+                }
+            print(scores)
+            save_dict[key] = scores
+            with open(args.save_path, "w") as f:
+                    json.dump(save_dict, f, indent=2)
+        except Exception as e:
+            print(e)
+            save_dict[key] = scores
