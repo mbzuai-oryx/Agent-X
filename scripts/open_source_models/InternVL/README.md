@@ -12,8 +12,6 @@ pip install flash-attn==2.3.6 --no-build-isolation
 
 Access the InternVL-2.5-8B and InternVL3-8B weights below:
 
-#### Multimodal Large Language Model (InternVL 2.5)
-
 <table>
   <tr>
     <th>Model Name</th>
