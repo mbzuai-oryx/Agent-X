@@ -76,7 +76,9 @@ allowed_tools = {
 
 ### Bar Chart: Tool Call Success vs Failures
 
-![Tool Call Chart](tool_calls.png)
+<div align="center">
+ <img src="tool_calls.png" width="800"/>
+</div>
 
 
 ---
@@ -112,7 +114,9 @@ compare_models_goal_accuracy_trends([...])
 
 ### Goal Accuracy vs. Reasoning Steps
 
-![Goal Accuracy vs. Reasoning Steps Chart](goalvsreasoning.png)
+<div align="center">
+ <img src="goalvsreasoning.png" width="800"/>
+</div>
 
 ---
 
@@ -126,7 +130,10 @@ grouped = df.groupby("difficulty")["goal_accuray"].mean()
 
 ### Accuracy by Difficulty
 
-![Difficulty Chart](difficulty.png)
+<div align="center">
+ <img src="difficulty.png" width="800"/>
+</div>
+
 
 
 ---
