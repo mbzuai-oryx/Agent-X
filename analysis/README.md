@@ -112,9 +112,7 @@ compare_models_goal_accuracy_trends([...])
 
 ### Goal Accuracy vs. Reasoning Steps
 
-<div align="center">
- <img src="goalvsreasoning.png" width="800"/>
-</div>
+![Goal Accuracy vs. Reasoning Steps Chart](goalvsreasoning.png)
 
 ---
 
@@ -128,9 +126,7 @@ grouped = df.groupby("difficulty")["goal_accuray"].mean()
 
 ### Accuracy by Difficulty
 
-<div align="center">
- <img src="difficulty.png" width="800"/>
-</div>
+![Difficulty Chart](difficulty.png)
 
 
 ---
