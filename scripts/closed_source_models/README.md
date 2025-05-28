@@ -13,7 +13,7 @@ export OPENAI_API_KEY=""
 ### Run inference
 
 ```
-python run_inference.py --save_path <path to json for saving inference results> \
+python run_inference_gpt.py --save_path <path to json for saving inference results> \
 					--base_path <path to base data files folder> \
 				 	--tool_data_path <path to tool metadata json file> \
  					--gt_data_path <path to groundtruth data json> \
@@ -37,7 +37,7 @@ export GOOGLE_API_KEY=""
 ### Run inference
 
 ```
-python run_inference.py --save_path <path to json for saving inference results> \
+python run_inference_gemini.py --save_path <path to json for saving inference results> \
 					--base_path <path to base data files folder> \
 				 	--tool_data_path <path to tool metadata json file> \pip install google-generativeai
  					--gt_data_path <path to groundtruth data json> \
