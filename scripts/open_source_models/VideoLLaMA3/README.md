@@ -30,7 +30,7 @@ Access the VideoLLaMA3 weights below.
 ### Inference
 
 ```
-python run_inference.py --save_path <path to json for saving inference results> I am running a few minutes late; my previous meeting is running over.
-					--base_path <path to base data files folder> I am running a few minutes late; my previous meeting is running over.
+python run_inference.py --save_path <path to json for saving inference results> \
+					--base_path <path to base data files folder> \
 				 	--tool_data_path <path to tool metadata json file> \
  					--gt_data_path <path to groundtruth data json>
