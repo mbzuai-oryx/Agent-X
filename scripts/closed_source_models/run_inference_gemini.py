@@ -6,7 +6,7 @@ import google.generativeai as genai
 from PIL import Image
 
 # Configure Gemini API
-genai.configure(api_key="AIzaSyDQEnZPFsNrlsPdU5SmPd3qjaRqxeeawd4") # Or use `GOOGLE_API_KEY` as env var
+#genai.configure(api_key="") # Or use `GOOGLE_API_KEY` as env var
 import cv2
 import os
 import time
@@ -16,12 +16,8 @@ import time
 import base64
 import ast 
 import re
-
-tool_metadata_path = "/share/data/drive_1/hanan/multiagent_eval_data/toolmeta.json"
-with open(tool_metadata_path, "r") as f:
-    meta_data = json.load(f)
-f.close()
-meta_data = json.dumps(meta_data)
+import argparse
+parser = argparse.ArgumentParser()
 
 p = """
     "reasoning_step_format": [
@@ -63,22 +59,7 @@ p = """
         "final_answer": {"value": "The man is playing a guitar in the video.", "justification":  "Through scene segmentation and targeted action recognition, we isolated the most relevant frames and identified the man's activity with high confidence, leading to a precise and grounded answer."
             }
         }
-"""
-instruction_prompt = "You are an intelligent multi-modal agent. You are provided with:\n" \
-             "- A text query\n" \
-             "- An image or video\n" \
-             "- A set of tools to assist with your reasoning with meta data of tools given as follows:\n"\
-             f"{meta_data}\n\n" \
-             "Your objective is to answer the query based on the given visual content " \
-             "by choosing and using the most appropriate tools. You must reason step-by-step. " \
-             "Each reasoning step should include: \n" \
-             + p
-            #   + json.dumps(p, indent=2)
-
-reasoning_data_path ="/share/data/drive_1/hanan/multiagent_eval_data/VCA-Bench/metadata/verified_data.json"
-with open(reasoning_data_path, "r") as g:
-    reason_data = json.load(g)
-
+    """
 
 def encode_image_base64(image_path):
     with open(image_path, "rb") as img_file:
@@ -128,64 +109,107 @@ def gemini_infer(prompt, input_path, is_video=False):
     return response.text
 
 
-model = genai.GenerativeModel(model_name = 'gemini-2.5-pro-preview-05-06', system_instruction = instruction_prompt)
-
-final_results = []
-#base_path = "/share/data/drive_1/hanan/multiagent_eval_data/10_samples"
-base_path = "/share/data/drive_1/hanan/multiagent_eval_data/VCA-Bench/samples"
-
-save_path = "gemini25_results_final.json"
-
-for key, value in reason_data.items():
-    d = {}
-    try:
-        video_flag = False
-        data = reason_data[key][0]
-        sample = data["file_path"]
-        sample_list = [img.strip() for img in sample.split(",")]
-        if sample_list[0].split(".")[1] in ["mp4", "avi", "mov"]:
-            video_flag = True
-        sample_path = [os.path.join(base_path, s) for s in sample_list]
-        query = data["query"]
-        print(sample_path)
-        if not video_flag:
-            parts = [encode_image_base64(p) for p in sample_path]
-            parts.append("Query: " + query)
-            model_response = model.generate_content(parts)
+## model_name = gemini-1.5-pro or gemini-2.5-pro-preview-05-06
 
 
-        else:
-            frame_paths, temp_dir = extract_video_frames(sample_path[0])
-            base64_images = [encode_image_base64(p) for p in frame_paths]
-            parts = base64_images + ["Query: " + query]
-            model_response = model.generate_content(parts)
+if __name__=="__main__":
+
+    final_results = []
+
+    # Adding arguments
+    parser.add_argument("--save_path",default="gemini_final_results.json", help = "path to Output file")
+    parser.add_argument("--base_path", default="./AgentX/files",help = "path to data folder")
+    parser.add_argument("--tool_data_path", default="./AgentX/tools_metadata.json", help = "path to tool metadata json file")
+    parser.add_argument("--gt_data_path", default="./AgentX/data.json", help = "path to ground truth json file")
+    parser.add_argument("--gemini_type", default="gemini-2.5-pro-preview-05-06",choices=["gemini-1.5-pro", "gemini-2.5-pro-preview-05-06"], help = "choice of gemini models")
+
+
+    # Read arguments from command line
+    args = parser.parse_args()
+
+    model = genai.GenerativeModel(model_name = args.gemini_type, system_instruction = instruction_prompt)
+
+        ## read the gt reason data
+    with open(args.gt_data_path, "r") as g:
+        reason_data = json.load(g)
+    g.close()
+    
+    ## read the tool meta data
+    with open(args.tool_data_path, "r") as f:
+        meta_data = json.load(f)
+    f.close()
+    meta_data = json.dumps(meta_data)
+
+    instruction_prompt = "You are an intelligent multi-modal agent. You are provided with:\n" \
+             "- A text query\n" \
+             "- An image or video\n" \
+             "- A set of tools to assist with your reasoning with meta data of tools given as follows:\n"\
+             f"{meta_data}\n\n" \
+             "Your objective is to answer the query based on the given visual content " \
+             "by choosing and using the most appropriate tools. You must reason step-by-step. " \
+             "Each reasoning step should include: \n" \
+             + p
+
+    for key, value in reason_data.items():
+        d = {}
+        try:
+            video_flag = False
+            data = reason_data[key][0]
+            sample = data["file_path"]
+            sample_list = [img.strip() for img in sample.split(",")]
+            if sample_list[0].split(".")[1] in ["mp4", "avi", "mov"]:
+                video_flag = True
+            sample_path = [os.path.join(args.base_path, s) for s in sample_list]
+            query = data["query"]
+            
+            if not video_flag:
+                parts = [encode_image_base64(p) for p in sample_path]
+                parts.append("Query: " + query)
+                model_response = model.generate_content(parts)
+
+
+            else:
+                frame_paths, temp_dir = extract_video_frames(sample_path[0])
+                base64_images = [encode_image_base64(p) for p in frame_paths]
+                parts = base64_images + ["Query: " + query]
+                model_response = model.generate_content(parts)
 
 
 
-        response = model_response.text.strip()
-        response = re.sub(r"^```(?:json)?\s*|\s*```$", "", response.strip(), flags=re.IGNORECASE)
-        if isinstance(response, str):
-            try:
-                response_dict = json.loads(response)
-                # if all(k in response_dict for k in required_keys):
-                d[key] = {
-                        "query": query,
-                        "filename": sample,
-                        **response_dict
-                    }
-
-            except json.JSONDecodeError:
-                print(f"Invalid JSON on attempt")
+            response = model_response.text.strip()
+            response = re.sub(r"^```(?:json)?\s*|\s*```$", "", response.strip(), flags=re.IGNORECASE)
+            if isinstance(response, str):
                 try:
-                    response_dict = ast.literal_eval(response)
+                    response_dict = json.loads(response)
+                    # if all(k in response_dict for k in required_keys):
                     d[key] = {
-                        "query": query,
-                        "filename": sample,
-                        **response_dict
-                                    }
-                except:
+                            "query": query,
+                            "filename": sample,
+                            **response_dict
+                        }
 
-                    d[key] = {
+                except json.JSONDecodeError:
+                    print(f"Invalid JSON on attempt")
+                    try:
+                        response_dict = ast.literal_eval(response)
+                        d[key] = {
+                            "query": query,
+                            "filename": sample,
+                            **response_dict
+                                        }
+                    except:
+
+                        d[key] = {
+                            "query": query,
+                            "filename": sample,
+                            "reasoning_steps": "",
+                            "final_answer": {
+                                "value": "",
+                                "justification": ""
+                            }
+                        }
+            else:
+                d[key] = {
                         "query": query,
                         "filename": sample,
                         "reasoning_steps": "",
@@ -194,32 +218,13 @@ for key, value in reason_data.items():
                             "justification": ""
                         }
                     }
-        else:
-            d[key] = {
-                    "query": query,
-                    "filename": sample,
-                    "reasoning_steps": "",
-                    "final_answer": {
-                        "value": "",
-                        "justification": ""
-                    }
-                }
-        print(response)
-        final_results.append(d)
-        with open(save_path, "w") as f:
-            json.dump(final_results, f, indent=2)
-        time.sleep(5)
-        if video_flag:
-            shutil.rmtree(temp_dir)
-    except Exception as e:
-        print(f"Exception for key {key}: {e}")
-        continue
-
-
-    
-with open('gemini25_results_final_backup.json', 'w') as f:
-    json.dump(final_results, f)
-
-
-# === Example Usage ===
-
+            print(response)
+            final_results.append(d)
+            with open(args.save_path, "w") as f:
+                json.dump(final_results, f, indent=2)
+            time.sleep(5)
+            if video_flag:
+                shutil.rmtree(temp_dir)
+        except Exception as e:
+            print(f"Exception for key {key}: {e}")
+            continue
