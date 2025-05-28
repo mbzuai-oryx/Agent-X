@@ -39,7 +39,7 @@ export GOOGLE_API_KEY=""
 ```
 python run_inference_gemini.py --save_path <path to json for saving inference results> \
 					--base_path <path to base data files folder> \
-				 	--tool_data_path <path to tool metadata json file> \pip install google-generativeai
+				 	--tool_data_path <path to tool metadata json file> \
  					--gt_data_path <path to groundtruth data json> \
 					--gemini_type gemini-2.5-pro-preview-05-06
 ```
