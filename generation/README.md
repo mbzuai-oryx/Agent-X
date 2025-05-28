@@ -1,4 +1,4 @@
-# 🧠 Agent-X: Generation Pipeline
+# Agent-X: Generation Pipeline
 
 This directory contains scripts used to generate the **query–reasoning pairs** that form the basis of the Agent-X benchmark. The pipeline consists of three main stages:
 
@@ -8,13 +8,13 @@ This directory contains scripts used to generate the **query–reasoning pairs**
 
 ---
 
-## 🎬 0. Video Frame Extraction
+## 0. Video Frame Extraction
 
 **Script:** `video_frames.py`
 
 This utility dynamically extracts frames from video files to use as input for the Agent-X pipeline. Since most vision-language models do not accept raw video input, we sample frames instead.
 
-### 🔹 What It Does
+### What It Does
 
 - Reads all `.mp4`, `.avi`, `.mov`, or `.mkv` files in a given folder
 - Dynamically selects `nth` frame based on video length:
@@ -25,23 +25,23 @@ This utility dynamically extracts frames from video files to use as input for th
   - >1000 frames → every 50th frame
 - Saves extracted frames to an output folder as `.jpg`
 
-### 🔹 Usage
+###  Usage
 
 Call the function `extract_every_nth_frame_dynamic(video_folder, output_folder)` in your script or notebook. The output can then be used in `query_generation.py`.
 
 ---
 
-## ✨ 1. Query Generation
+## 1. Query Generation
 
 **Script:** `query_generation.py`
 
 This script uses OpenAI's GPT-4o to generate **natural language queries** based on visual inputs. The queries are constrained to be complex, tool-relevant, and human-verifiable, matching Agent-X task requirements.
 
-### 🔹 Input
+###  Input
 
 - A folder of `.jpg`, `.jpeg`, or `.png` files (configurable via `folder_path`)
 
-### 🔹 Output
+###  Output
 
 - `Generative_Queries.xlsx`:
   - `File path`
@@ -50,7 +50,7 @@ This script uses OpenAI's GPT-4o to generate **natural language queries** based 
 - `failed_images.txt` — list of files that failed to process
 - Optional: cleaned file paths in the Excel sheet
 
-### 📋 Prompt Constraints
+###  Prompt Constraints
 
 The model is instructed to:
 
@@ -61,19 +61,19 @@ The model is instructed to:
 
 ---
 
-## 🔎 2. Reasoning Generation
+##  2. Reasoning Generation
 
 **Script:** `reasoning_generation.py`
 
 This script takes human refined queries and generates detailed **reasoning traces**, including the tools used, their input/output, and the thought process for each step.
 
-### 🔹 Input
+###  Input
 
 - Refined queries from `refined_queries_<batch>.xlsx` (editable by annotators)
 - Image(s) or video frame folder corresponding to each query
 - Tool metadata from `toolmeta.json`
 
-### 🔹 Output
+###  Output
 
 - `generated_agent_reasoning_<batch>.xlsx`:
   - `Query`
@@ -81,7 +81,7 @@ This script takes human refined queries and generates detailed **reasoning trace
   - `Final Answer` and its `Justification`
   - `Tools Used` and `Total Steps`
 
-### 🧠 What It Does
+###  What It Does
 
 - Builds a system prompt with all tool descriptions
 - Encodes image(s) or video frames to base64
@@ -90,7 +90,7 @@ This script takes human refined queries and generates detailed **reasoning trace
 
 ---
 
-## 🧪 Notes
+##  Notes
 
 - Both scripts require an OpenAI API key in a file named `openai_key.txt`
 - The generation pipeline is semi-automated: queries are **machine-generated then human-refined**, and final reasoning is again **machine-generated then validated**
@@ -99,7 +99,7 @@ This script takes human refined queries and generates detailed **reasoning trace
 
 ---
 
-## 🔧 Configuration Tips
+## Configuration Tips
 
 - Change `folder_path`, `BATCH`, or output filenames at the top of each script
 - Ensure `toolmeta.json` is correctly formatted with tool names, inputs, and output descriptions
