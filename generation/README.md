@@ -2,9 +2,9 @@
 
 This directory contains scripts used to generate the **query–reasoning pairs** that form the basis of the Agent-X benchmark. The pipeline consists of three main stages:
 
-- `video_frames.py` — for extracting key frames from videos
-- `query_generation.py` — for generating realistic, multi-step queries from images
-- `reasoning_generation.py` — for producing complete step-by-step tool-use reasoning traces in response to the refined queries
+- `video_frames.py`: for extracting key frames from videos
+- `query_generation.py`: for generating realistic, multi-step queries from images and video frames
+- `reasoning_generation.py`: for producing complete step-by-step tool-use reasoning traces in response to the human refined queries
 
 ---
 
@@ -65,7 +65,7 @@ The model is instructed to:
 
 **Script:** `reasoning_generation.py`
 
-This script takes refined queries and generates detailed **reasoning traces**, including the tools used, their input/output, and justifications for each step.
+This script takes human refined queries and generates detailed **reasoning traces**, including the tools used, their input/output, and the thought process for each step.
 
 ### 🔹 Input
 
@@ -94,7 +94,8 @@ This script takes refined queries and generates detailed **reasoning traces**, i
 
 - Both scripts require an OpenAI API key in a file named `openai_key.txt`
 - The generation pipeline is semi-automated: queries are **machine-generated then human-refined**, and final reasoning is again **machine-generated then validated**
-- Output files are in Excel format for easy review
+- Intermediate outputs are stored in Excel format to simplify human annotation
+- The final dataset is exported in JSON format for integration with the Agent-X benchmark
 
 ---
 
@@ -102,19 +103,3 @@ This script takes refined queries and generates detailed **reasoning traces**, i
 
 - Change `folder_path`, `BATCH`, or output filenames at the top of each script
 - Ensure `toolmeta.json` is correctly formatted with tool names, inputs, and output descriptions
-
----
-
-## 🗂 Example Outputs
-
-### ✨ Query Example
-
-| File path              | Generated Query                                    |
-|------------------------|----------------------------------------------------|
-| reasoning/img1.jpg     | How many children are wearing helmets, and what color are they? |
-
-### 🔍 Reasoning Trace (Simplified)
-
-| Query | Reasoning Steps | Final Answer | Tools Used |
-|-------|------------------|---------------|-------------|
-| How many... | Step 1: Detect people → Step 2: Filter children → Step 3: Count helmets | 3 children, red and blue helmets | ObjectDetector, AttributeFilter |
