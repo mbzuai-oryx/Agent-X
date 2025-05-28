@@ -1,14 +1,14 @@
-# 📊 Agent-X Evaluation Notebooks
+# Agent-X Evaluation Notebooks
 
 This directory contains two Jupyter notebooks used for evaluating and analyzing the performance of models on the **Agent-X benchmark**. Each notebook serves a distinct purpose in the evaluation pipeline.
 
 ---
 
-## 📈 1. `metrics.ipynb`: Evaluation Metrics Computation
+## 1. `metrics.ipynb`: Evaluation Metrics Computation
 
 This notebook computes **quantitative performance metrics** for vision-language models on the Agent-X dataset.
 
-### 🔍 Key Features
+### Key Features
 
 - Loads model predictions and ground truth reasoning traces
 - Computes various evaluation metrics including:
@@ -21,17 +21,17 @@ This notebook computes **quantitative performance metrics** for vision-language 
   - Deep Reasoning
   - Outcome (final answer correctness)
 
-### 🧠 Use Case
+### Use Case
 
 Use this notebook when you want to **quantify model performance** across multiple reasoning dimensions.
 
 ---
 
-## 🔍 2. `error_analysis.ipynb`: Qualitative Error Categorization
+## 2. `error_analysis.ipynb`: Qualitative Error Categorization
 
 This notebook supports **manual and automatic error analysis** for model-generated reasoning traces.
 
-### 🔍 Key Features
+### Key Features
 
 - Categorizes errors into:
   - Planning
@@ -41,14 +41,14 @@ This notebook supports **manual and automatic error analysis** for model-generat
 - Highlights where the model failed in step-by-step traces
 - Aggregates error types to analyze dominant failure modes
 
-### 🧠 Use Case
+### Use Case
 
 Use this notebook when you want to **understand why** a model is failing and what kinds of reasoning or planning errors are most frequent.
 
 
 ---
 
-## ✅ Requirements
+## Requirements
 
 - Python 3.7+
 - Jupyter Notebook or JupyterLab
@@ -56,7 +56,7 @@ Use this notebook when you want to **understand why** a model is failing and wha
 
 ---
 
-## 💡 Notes
+## Notes
 
 - These notebooks assume you have the model outputs and ground truth data available in a structured format (e.g., `.csv` or `.xlsx`).
 - For best results, use them in conjunction with the `generation/` folder that provides the query and reasoning generation scripts.
