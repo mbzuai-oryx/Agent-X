@@ -15,11 +15,10 @@ import cv2
 import random
 import torch
 from transformers import AutoModelForCausalLM, AutoProcessor
-
-
-
 import re
 import json
+import argparse
+parser = argparse.ArgumentParser()
 
 def extract_last_json(text: str):
     """
