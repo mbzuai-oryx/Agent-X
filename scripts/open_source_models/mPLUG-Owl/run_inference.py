@@ -16,6 +16,8 @@ import torch
 from transformers import AutoConfig, AutoModel
 from transformers import AutoTokenizer, AutoProcessor
 from decord import VideoReader, cpu    
+import argparse
+parser = argparse.ArgumentParser()
 # pip install decord
 
 
