@@ -761,7 +761,7 @@ if __name__ == "__main__":
     g.close()
 
     with open(args.pred_path, "r") as f:
-        pred_data = json.load(g)
+        pred_data = json.load(f)
     f.close()
 
     save_dict = {}
@@ -785,7 +785,7 @@ if __name__ == "__main__":
                 }
         try:
 
-            for key, value in pred_data.items():
+            for key, value in data.items():
                 
                 gt_query = gt_data[key][0]["query"]
                 gt_tools = gt_data[key][0]["tool_metadata"].keys()

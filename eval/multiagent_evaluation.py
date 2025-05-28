@@ -1,6 +1,6 @@
 import openai
 
-#openai.api_key = ""
+openai.api_key = "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"
 
 gpt_judge = "gpt-4o" 
 
