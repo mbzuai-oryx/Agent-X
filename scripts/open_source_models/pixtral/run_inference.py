@@ -15,7 +15,8 @@ import cv2
 import random
 from transformers import AutoProcessor, LlavaForConditionalGeneration
 import torch
-
+import argparse
+parser = argparse.ArgumentParser()
 
 
 def extract_last_json_block(text: str) -> dict:
