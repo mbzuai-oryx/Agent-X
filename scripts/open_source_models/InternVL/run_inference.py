@@ -11,12 +11,9 @@ from torchvision.transforms.functional import InterpolationMode
 from transformers import AutoModel, AutoTokenizer
 import os
 import time
+import argparse
+parser = argparse.ArgumentParser()
 
-tool_metadata_path = "/share/data/drive_1/hanan/multiagent_eval_data/toolmeta.json"
-with open(tool_metadata_path, "r") as f:
-    meta_data = json.load(f)
-f.close()
-meta_data = json.dumps(meta_data)
 
 p = {
     "reasoning_step_format": [
@@ -58,15 +55,6 @@ p = {
         }
 }
 
-instruction_prompt = "You are an intelligent multi-modal agent. You are provided with:\n" \
-             "- A text query\n" \
-             "- An image or video\n" \
-             "- A set of tools to assist with your reasoning with meta data of tools given as follows:\n"\
-             f"{meta_data}\n\n" \
-             "Your objective is to answer the query based on the given visual content " \
-             "by choosing and using the most appropriate tools. You must reason step-by-step. " \
-             "Each reasoning step should include: \n\n" \
-              + json.dumps(p, indent=2)
 
 
 def split_model(model_name):
@@ -210,12 +198,7 @@ def load_video(video_path, bound=None, input_size=448, max_num=1, num_segments=3
 if __name__ == "__main__":
 
     required_keys = ["reasoning_steps", "final_answer"]
-    reasoning_data_path ="/share/data/drive_1/hanan/multiagent_eval_data/VCA-Bench/metadata/verified_data.json"
-    with open(reasoning_data_path, "r") as g:
-        reason_data = json.load(g)
-
-    path = "/share/data/drive_1/hanan/InternVL/InternVL3-8B"
-
+    path = "OpenGVLab/InternVL3-8B"
     model = AutoModel.from_pretrained(
     path,
     torch_dtype=torch.bfloat16,
@@ -226,8 +209,37 @@ if __name__ == "__main__":
 
 
     final_results = []
-    base_path = "/share/data/drive_1/hanan/multiagent_eval_data/VCA-Bench/samples"
-    save_path = "internvl3_results_final.json"
+    max_attempts = 2
+
+    # Adding arguments
+    parser.add_argument("--save_path",default="internvl_final_results.json", help = "path to Output file")
+    parser.add_argument("--base_path", default="./AgentX/files",help = "path to data folder")
+    parser.add_argument("--tool_data_path", default="./AgentX/tools_metadata.json", help = "path to tool metadata json file")
+    parser.add_argument("--gt_data_path", default="./AgentX/data.json", help = "path to ground truth json file")
+
+    # Read arguments from command line
+    args = parser.parse_args()
+
+        ## read the gt reason data
+    with open(args.gt_data_path, "r") as g:
+        reason_data = json.load(g)
+    g.close()
+    
+    ## read the tool meta data
+    with open(args.tool_data_path, "r") as f:
+        meta_data = json.load(f)
+    f.close()
+    meta_data = json.dumps(meta_data)
+
+    instruction_prompt = "You are an intelligent multi-modal agent. You are provided with:\n" \
+             "- A text query\n" \
+             "- An image or video\n" \
+             "- A set of tools to assist with your reasoning with meta data of tools given as follows:\n"\
+             f"{meta_data}\n\n" \
+             "Your objective is to answer the query based on the given visual content " \
+             "by choosing and using the most appropriate tools. You must reason step-by-step. " \
+             "Each reasoning step should include: \n\n" \
+              + json.dumps(p, indent=2)
 
     for key, value in reason_data.items():
         d = {}
@@ -238,7 +250,7 @@ if __name__ == "__main__":
             sample_list = [img.strip() for img in sample.split(",")]
             if sample_list[0].split(".")[1] in ["mp4", "avi", "mov"]:
                 video_flag = True
-            sample_path = [os.path.join(base_path, s) for s in sample_list]
+            sample_path = [os.path.join(args.base_path, s) for s in sample_list]
             query = data["query"]
             generation_config = dict(max_new_tokens=1024, do_sample=True)
 
@@ -303,57 +315,8 @@ if __name__ == "__main__":
                 }
 
             final_results.append(d)
-            with open(save_path, "w") as f:
+            with open(args.save_path, "w") as f:
                 json.dump(final_results, f, indent=2)
         except Exception as e:
             print(f"Exception for key {key}: {e}")
             continue
-
-
-        
-    with open('InternVL3_results_final_backup.json', 'w') as f:
-        json.dump(final_results, f)
-# if __name__ == "__main__":
-
-    
-
-#     path = "/share/data/drive_1/hanan/InternVL/InternVL2_5-8B"
-
-#     model = AutoModel.from_pretrained(
-#     path,
-#     torch_dtype=torch.bfloat16,
-#     low_cpu_mem_usage=True,
-#     use_flash_attn=True,
-#     trust_remote_code=True).eval().cuda()
-#     tokenizer = AutoTokenizer.from_pretrained(path, trust_remote_code=True, use_fast=False)
-
-#     ############################################ Image Inference ######################################################
-
-#     # # set the max number of tiles in `max_num`
-#     # pixel_values = load_image('/share/data/drive_1/hanan/video_gui_frames/RW_1/frame_00099.jpg', max_num=12).to(torch.bfloat16).cuda()
-#     generation_config = dict(max_new_tokens=1024, do_sample=True)
-
-#     # question = '<image>\nPlease describe the image shortly.'
-#     # response = model.chat(tokenizer, pixel_values, question, generation_config)
-#     # print(f'User: {question}\nAssistant: {response}')
-
-
-#     ############################################ Video Inference ######################################################
-
-#     video_path = '/share/data/drive_1/hanan/end.mp4'
-#     pixel_values, num_patches_list = load_video(video_path, num_segments=8, max_num=1)
-#     pixel_values = pixel_values.to(torch.bfloat16).cuda()
-
-
-#     video_prefix = ''.join([f'Frame{i+1}: <image>\n' for i in range(len(num_patches_list))])
-#     question = video_prefix + 'What is happening in the video?'
-#     # Frame1: <image>\nFrame2: <image>\n...\nFrame8: <image>\n{question}
-#     response, history = model.chat(tokenizer, pixel_values, question, generation_config,
-#                                 num_patches_list=num_patches_list, history=None, return_history=True)
-#     print(f'User: {question}\nAssistant: {response}')
-
-
-#     # question = 'Describe this video in detail.'
-#     # response, history = model.chat(tokenizer, pixel_values, question, generation_config,
-#     #                             num_patches_list=num_patches_list, history=None, return_history=True)
-#     # print(f'User: {question}\nAssistant: {response}')
