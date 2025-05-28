@@ -6,57 +6,134 @@ This directory contains two Jupyter notebooks used for evaluating and analyzing 
 
 ## 1. `metrics.ipynb`: Evaluation Metrics Computation
 
-This notebook computes **quantitative performance metrics** for vision-language models on the Agent-X dataset.
+This notebook performs **quantitative evaluation** of model performance on the Agent-X benchmark, focusing on reasoning accuracy, tool usage correctness, and outcome quality.
 
-### Key Features
+It is structured to compute and visualize:
 
-- Loads model predictions and ground truth reasoning traces
-- Computes various evaluation metrics including:
-  - **Step Accuracy**
-  - **Tool Usage Accuracy**
-  - **Final Answer Accuracy**
-  - **Deep Reasoning Quality Scores**
-- Supports evaluation under multiple modes:
-  - Step-by-step
-  - Deep Reasoning
-  - Outcome (final answer correctness)
-
-### Use Case
-
-Use this notebook when you want to **quantify model performance** across multiple reasoning dimensions.
+- Goal Accuracy
+- Tool Metrics for Generative Queries
+- Tool Call Success/Failure
+- Reasoning Step Trends
+- Difficulty-based Breakdown
 
 ---
 
-## 2. `error_analysis.ipynb`: Qualitative Error Categorization
+## Goal Accuracy Computation
 
-This notebook supports **manual and automatic error analysis** for model-generated reasoning traces.
+The notebook begins by computing **goal accuracy (G<sub>acc</sub>)** for each example.
 
-### Key Features
+### Step 1: Filter Generative Queries
 
-- Categorizes errors into:
-  - Planning
-  - Tool misuse
-  - Format inconsistency
-  - Logical incoherence
-- Highlights where the model failed in step-by-step traces
-- Aggregates error types to analyze dominant failure modes
+We exclude generation-based examples (`GENERATIVE_IDS`) when computing the global goal accuracy because they follow a different evaluation scheme.
 
-### Use Case
+```python
+# Clear goal_accuracy for generative rows
+df.at[idx, "goal_accuray"] = ""
+```
 
-Use this notebook when you want to **understand why** a model is failing and what kinds of reasoning or planning errors are most frequent.
+### Step 2: Global Average Accuracy
 
+After filtering, the notebook computes the average `goal_accuray` across the rest of the dataset for a reliable benchmark.
+
+### Step 3: Goal Score ★ for Generative Subset
+
+Since generative queries don't have ground-truth answers, we approximate their goal success by averaging the following tool-based scores:
+
+- `precision_score`
+- `tool_accuray`
+- `toolset_accuray`
+
+This forms the **G<sub>a</sub><sup>*</sup> (Goal Accuracy Star)** metric.
+
+```python
+subset_means = {
+    "precision_score": ...,
+    "tool_accuray": ...,
+    "toolset_accuray": ...
+}
+```
 
 ---
 
-## Requirements
+## Tool Call Statistics
 
-- Python 3.7+
-- Jupyter Notebook or JupyterLab
-- `pandas`, `openpyxl`, `matplotlib`, and any other packages noted in the first cells of the notebooks
+We analyze how often tools were used successfully or failed across different models. This helps uncover issues like:
+
+- Missing tool outputs
+- Missing tool names
+- Invalid tool calls
+
+### Allowed Tool List
+
+```python
+allowed_tools = {
+    "Calculator", "OCR", "ObjectCounter", "SceneDescriber",
+    "WebSearch", "RegionDescriber", "LocateObjectByText",
+    "CodePlotter", "MathOCR", "Solver", "DrawBoundingBox",
+    "OverlayText", "ImageGenerator", "ImageStylization"
+}
+```
+
+### Bar Chart: Tool Call Success vs Failures
+
+![Tool Call Bar Chart](tool_call.png)
 
 ---
 
-## Notes
+## Tool Usage Summary
 
-- These notebooks assume you have the model outputs and ground truth data available in a structured format (e.g., `.csv` or `.xlsx`).
-- For best results, use them in conjunction with the `generation/` folder that provides the query and reasoning generation scripts.
+For each JSON file of reasoning traces, the notebook extracts:
+
+- Total reasoning steps
+- Unique tools used
+- Tool usage distribution
+
+Saved as a `*.csv` file to compare models and enable trend plots.
+
+```python
+{
+    "id": 43,
+    "total_steps": 5,
+    "unique_tools_used": 3,
+    ...
+}
+```
+
+---
+
+## Trend: Goal Accuracy vs Tool Count / Step Depth
+
+This part plots how reasoning **depth** and **tool diversity** affect performance.
+
+```python
+compare_models_goal_accuracy_trends([...])
+```
+
+### Goal Accuracy vs. Reasoning Steps
+
+![Reasoning Chain Depth](goal_acc_vs_reasoning_steps.png)
+
+---
+
+## Difficulty-wise Goal Accuracy (GPT-4o Categorized)
+
+We use a GPT-4o-generated categorization of query difficulty (`easy`, `medium`, `hard`) to plot how well models perform on hard vs. easy tasks.
+
+```python
+grouped = df.groupby("difficulty")["goal_accuray"].mean()
+```
+
+### Accuracy by Difficulty
+
+![Goal Accuracy by Difficulty](difficulty.png)
+
+---
+
+## Summary
+
+This notebook provides:
+
+- A principled way to **isolate evaluation** of generative and non-generative queries
+- Insights into **tool usage effectiveness**
+- Trend analysis on **reasoning depth** and **difficulty**
+- Exportable CSVs for further aggregation or leaderboard integration
