@@ -19,6 +19,8 @@ import re
 import json
 from typing import Union,Optional
 from typing import Optional, Dict, Any
+import argparse
+parser = argparse.ArgumentParser()
 
 def extract_last_json_block(text: str) -> Optional[Dict[str, Any]]:
     """
