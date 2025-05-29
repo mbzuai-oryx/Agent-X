@@ -4,8 +4,8 @@
 
 ```
 conda create -n kimivl python==3.10
-pip install -r requirements.txt
 conda activate kimivl
+pip install -r requirements.txt
 ```
 
 Access the Kimi-VL-A3B-Thinking weights from [here](https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking).
