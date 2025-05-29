@@ -88,7 +88,7 @@ if __name__ == "__main__":
     parser.add_argument("--base_path", default="./AgentX/files",help = "path to data folder")
     parser.add_argument("--tool_data_path", default="./AgentX/tools_metadata.json", help = "path to tool metadata json file")
     parser.add_argument("--gt_data_path", default="./AgentX/data.json", help = "path to ground truth json file")
-    parser.add_argument("--gpt_type", default="gpt-4o",choices=["gpt-4o", "o4-mini"] help = "path to ground truth json file")
+    parser.add_argument("--gpt_type", default="gpt-4o",choices=["gpt-4o", "o4-mini"] help = "Choice of GPT model")
 
     # Read arguments from command line
     args = parser.parse_args()
