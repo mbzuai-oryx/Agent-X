@@ -172,6 +172,6 @@ To evaluate the inference results of models on Agent-X-Benchmark, refer to [eval
 If you use Agent-Xin your research, please cite the following paper:
 ```
 
-}
+
 ```
 
