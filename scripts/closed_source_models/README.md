@@ -1,5 +1,5 @@
 
-## Inference using Closed Source models on Agent-X-Benchmark
+## Inference on Agent-X-Benchmark with Closed-Source Models
 
 
 ### Run GPT
