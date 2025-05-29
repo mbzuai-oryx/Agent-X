@@ -4,8 +4,8 @@
 
 ```
 conda create -n llama python==3.10
-pip install -r requirements.txt
 conda activate llama
+pip install -r requirements.txt
 ```
 
 Access the Llama-3.2-11B-Vision-Instruct weights from [here](https://huggingface.co/meta-llama/Llama-3.2-11B-Vision-Instruct).
