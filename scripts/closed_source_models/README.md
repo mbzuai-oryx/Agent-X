@@ -1,10 +1,10 @@
 
-# Inference using Closed Source models
+## Inference using Closed Source models on Agent-X-Benchmark
 
 
-## Run GPT
+### Run GPT
 
-### Install necessary packages
+#### Install necessary packages
 - Python>=3.10
 - openai==0.28.0
 
@@ -14,7 +14,7 @@ use a valid Openai key to run the inference. You can use either gpt-4o or o4-min
 export OPENAI_API_KEY=""
 ```
 
-### Run inference
+#### Run inference
 
 ```
 python run_inference_gpt.py --save_path <path to json for saving inference results> \
@@ -26,9 +26,9 @@ python run_inference_gpt.py --save_path <path to json for saving inference resul
 
 
 
-## Run Gemini
+### Run Gemini
 
-### Install necessary packages
+#### Install necessary packages
 - Python>=3.10
 - pip install google-generativeai
 
