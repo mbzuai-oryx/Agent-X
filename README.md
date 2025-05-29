@@ -74,7 +74,6 @@ usage, number of steps, and distribution of tasks across the six vision-centric 
  <img src="data_statistics.png" width="800"/>
 </div>
 
-The detailed information of 14 tools are shown in the table below.
 
 ## Our Pipeline
 We design the Agent-X benchmark using a semi-automated pipeline that ensures each task is solvable with a defined tool subset and requires deep reasoning over realistic, multimodal scenarios. The pipeline begins with an LMM (Large Multimodal Model) generating candidate queries based on visual input and an available toolset. These queries are then refined by human annotators for clarity and realism. Next, the refined queries are passed back to the LMM to produce step-by-step reasoning traces, including tool calls, intermediate outputs, and final answers. Each trace is manually reviewed for logical consistency and correctness.
