@@ -1,4 +1,4 @@
-## Model Inference on Agent-X-Benchmark
+## Inference on Agent-X-Benchmark with Open-Source Models
 
 We compute inference results on Agent-X-Benchmark across 9 open-source models. Visit the below links to run inference corresponding to each model.
 
