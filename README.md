@@ -20,7 +20,7 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2407.08713-b31b1b.svg)](https://arxiv.org/abs/2407.08713)
 [![Hugging Face](https://img.shields.io/badge/Dataset-HuggingFace-orange?logo=huggingface)](https://huggingface.co/datasets/Tajamul21/Agent-X)
 [![Download](https://img.shields.io/badge/Dataset-Download-blue?logo=cloud)](https://github.com/open-compass/GTA/releases/download/v0.1.0/gta_dataset.zip)
-[![Leaderboard](https://img.shields.io/badge/View-Leaderboard-green)](#-leaderboard)
+[![Leaderboard](https://img.shields.io/badge/View-Leaderboard-green)](#-leaderboard-may-2025)
 
 </div>
 
