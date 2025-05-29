@@ -17,7 +17,7 @@
 
 <div align="center">
 
-[![arXiv](https://img.shields.io/badge/arXiv-2407.08713-b31b1b.svg)](https://arxiv.org/abs/2407.08713)
+[![arXiv](https://img.shields.io/badge/arXiv-coming--soon-lightgrey)](https://arxiv.org)
 [![Hugging Face](https://img.shields.io/badge/Dataset-HuggingFace-orange?logo=huggingface)](https://huggingface.co/datasets/Tajamul21/Agent-X)
 [![Download](https://img.shields.io/badge/Dataset-Download-blue?logo=cloud)](https://github.com/Tajamul21/Agent-X-Benchmark/releases/download/v0.1.0/agent-X_dataset.zip)
 [![Leaderboard](https://img.shields.io/badge/View-Leaderboard-green)](#-leaderboard-may-2025)
