@@ -166,8 +166,7 @@ We report results using **GPT-4** and **Qwen-15B** as evaluation judges. For eac
 
 
 ## 🚀 Evaluate on Agent-X
-
-
+To evaluate the inference results of models on Agent-X-Benchmark, refer to [eval](https://github.com/Tajamul21/Agent-X-Benchmark/tree/main/eval).
 
 # 📝 Citation
 If you use Agent-Xin your research, please cite the following paper:
