@@ -8,6 +8,8 @@ import time
 import base64
 import ast 
 import re
+import argparse
+parser = argparse.ArgumentParser()
 
 openai.api_key = ""
 
