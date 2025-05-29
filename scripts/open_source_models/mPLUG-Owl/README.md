@@ -4,8 +4,8 @@
 
 ```
 conda create -n mplugowl python==3.10
-pip install -r requirements.txt
 conda activate mplugowl 
+pip install -r requirements.txt
 ```
 
 Access the mPLUG-Owl3-7B from [here](https://huggingface.co/mPLUG/mPLUG-Owl3-7B-240728).
