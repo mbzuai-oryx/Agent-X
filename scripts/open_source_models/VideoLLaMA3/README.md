@@ -13,6 +13,7 @@ Make conda environment and install required packages:
 
 ```bash
 conda create -n videollama3 python==3.10
+conda activate videollama3
 pip install torch==2.4.0 torchvision==0.17.0 --extra-index-url https://download.pytorch.org/whl/cu118
 
 pip install flash-attn --no-build-isolation
