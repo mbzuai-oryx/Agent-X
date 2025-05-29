@@ -39,9 +39,9 @@
 
 ## Updates
 
- [2024-07-03]: **Released evaluation & deployment code for Agent-X** 
+ [2025-05-29]: **Released evaluation & deployment code for Agent-X** 
  
-[2024-07-01]:  **Published the Agent-X dataset on Hugging Face** 
+[2025-05-22]:  **Published the Agent-X dataset on Hugging Face** 
 
 ## Introduction
 
