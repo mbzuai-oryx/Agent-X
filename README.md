@@ -50,40 +50,19 @@
 
 
 
-## 🚀 Updates
+## Updates
 
- [2024-07-03]: **Released evaluation & deployment code for Agent-X** 🔥🔥🔥
+ [2024-07-03]: **Released evaluation & deployment code for Agent-X** 
  
-[2024-07-01]:  **Published the Agent-X dataset on Hugging Face** 🎉🎉🎉
+[2024-07-01]:  **Published the Agent-X dataset on Hugging Face** 
 
-## 🌟 Introduction
+## Introduction
 
 >Current tool-use tests for vision-centric LLMs rely on single-turn, synthetic queries and text-only inputs, so they miss the real-world challenge of multi-step, multimodal reasoning. Agent-X closes this gap with 828 authentic tasks spanning images, videos, and mixed-modal instructions across six domains—from web browsing to autonomous driving. Each task demands explicit, step-by-step decisions and judicious tool use, and our evaluation scores every reasoning step as well as the overall chain. Even top models (GPT, Gemini, Qwen) solve fewer than half of these tasks, exposing major bottlenecks and pointing the way for future research.
 
-## 📂 Submodules
-
-### 🔧 Generation Pipeline
-See [`generation/README.md`](generation/README.md) for details on:
-
-- Frame extraction from video clips
-- Query generation using GPT-4o
-- Step-by-step reasoning trace generation
-
-> 📁 Path: `generation/README.md`
-
----
-
-### 📊 Analysis & Evaluation
-See [`analysis/README.md`](analysis/README.md) for:
-
-- Error analysis notebook
-- Model comparison plots
-- Tool usage breakdown and visualizations
-
-> 📁 Path: `analysis/README.md`
 
 
-## 🌟 What is Agent-X?
+## What is Agent-X?
 
 Agent-X is a benchmark for assessing deep-reasoning and tool-use skills of vision-centric LLM agents in real-world settings. It highlights three key aspects:
 - **Authentic multi-step tasks.** The benchmark offers 828 human-authored tasks with implicit tool use and sequential planning requirements, spanning six domains such as web browsing, surveillance, autonomous driving, sports, and math reasoning. 
@@ -174,8 +153,30 @@ We report results using **GPT-4** and **Qwen-15B** as evaluation judges. For eac
 
 
 
-## 🚀 Evaluate on Agent-X
+## Evaluate on Agent-X
 To evaluate the inference results of models on Agent-X-Benchmark, refer to [eval](https://github.com/Tajamul21/Agent-X-Benchmark/tree/main/eval).
+
+## 📂 Submodules
+
+### Generation Pipeline
+See [`generation/README.md`](generation/README.md) for details on:
+
+- Frame extraction from video clips
+- Query generation using GPT-4o
+- Step-by-step reasoning trace generation
+
+> 📁 Path: `generation/README.md`
+
+---
+
+### Analysis & Evaluation
+See [`analysis/README.md`](analysis/README.md) for:
+
+- Error analysis notebook
+- Model comparison plots
+- Tool usage breakdown and visualizations
+
+> 📁 Path: `analysis/README.md`
 
 # 📝 Citation
 If you use Agent-Xin your research, please cite the following paper:
