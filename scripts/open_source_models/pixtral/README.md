@@ -4,8 +4,8 @@
 
 ```
 conda create -n pixtral python==3.10
-pip install -r requirements.txt
 conda activate pixtral
+pip install -r requirements.txt
 ```
 
 Access the pixtral-12b weights from [here](https://huggingface.co/mistral-community/pixtral-12b).
