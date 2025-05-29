@@ -140,30 +140,33 @@ We report results using **GPT-4** and **Qwen-15B** as evaluation judges. For eac
 
 
 
-## Evaluate on Agent-X
-To evaluate the inference results of models on Agent-X-Benchmark, refer to [eval](https://github.com/Tajamul21/Agent-X-Benchmark/tree/main/eval).
-
 ## 📂 Submodules
 
-### Generation Pipeline
+### Generation Pipeline  
 See [`generation/README.md`](generation/README.md) for details on:
-
-- Frame extraction from video clips
-- Query generation using GPT-4o
-- Step-by-step reasoning trace generation
-
+- Frame extraction from video clips  
+- Query generation using GPT-4o  
+- Step-by-step reasoning trace generation  
 > 📁 Path: `generation/README.md`
 
 ---
 
-### Analysis & Evaluation
+### Analysis & Evaluation  
 See [`analysis/README.md`](analysis/README.md) for:
-
-- Error analysis notebook
-- Model comparison plots
-- Tool usage breakdown and visualizations
-
+- Error analysis notebook  
+- Model comparison plots  
+- Tool usage breakdown and visualizations  
 > 📁 Path: `analysis/README.md`
+
+---
+
+### Evaluation Scripts  
+See [`eval/`](eval) for:
+- Scripted evaluation of model inference results  
+- Accuracy metrics, binary matching scores, and goal success analysis  
+- Useful for benchmarking your model outputs against Agent-X GT  
+> 📁 Path: `eval/`
+
 
 ## 📝 Citation
 If you use Agent-Xin your research, please cite the following paper:
