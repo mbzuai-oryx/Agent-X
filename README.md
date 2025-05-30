@@ -1,10 +1,10 @@
-
+ +
 <p align="center">
     <img src="https://i.imgur.com/waxVImv.png" alt="Oryx Video-ChatGPT">
 </p>
 <!-- centred logo -->
 <div align="center" style="margin:24px 0;">
-  <img src="logo.png" width="85%" />
+  <img src="images/logo.png" width="85%" />
 </div>
 
 <!-- bottom full-width GIF -->
@@ -56,12 +56,12 @@ Agent-X is a benchmark for assessing deep-reasoning and tool-use skills of visio
 - **Real deployed tools.** Agent-X supplies an evaluation platform stocked with perception, web, manipulation, math, and data-processing tools, compelling agents to choose and apply the right tool at each reasoning step.
 - **Diverse multimodal contexts.**  Every task is paired with real images, multi-image comparisons, or video clips—plus textual instructions, closely mirroring the visual complexity of real-world scenarios.
 <div align="center">
- <img src="data_teasor.png" width="800"/>
+ <img src="images/data_teasor.png" width="800"/>
 </div>
 
 The comparison of Agent-Xqueries with AI-generated queries is shown in the table below. The steps and tool types for queries in ToolBench and m\&m's are explicitly stated, as marked in red and blue. The queries in APIBench are simple, only containing one step. Our GTA's queries are both step-implicit and tool-implicit.
 <div align="center">
- <img src="table_comparison.png" width="800"/>
+ <img src="images/table_comparison.png" width="800"/>
 </div>
 
 
@@ -71,14 +71,14 @@ usage, number of steps, and distribution of tasks across the six vision-centric 
 
 
 <div align="center">
- <img src="data_statistics.png" width="800"/>
+ <img src="images/data_statistics.png" width="800"/>
 </div>
 
 
 ## Our Pipeline
 We design the Agent-X benchmark using a semi-automated pipeline that ensures each task is solvable with a defined tool subset and requires deep reasoning over realistic, multimodal scenarios. The pipeline begins with an LMM (Large Multimodal Model) generating candidate queries based on visual input and an available toolset. These queries are then refined by human annotators for clarity and realism. Next, the refined queries are passed back to the LMM to produce step-by-step reasoning traces, including tool calls, intermediate outputs, and final answers. Each trace is manually reviewed for logical consistency and correctness.
 <div align="center">
- <img src="pipeline.png" width="800"/>
+ <img src="images/pipeline.png" width="800"/>
 </div>
 
 ## 🏆 Leaderboard, May 2025
