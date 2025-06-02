@@ -40,7 +40,7 @@
 
 
 
-[2025-06-02]: **Agent-X paper published on arXiv: [2505.24876](https://arxiv.org/abs/2505.24876)**
+[2025-06-02]: **Agent-X paper published on [![arXiv](https://img.shields.io/badge/arXiv-2505.24876-b31b1b)](https://arxiv.org/abs/2505.24876)**
 
 [2025-05-29]: **Released evaluation & deployment code for Agent-X** 
  
