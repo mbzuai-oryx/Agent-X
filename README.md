@@ -38,7 +38,11 @@
 
 ## Updates
 
- [2025-05-29]: **Released evaluation & deployment code for Agent-X** 
+
+
+[2025-06-02]: **Agent-X paper published on arXiv: [2505.24876](https://arxiv.org/abs/2505.24876)**
+
+[2025-05-29]: **Released evaluation & deployment code for Agent-X** 
  
 [2025-05-22]:  **Published the Agent-X dataset on Hugging Face** 
 
