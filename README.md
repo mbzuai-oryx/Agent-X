@@ -169,7 +169,15 @@ See [`eval/`](eval) for:
 ## 📝 Citation
 If you use Agent-Xin your research, please cite the following paper:
 ```
-
+@misc{ashraf2025agentxevaluatingdeepmultimodal,
+      title={Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks}, 
+      author={Tajamul Ashraf and Amal Saqib and Hanan Ghani and Muhra AlMahri and Yuhao Li and Noor Ahsan and Umair Nawaz and Jean Lahoud and Hisham Cholakkal and Mubarak Shah and Philip Torr and Fahad Shahbaz Khan and Rao Muhammad Anwer and Salman Khan},
+      year={2025},
+      eprint={2505.24876},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2505.24876}, 
+}
 
 ```
 
