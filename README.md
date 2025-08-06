@@ -39,6 +39,7 @@
 ## Updates
 
 
+[2025-08-03]: **Agent-X won Second Place in the Research Track at the Agentic AI Summit 2025, UC Berkeley.**
 
 [2025-06-02]: **Agent-X paper published on [![arXiv](https://img.shields.io/badge/arXiv-2505.24876-b31b1b)](https://arxiv.org/abs/2505.24876)**
 
