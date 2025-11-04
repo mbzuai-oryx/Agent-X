@@ -150,7 +150,7 @@ We report results using **GPT-4** and **Qwen-15B** as evaluation judges. For eac
 git clone https://github.com/mbzuai-oryx/Agent-X.git
 cd GTA
 ```
-2. Download the dataset from [release file]().
+2. Download the dataset from [release file](https://github.com/Tajamul21/Agent-X-Benchmark/releases/download/v0.1.0/agent-X_dataset.zip).
 ```shell
 mkdir ./opencompass/data
 ```
@@ -375,6 +375,12 @@ See [`eval/`](eval) for:
 - Accuracy metrics, binary matching scores, and goal success analysis  
 - Useful for benchmarking your model outputs against Agent-X GT  
 > 📁 Path: `eval/`
+
+## Acknowledgements
+
+
+This project builds upon the excellent open-source work of the **[GTA paper](https://github.com/GTA-repo-link)**, as well as the teams behind **[OpenCompass](https://github.com/OpenCompass)** and **[AgentLego](https://github.com/AgentLego)**.  
+We sincerely thank the authors and contributors of these projects for sharing their implementations and evaluation frameworks, which greatly supported the development and experimentation in this repository.
 
 
 ## 📝 Citation
