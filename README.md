@@ -38,6 +38,7 @@
 
 ## Updates
 
+**[2025-11-01]** – Full evaluation and integrated tool server support for custom models are now live!
 
 [2025-08-03]: **Agent-X won Second Place in the Research Track at the Agentic AI Summit 2025, UC Berkeley.**
 
@@ -384,7 +385,7 @@ We sincerely thank the authors and contributors of these projects for sharing th
 
 
 ## 📝 Citation
-If you use Agent-Xin your research, please cite the following paper:
+If you use Agent-X in your research, please cite the following paper:
 ```
 @misc{ashraf2025agentxevaluatingdeepmultimodal,
       title={Agent-X: Evaluating Deep Multimodal Reasoning in Vision-Centric Agentic Tasks}, 
