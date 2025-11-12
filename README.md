@@ -100,6 +100,12 @@ We evaluate models on the Agent-X benchmark across **three distinct modes**:
 
 We report results using **GPT-4** and **Qwen-15B** as evaluation judges. For each metric, the **best-performing value is shown in bold and underlined**, while the **second-best is italicized**.
 
+| **Model**         | Inst<sub>align</sub> | Tool<sub>acc</sub> | Arg<sub>acc</sub> | Sum<sub>acc</sub> | Faithfulness | Context-Score | Factual-Precision | Semantic-Accuracy | p<sub>f1</sub> | o<sub>f1</sub> | l<sub>f1</sub> | c<sub>f1</sub> | Ans<sub>acc</sub> | Ans<sub>acc</sub><sup>w/img gen</sup> |
+| ----------------- | -------------------- | ------------------ | ----------------- | ----------------- | ------------ | ------------- | ----------------- | ----------------- | -------------- | -------------- | -------------- | -------------- | ----------------- | ------------------------------------- |
+| **Qwen2.5-7B-VL** | 41.7                 | 19.95              | 3.47              | 8.09              | 14.18        | 8.61          | 17.81             | 31.69             | 19.32          | 32.53          | 24.7           | 24.33          | **0.97**          | **0.97**                              |
+| **InternVL3-8B**  | 49.41                | 28.09              | 3.89              | 12.08             | 13.79        | 8.50          | 12.74             | 40.58             | 10.94          | 8.24           | 11.56          | 11.52          | **1.69**          | **1.69**                              |
+
+
 
 ### With GPT-4o as a judge
 | **Model** | Ground<sub>s</sub> | Tool<sub>p</sub> | Tool<sub>acc</sub> | Fact<sub>acc</sub> | Context<sub>s</sub> | Fact<sub>p</sub> | Sem<sub>acc</sub> | Goal<sub>acc</sub> | Goal<sub>acc</sub><sup>*</sup> | Tool<sub>acc</sub><sup>s</sup> |
