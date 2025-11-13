@@ -101,7 +101,7 @@ We evaluate models on the Agent-X benchmark across **three distinct modes**:
 We report results using **GPT-4** and **Qwen-15B** as evaluation judges. For each metric, the **best-performing value is shown in bold and underlined**, while the **second-best is italicized**.
 
 
-### With GPT-4o as a Judge and Real-Time Tool Use via AgentLego ([AgentLego Developers et al.])
+### Real-Time Tool Use Evaluation)
 
 | **Model**         | Inst<sub>align</sub> | Tool<sub>acc</sub> | Arg<sub>acc</sub> | Sum<sub>acc</sub> | Faithfulness | Context-Score | Factual-Precision | Semantic-Accuracy | p<sub>f1</sub> | o<sub>f1</sub> | l<sub>f1</sub> | c<sub>f1</sub> | Ans<sub>acc</sub> | Ans<sub>acc</sub><sup>w/img gen</sup> |
 | ----------------- | -------------------- | ------------------ | ----------------- | ----------------- | ------------ | ------------- | ----------------- | ----------------- | -------------- | -------------- | -------------- | -------------- | ----------------- | ------------------------------------- |
