@@ -159,7 +159,7 @@ We report results using **GPT-4** and **Qwen-15B** as evaluation judges. For eac
 git clone https://github.com/mbzuai-oryx/Agent-X.git
 cd Agent-X
 ```
-2. Download the dataset from [release file](https://huggingface.co/datasets/Tajamul21/Agent-X/tree/main).
+2. You can get the dataset from [release file](https://huggingface.co/datasets/Tajamul21/Agent-X/tree/main).
 The images are under the files section in the huggingface repository, download the other files like [dataset.json](https://huggingface.co/datasets/Tajamul21/Agent-X/blob/main/dataset.json) and [toolmeta.json](https://huggingface.co/datasets/Tajamul21/Agent-X/blob/main/toolmeta.json) and structure it as show below. Put all the images under image subfolder.
 ```shell
 mkdir ./opencompass/data
