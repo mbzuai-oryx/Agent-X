@@ -103,7 +103,7 @@ We report results using **GPT-4** and **Qwen-15B** as evaluation judges. For eac
 
 ### Real-Time Tool Use Evaluation)
 
-| **Model**         | Inst<sub>align</sub> | Tool<sub>acc</sub> | Arg<sub>acc</sub> | Sum<sub>acc</sub> | Faithfulness | Context-Score | Factual-Precision | Semantic-Accuracy | p<sub>f1</sub> | o<sub>f1</sub> | l<sub>f1</sub> | c<sub>f1</sub> | Ans<sub>acc</sub> | Ans<sub>acc</sub><sup>w/img gen</sup> |
+| **Model**         | Inst<sub>align</sub> | Tool<sub>acc</sub> | Arg<sub>acc</sub> | Sum<sub>acc</sub> | Faithfulness | Context-Score | Factual-Precision | Semantic-Accuracy | p<sub>f1</sub> | o<sub>f1</sub> | l<sub>f1</sub> | c<sub>f1</sub> | Ans<sub>acc</sub> | Ans<sub>acc</sub><sup>w/img_gen</sup> |
 | ----------------- | -------------------- | ------------------ | ----------------- | ----------------- | ------------ | ------------- | ----------------- | ----------------- | -------------- | -------------- | -------------- | -------------- | ----------------- | ------------------------------------- |
 | **gpt-3.5-turbo**  | 0.65                | 0.39               | 0.11             | 0.12              | 0.34         | 0.27          | 0.29              | 0.49              | 0.62        | 0.62         | 0.64         | 0.73           | **0.33**          | **0.30**                              |
 | **gpt-4o**         | 0.72                | 0.45               | 0.15             | 0.12              | 0.34         | 0.31          | 0.36              | 0.51              | 0.78          | 0.69           | 0.74           | 0.93           | **0.36**          | **0.35**                              |
