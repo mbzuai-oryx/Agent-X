@@ -38,7 +38,7 @@
 
 ## Updates
 
-[2025-11-01]: **Agent-X has been accepted to the ICLR 2026 Conference.**
+[2026-01-25]: **Agent-X has been accepted to the ICLR 2026 Conference.**
 
 [2025-11-01]: Full evaluation and integrated tool server support for custom models are now live!
 
