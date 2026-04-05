@@ -40,7 +40,7 @@
 
 [2025-11-01]: **Agent-X has been accepted to the ICLR 2026 Conference.**
 
-[2025-11-01]: ** Full evaluation and integrated tool server support for custom models are now live!
+[2025-11-01]: Full evaluation and integrated tool server support for custom models are now live!
 
 [2025-08-03]: **Agent-X won Second Place in the Research Track at the Agentic AI Summit 2025, UC Berkeley.**
 
