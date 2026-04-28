@@ -252,7 +252,7 @@ pip install -e .
 ```
 huggingface_hub==0.25.2 (<0.26.0)
 transformers==4.40.1
-2. Modify the config file at ```configs/eval_agentx_bench.py``` as below.
+2. Modify the config file at ```configs/eval_gta_bench.py``` as below.
 
 The ip and port number of **openai_api_base** is the ip of your model service and the port number you specified when using lmdeploy.
 
@@ -281,7 +281,7 @@ models = [
 ]
 ```
 
-If you infer and evaluate in **step-by-step** mode, you should comment out **tool_server** and enable **tool_meta** in ```configs/eval_agentx_bench.py```, and set infer mode and eval mode to **every_with_gt** in ```configs/datasets/agentx_bench.py```:
+If you infer and evaluate in **step-by-step** mode, you should comment out **tool_server** and enable **tool_meta** in ```configs/eval_gta_bench.py```, and set infer mode and eval mode to **every_with_gt** in ```configs/datasets/agentx_bench.py```:
 ```python
 models = [
   dict(
@@ -316,7 +316,7 @@ agentx_bench_infer_cfg = dict(
 agentx_bench_eval_cfg = dict(evaluator=dict(type=AGENTXBenchEvaluator, mode='every_with_gt'))
 ```
 
-If you infer and evaluate in **end-to-end** mode, you should comment out **tool_meta** and enable **tool_server** in ```configs/eval_agentx_bench.py```, and set infer mode and eval mode to **every** in ```configs/datasets/agentx_bench.py```:
+If you infer and evaluate in **end-to-end** mode, you should comment out **tool_meta** and enable **tool_server** in ```configs/eval_gta_bench.py```, and set infer mode and eval mode to **every** in ```configs/datasets/agentx_bench.py```:
 ```python
 models = [
   dict(
@@ -354,16 +354,16 @@ agentx_bench_eval_cfg = dict(evaluator=dict(type=AGENTXBenchEvaluator, mode='eve
 3. Infer and evaluate with OpenCompass.
 ```shell
 # infer only
-python run.py configs/eval_agentx_bench.py --max-num-workers 32 --debug --mode infer
+python run.py configs/eval_gta_bench.py --max-num-workers 32 --debug --mode infer
 ```
 ```shell
 # evaluate only
-# srun -p llmit -q auto python run.py configs/eval_agentx_bench.py --max-num-workers 32 --debug --reuse [time_stamp_of_prediction_file] --mode eval
-srun -p llmit -q auto python run.py configs/eval_agentx_bench.py --max-num-workers 32 --debug --reuse 20240628_115514 --mode eval
+# srun -p llmit -q auto python run.py configs/eval_gta_bench.py --max-num-workers 32 --debug --reuse [time_stamp_of_prediction_file] --mode eval
+srun -p llmit -q auto python run.py configs/eval_gta_bench.py --max-num-workers 32 --debug --reuse 20240628_115514 --mode eval
 ```
 ```shell
 # infer and evaluate
-python run.py configs/eval_agentx_bench.py -p llmit -q auto --max-num-workers 32 --debug
+python run.py configs/eval_gta_bench.py -p llmit -q auto --max-num-workers 32 --debug
 ```
 
 
