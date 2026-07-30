@@ -228,18 +228,27 @@ def latest_output_dir():
 def _extract_final_answer(prediction):
     """Pull the final assistant answer text out of an OpenCompass `prediction`.
 
-    `prediction` is typically nested like [[{"role": "assistant",
-    "content": "..."}]]. Fall back to the raw value if no content is found.
+    For GTA/AgentInferencer, `prediction` is a list of turns, each turn a list of
+    step dicts (see opencompass/models/lagent.py::chat). The agent's finish action
+    is emitted as the last ``{"role": "assistant", "content": ...}`` step — tool-call
+    steps carry no ``content`` and tool results use ``role="tool"``. We therefore
+    return the LAST assistant-content step (the finish answer), falling back to the
+    last content of any role, then to the raw value.
     """
     if isinstance(prediction, str):
         return prediction
-    texts = []
+
+    assistant_answer = None
+    last_any = None
 
     def _walk(node):
+        nonlocal assistant_answer, last_any
         if isinstance(node, dict):
             c = node.get("content")
-            if isinstance(c, str):
-                texts.append(c)
+            if isinstance(c, str) and c.strip():
+                last_any = c.strip()
+                if node.get("role") == "assistant":
+                    assistant_answer = c.strip()
             else:
                 for v in node.values():
                     _walk(v)
@@ -248,7 +257,7 @@ def _extract_final_answer(prediction):
                 _walk(item)
 
     _walk(prediction)
-    return " ".join(t.strip() for t in texts if t).strip() or prediction
+    return assistant_answer or last_any or (prediction if isinstance(prediction, str) else "")
 
 
 def consolidate_predictions(work_dir, abbr, dest):
@@ -260,8 +269,11 @@ def consolidate_predictions(work_dir, abbr, dest):
 
     OpenCompass writes predictions/<abbr>/Agent-X.json (final) or tmp_Agent-X.json
     (partial run) as a dict keyed by task id, each entry:
-        {"gold": ..., "prediction": [[...]], "origin_prompt": ..., "steps": ...}
-    We map steps -> reasoning_steps and the assistant content -> final_answer.
+        {"gold": ..., "prediction": [[...]], "origin_prompt": ..., "steps": []}
+    NOTE: with infer_mode='every' (gta_bench.py) the AgentInferencer only ever
+    populates "prediction" (a list of turns, each a list of step dicts); the
+    "steps" key is initialized to [] and never written to. So the reasoning trace
+    lives in "prediction", and the assistant finish step is the final answer.
     """
     pred_dir = work_dir / "predictions" / abbr
     if not pred_dir.exists():
@@ -281,9 +293,12 @@ def consolidate_predictions(work_dir, abbr, dest):
         for task_key, item in data.items():
             if not isinstance(item, dict):
                 continue
+            # Reasoning trace lives in "prediction" ("steps" is always []); `or`
+            # falls back to "steps" only if prediction is missing/empty.
+            prediction = item.get("prediction")
             merged[str(task_key)] = {
-                "reasoning_steps": item.get("steps", item.get("prediction")),
-                "final_answer": _extract_final_answer(item.get("prediction")),
+                "reasoning_steps": prediction or item.get("steps"),
+                "final_answer": _extract_final_answer(prediction),
             }
 
     if not merged:

@@ -83,11 +83,47 @@ python run_agentx.py             # infer -> judge -> CSV -> S3
 Outputs: `logs/agentx/<ts>/{provider}/{model}/{preds.json,scores.json}` and
 `results_<ts>.csv`, uploaded to `s3://.../fc-so-testing-suite/agentx_snova/<ts>/`.
 
+## Output & metrics
+
+Each of the 12 metrics is a separate GPT/Qwen-judge call returning
+`{'Score': <0–1>, 'Justification': ...}` per task. `agentx_report.py` parses the
+`Score`, **averages each metric across all tasks**, and writes one CSV row per
+model: `date, provider, model, num_tasks` + the 12 averaged scores (each 0–1).
+The CSV feeds the `agentx_results` Athena table; the unified Grafana view surfaces
+**`goal_accuracy`** as the cross-benchmark headline (the other 11 stay queryable
+in `agentx_results`).
+
+| Metric | Meaning (all 0–1) |
+|--------|-------------------|
+| **goal_accuracy** ⭐ | Final-answer correctness — cosine similarity to GT (or 0/1 for exact-answer types). **Headline metric.** |
+| grounding_accuracy | Per step: reasoning grounded in the actual visual/tool evidence (avg per-step) |
+| precision_score | Binary 0/1 — precision of the reasoning vs GT |
+| tool_accuracy | Correct tools called vs GT `tool_metadata` |
+| toolset_accuracy | F1 over the *set* of tools used vs GT |
+| faithfulness_accuracy | Reasoning trace logically faithful to the GT plan |
+| step_score | Quality of each reasoning step (avg per-step) |
+| context_score | Each step uses available context appropriately (avg per-step) |
+| factual_precision | Factual correctness of claims in the reasoning vs GT |
+| semantic_accuracy | Semantic match of reasoning + final answer to GT |
+| reward_score | Self-correction ability — recognizing and fixing its own mistakes |
+| clarity_penalty | Penalty for unclear/verbose reasoning (**higher = worse**, unlike the rest) |
+
+Metric definitions live in `evaluation/multiagent_evaluation.py` (`get_*` fns).
+
 ## ⚠️ Verify on first real run
 
 `run_agentx.py::consolidate_predictions()` converts OpenCompass's on-disk
-predictions into the judge's `--pred_path` format. The exact field layout of the
-`AgentInferencer` output was not verifiable offline. On the first run, inspect a
-file under `opencompass/outputs/default/<ts>/predictions/<abbr>/` and adjust the
-`task_key` / `reasoning_steps` / `final_answer` extraction to match. The function
-raises loudly on mismatch rather than emitting silently-wrong scores.
+predictions into the judge's `--pred_path` format. The field layout is now
+verified against the vendored inferencer: with `infer_mode='every'`
+(`configs/datasets/gta_bench.py`), `AgentInferencer.save_multiround_results`
+writes each task as `{"gold", "prediction": [[step, …]], "origin_prompt",
+"steps": []}` — the reasoning trace is in `prediction` (a list of turns, each a
+list of `{role, content|tool_calls}` step dicts) and `steps` is always `[]`.
+Accordingly we take `reasoning_steps` from `prediction` and `final_answer` from
+the last assistant-content step.
+
+Still worth a spot-check on the first run: inspect a file under
+`opencompass/outputs/default/<ts>/predictions/<abbr>/Agent-X.json` and confirm the
+task keys match `data.json` (both keyed "0","1",…) and that a finish-action
+answer is present. The function raises loudly on an empty/unparseable result
+rather than emitting silently-wrong scores.
