@@ -527,6 +527,24 @@ class OpenAI(BaseAPIModel):
                     url = img
             if not url:
                 return None
+            # OpenAI-compatible providers (e.g. SambaNova) require local images
+            # as base64 data URIs; pass through existing data:/http(s) URLs.
+            if isinstance(url, str) and not url.startswith(
+                    ('data:', 'http://', 'https://')):
+                import base64
+                import mimetypes
+                import os
+                path = url[7:] if url.startswith('file://') else url
+                mime = mimetypes.guess_type(path)[0] or ''
+                if os.path.isfile(path) and mime.startswith('image/'):
+                    with open(path, 'rb') as _imgf:
+                        b64 = base64.b64encode(_imgf.read()).decode('utf-8')
+                    url = f'data:{mime};base64,{b64}'
+                else:
+                    # Missing file or non-image (e.g. a video that was not
+                    # frame-extracted): drop it rather than send an invalid
+                    # image_url that the provider will reject.
+                    return None
             return {'type': 'image_url', 'image_url': {'url': url}}
 
         def _to_openai_content(obj):

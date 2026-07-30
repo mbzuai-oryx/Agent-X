@@ -1,8 +1,11 @@
 import openai
+import os
 
-openai.api_key = ""
+# Suite fork: read the OpenAI key + judge model from the environment instead of
+# hardcoding, so no secret lives in the repo. run_agentx.py loads them from .env.
+openai.api_key = os.environ.get("OPENAI_API_KEY", "")
 
-gpt_judge = "gpt-4o" 
+gpt_judge = os.environ.get("AGENTX_JUDGE_MODEL", "gpt-4o")
 
 ###################### GROUNDING SCORE #####################################
 

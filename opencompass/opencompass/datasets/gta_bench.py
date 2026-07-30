@@ -2055,12 +2055,15 @@ def _maybe_replace_video_content(content, data_root: str) -> Tuple[object, List[
         frame_paths = _extract_frames(video_abs, timestamps_s=[0, 10, 20, 30])
         image_blocks: List[dict] = []
         if frame_paths:
-            # Delete original video (best-effort)
-            try:
-                if os.path.exists(video_abs):
-                    os.remove(video_abs)
-            except Exception:
-                pass
+            # NOTE (suite fork): the original code deleted the source video here
+            # (os.remove), which made runs non-reproducible — a second run would
+            # find the video gone and drop the task to text-only. Disabled so the
+            # video survives and every run can re-extract frames.
+            # try:
+            #     if os.path.exists(video_abs):
+            #         os.remove(video_abs)
+            # except Exception:
+            #     pass
             # Build image blocks for each frame
             for fp in frame_paths:
                 image_blocks.append({"type": "image", "image": fp})

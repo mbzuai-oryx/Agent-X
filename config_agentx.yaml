@@ -1,0 +1,67 @@
+# Agent-X benchmark configuration for the FC-SO testing suite.
+#
+# Agent-X (https://github.com/mbzuai-oryx/Agent-X) is a vision-centric agentic
+# tool-use benchmark. The models under test MUST be multimodal — text-only
+# models cannot solve the tasks and should be marked "not_available".
+#
+# Run flow (see run_agentx.py):
+#   1. Inject the enabled models into opencompass/configs/eval_gta_bench.py
+#   2. OpenCompass inference:  python run.py configs/eval_gta_bench.py --mode infer
+#   3. GPT-4o / Qwen judge:    evaluation/run_eval_gpt_as_judge.py
+#   4. Aggregate 12 metrics -> CSV -> S3  (agentx_report.py)
+
+agentx_options:
+  # OpenCompass dataset dir (relative to the opencompass/ subdir). The dataset
+  # (dataset.json + toolmeta.json + image/) must be downloaded from
+  # https://huggingface.co/datasets/Tajamul21/Agent-X into opencompass/data/agentx_dataset/
+  dataset_dir: "data/agentx_dataset"
+  infer_dataset: "data/agentx_dataset/dataset.json"  # OpenCompass inference input; truncated by `limit` for smoke tests
+  ground_truth: "data/agentx_dataset/data.json"      # judge --gt_data_path (query/reasoning_steps/final_answer per task)
+  tool_meta: "data/agentx_dataset/toolmeta.json"
+
+  # AgentLego tool server (started separately, see AGENTX_SETUP.md).
+  tool_server: "http://0.0.0.0:16181"
+
+  # ReAct agent settings passed into each model dict.
+  max_turn: 10
+  batch_size: 8
+  max_seq_len: 4096
+  query_per_second: 1
+
+  # OpenCompass inference knobs.
+  max_num_workers: 8
+  limit: 5            # 0 = full 828 tasks; set a small N (e.g. 5) for a smoke test — truncates dataset.json for the run (backup/restore)
+
+  # Judge: "gpt" (evaluation/run_eval_gpt_as_judge.py, needs OPENAI_API_KEY,
+  # openai==0.28.0) or "qwen" (evaluation/run_eval_qwen_as_judge.py, local weights).
+  judge: gpt
+  run_eval: true      # false = infer only (validate plumbing without a judge key)
+  # The GPT judge needs openai==0.28.0 (incompatible with the inference venv's
+  # openai 1.x). Point this at the isolated judge venv's python. If empty, the
+  # runner uses the same interpreter it runs under.
+  judge_python: "../venv_agentx_judge/bin/python"
+
+max_parallel: 1       # OpenCompass parallelizes across models internally; keep 1.
+
+# OpenAI-compatible endpoints per provider. For a SambaNova-only first run only
+# SambaNova is needed. openai_api_base must include the full chat completions path.
+base_urls:
+  SambaNova: "https://api.sambanova.ai/v1/chat/completions"
+  # Groq:      "https://api.groq.com/openai/v1/chat/completions"
+  # Fireworks: "https://api.fireworks.ai/inference/v1/chat/completions"
+  # Cerebras:  "https://api.cerebras.ai/v1/chat/completions"
+  # Together:  "https://api.together.xyz/v1/chat/completions"
+
+# Env var (in .env) holding each provider's API key.
+provider_api_keys:
+  SambaNova: SAMBANOVA_API_KEY
+  # Groq:      GROQ_API_KEY
+  # Fireworks: FIREWORKS_API_KEY
+  # Cerebras:  CEREBRAS_API_KEY
+  # Together:  TOGETHER_API_KEY
+
+# canonical alias -> provider-specific model id. MUST be vision-capable models.
+# Mark unavailable models as "not_available" to skip them.
+model_mappings:
+  SambaNova:
+    gemma-4-31B-it: "gemma-4-31B-it"

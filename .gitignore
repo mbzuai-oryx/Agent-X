@@ -1,0 +1,10 @@
+# Suite-wrapper runtime artifacts
+.env
+logs/
+__pycache__/
+*.pyc
+
+# OpenCompass run outputs + dataset (downloaded, not versioned)
+opencompass/outputs/
+opencompass/data/
+opencompass/configs/eval_gta_bench.py.suite-bak
