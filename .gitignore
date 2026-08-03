@@ -8,3 +8,10 @@ __pycache__/
 opencompass/outputs/
 opencompass/data/
 opencompass/configs/eval_gta_bench.py.suite-bak
+# pip -e build artifacts (nested git clones, e.g. rouge-chinese)
+opencompass/src/
+
+# Isolated conda env for the GPT judge (openai==0.28.0), ~243MB. This is a
+# submodule, so the parent repo's .gitignore does NOT cover it — the entry has
+# to live here.
+venv_agentx_judge/

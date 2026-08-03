@@ -119,6 +119,16 @@ def build_models(cfg):
     model_mappings = cfg.get("model_mappings", {})
 
     model_dicts, manifest = [], []
+    # `stop` is model-family specific ('<|im_end|>' is ChatML/Qwen). Sending it to
+    # a provider that doesn't use it leaves the raw fence/EOS text in the answer,
+    # so it is opt-in via config instead of hardcoded.
+    stop = opts.get("stop") or None
+    # tool_server is optional: when blank, LagentAgent registers only the
+    # DummyTool stubs from tool_meta (every call returns 'Dummy Result'). That
+    # validates plumbing without the AgentLego server but produces meaningless
+    # scores — never use it for a reportable run.
+    tool_server = opts.get("tool_server") or None
+
     for provider, models in model_mappings.items():
         base_url = base_urls.get(provider)
         key_env = provider_api_keys.get(provider, "")
@@ -147,10 +157,10 @@ def build_models(cfg):
                 f"            openai_api_base={base_url!r},\n"
                 f"            query_per_second={int(opts.get('query_per_second', 1))},\n"
                 f"            max_seq_len={int(opts.get('max_seq_len', 4096))},\n"
-                "            stop='<|im_end|>',\n"
-                "        ),\n"
-                f"        tool_server={opts['tool_server']!r},\n"
-                f"        tool_meta={opts['tool_meta']!r},\n"
+                + (f"            stop={stop!r},\n" if stop else "")
+                + "        ),\n"
+                + (f"        tool_server={tool_server!r},\n" if tool_server else "")
+                + f"        tool_meta={opts['tool_meta']!r},\n"
                 f"        batch_size={int(opts.get('batch_size', 8))},\n"
                 "    ),"
             )
@@ -225,30 +235,53 @@ def latest_output_dir():
     return runs[-1] if runs else None
 
 
-def _extract_final_answer(prediction):
-    """Pull the final assistant answer text out of an OpenCompass `prediction`.
+def _flatten_steps(prediction):
+    """Flatten an OpenCompass `prediction` into its ordered list of ReAct steps.
 
-    `prediction` is typically nested like [[{"role": "assistant",
-    "content": "..."}]]. Fall back to the raw value if no content is found.
+    `prediction` is a list of rounds, each round a list of step dicts:
+        [[{'role': 'assistant', 'thought': ..., 'tool_calls': [...]},
+          {'role': 'tool', 'name': 'OCR', 'content': ...},
+          {'role': 'assistant', 'content': 'final answer'}]]
     """
-    if isinstance(prediction, str):
-        return prediction
-    texts = []
+    steps = []
 
     def _walk(node):
         if isinstance(node, dict):
-            c = node.get("content")
-            if isinstance(c, str):
-                texts.append(c)
-            else:
-                for v in node.values():
-                    _walk(v)
+            steps.append(node)
         elif isinstance(node, list):
             for item in node:
                 _walk(item)
 
     _walk(prediction)
-    return " ".join(t.strip() for t in texts if t).strip() or prediction
+    return steps
+
+
+def _clean_answer(text):
+    """Strip stray markdown fences the ReAct protocol leaves on the answer."""
+    return re.sub(r"^```[a-zA-Z]*\s*|\s*```$", "", text.strip()).strip()
+
+
+def _extract_final_answer(prediction):
+    """Pull the final assistant answer text out of an OpenCompass `prediction`.
+
+    Only the LAST assistant `content` is the answer. Earlier `content` fields in
+    the trace belong to tool results (OCR dumps, detection boxes, ...) and must
+    not be concatenated into it — doing so pollutes the judge's goal_accuracy and
+    semantic_accuracy inputs with tool output.
+    """
+    if isinstance(prediction, str):
+        return _clean_answer(prediction)
+
+    steps = _flatten_steps(prediction)
+    for step in reversed(steps):
+        if step.get("role") == "assistant" and isinstance(step.get("content"), str):
+            return _clean_answer(step["content"])
+    # No assistant answer (e.g. the run ended on an error step): fall back to the
+    # last textual content of any role rather than dropping the task silently.
+    for step in reversed(steps):
+        if isinstance(step.get("content"), str):
+            return _clean_answer(step["content"])
+    return ""
 
 
 def consolidate_predictions(work_dir, abbr, dest):
@@ -261,7 +294,12 @@ def consolidate_predictions(work_dir, abbr, dest):
     OpenCompass writes predictions/<abbr>/Agent-X.json (final) or tmp_Agent-X.json
     (partial run) as a dict keyed by task id, each entry:
         {"gold": ..., "prediction": [[...]], "origin_prompt": ..., "steps": ...}
-    We map steps -> reasoning_steps and the assistant content -> final_answer.
+
+    VERIFIED against a real run (opencompass/outputs/default/*/predictions/):
+    `steps` is ALWAYS an empty list — AgentInferencerOutputHandler.
+    save_multiround_results() seeds it but never appends. The actual ReAct trace
+    (thoughts + tool_calls + tool results) is what lives in `prediction`, so
+    reasoning_steps is taken from `prediction` and `steps` is only a fallback.
     """
     pred_dir = work_dir / "predictions" / abbr
     if not pred_dir.exists():
@@ -281,9 +319,11 @@ def consolidate_predictions(work_dir, abbr, dest):
         for task_key, item in data.items():
             if not isinstance(item, dict):
                 continue
+            prediction = item.get("prediction")
+            steps = item.get("steps") or _flatten_steps(prediction)
             merged[str(task_key)] = {
-                "reasoning_steps": item.get("steps", item.get("prediction")),
-                "final_answer": _extract_final_answer(item.get("prediction")),
+                "reasoning_steps": steps,
+                "final_answer": _extract_final_answer(prediction),
             }
 
     if not merged:
@@ -294,6 +334,38 @@ def consolidate_predictions(work_dir, abbr, dest):
         json.dump(pred_list, f, indent=2)
     print(f"[PRED] {abbr}: {len(pred_list)} tasks -> {dest}")
     return dest
+
+
+def summarize_predictions(preds_path):
+    """Print trace stats for an infer-only run (run_eval: false).
+
+    Without a judge there is no score, so this is the only signal that inference
+    actually exercised the agent loop: a run where every task has 0 tool calls
+    means the tool server or the ReAct protocol is not being used, no matter how
+    cleanly OpenCompass exited.
+    """
+    with open(preds_path) as f:
+        pred_list = json.load(f)
+
+    n = len(pred_list)
+    with_answer = with_tools = with_error = 0
+    total_calls = 0
+    for entry in pred_list:
+        value = next(iter(entry.values()))
+        steps = value.get("reasoning_steps") or []
+        calls = sum(len(s.get("tool_calls") or []) for s in steps
+                    if isinstance(s, dict))
+        total_calls += calls
+        with_tools += calls > 0
+        with_error += any(isinstance(s, dict) and s.get("error") for s in steps)
+        with_answer += bool(value.get("final_answer"))
+
+    print(f"[SUMMARY] {n} task(s) | final_answer: {with_answer}/{n} | "
+          f"used tools: {with_tools}/{n} ({total_calls} calls) | "
+          f"step errors: {with_error}/{n}")
+    if n and not with_tools:
+        print("[WARN] No tool calls in any trace — check that the AgentLego tool "
+              "server is reachable and that agentx_options.tool_server is set.")
 
 
 def main():
@@ -399,6 +471,7 @@ def main():
                 run_command(judge_cmd, model_dir / "judge.log", dry_run=False)
             else:
                 print(f"[SKIP-EVAL] {m['provider']}/{m['alias']} (run_eval=false)")
+                summarize_predictions(preds_path)
 
             # Upload raw artifacts.
             model_s3 = f"{s3_prefix}/{m['provider']}/{m['alias']}"

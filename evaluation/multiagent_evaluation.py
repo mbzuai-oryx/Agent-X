@@ -7,6 +7,15 @@ openai.api_key = os.environ.get("OPENAI_API_KEY", "")
 
 gpt_judge = os.environ.get("AGENTX_JUDGE_MODEL", "gpt-4o")
 
+# Suite fork: allow judging with any OpenAI-compatible endpoint (e.g. SambaNova)
+# instead of api.openai.com. openai==0.28 has no per-call base override, so it is
+# set globally here. Unset -> the library default (https://api.openai.com/v1).
+# NOTE: base WITHOUT the /chat/completions suffix, unlike config_agentx.yaml's
+# base_urls, which openai 0.28 appends itself.
+_judge_api_base = os.environ.get("AGENTX_JUDGE_API_BASE", "")
+if _judge_api_base:
+    openai.api_base = _judge_api_base
+
 ###################### GROUNDING SCORE #####################################
 
 def get_grounding_score(target,pred):

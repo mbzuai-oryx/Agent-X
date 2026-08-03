@@ -19,7 +19,11 @@ agentx_options:
   ground_truth: "data/agentx_dataset/data.json"      # judge --gt_data_path (query/reasoning_steps/final_answer per task)
   tool_meta: "data/agentx_dataset/toolmeta.json"
 
-  # AgentLego tool server (started separately, see AGENTX_SETUP.md).
+  # AgentLego tool server (started separately, see AGENTX_SETUP.md). MUST be
+  # running before the run starts — LagentAgent fetches /openapi.json from it at
+  # model-build time and the run dies if it is down. Leave EMPTY ("") to run with
+  # DummyTool stubs only (every tool returns 'Dummy Result'): useful to validate
+  # plumbing with no tool server, never for reportable numbers.
   tool_server: "http://0.0.0.0:16181"
 
   # ReAct agent settings passed into each model dict.
@@ -27,19 +31,24 @@ agentx_options:
   batch_size: 8
   max_seq_len: 4096
   query_per_second: 1
+  # Optional stop token, model-family specific. '<|im_end|>' is ChatML (Qwen /
+  # InternVL). Leave empty for SambaNova-hosted gemma/llama — sending the wrong
+  # stop leaves raw fence text ("```") glued onto the final answer.
+  stop: ""
 
   # OpenCompass inference knobs.
   max_num_workers: 8
-  limit: 5            # 0 = full 828 tasks; set a small N (e.g. 5) for a smoke test — truncates dataset.json for the run (backup/restore)
+  limit: 100            # 0 = full 828 tasks; set a small N (e.g. 5) for a smoke test — truncates dataset.json for the run (backup/restore)
 
   # Judge: "gpt" (evaluation/run_eval_gpt_as_judge.py, needs OPENAI_API_KEY,
   # openai==0.28.0) or "qwen" (evaluation/run_eval_qwen_as_judge.py, local weights).
   judge: gpt
   run_eval: true      # false = infer only (validate plumbing without a judge key)
-  # The GPT judge needs openai==0.28.0 (incompatible with the inference venv's
-  # openai 1.x). Point this at the isolated judge venv's python. If empty, the
-  # runner uses the same interpreter it runs under.
-  judge_python: "../venv_agentx_judge/bin/python"
+  # The GPT judge needs openai==0.28.0 (incompatible with the inference env's
+  # openai 1.x). Point this at the isolated judge env's python — relative paths
+  # resolve against this directory. If empty, the runner uses the same
+  # interpreter it runs under.
+  judge_python: "venv_agentx_judge/bin/python"
 
 max_parallel: 1       # OpenCompass parallelizes across models internally; keep 1.
 
